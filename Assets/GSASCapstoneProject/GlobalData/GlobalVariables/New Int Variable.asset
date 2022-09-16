@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: New Int Variable
   m_EditorClassIdentifier: 
   DeveloperDescription: 
-  DefaultValue: 0
-  value: 0
+  DefaultValue: 3
+  value: 123

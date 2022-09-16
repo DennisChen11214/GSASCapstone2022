@@ -12,7 +12,7 @@ namespace Core.GlobalVariables
 #endif
         public int DefaultValue;
 
-        [ReadOnlyAttribute, SerializeField]
+        [SerializeField]
         private int value;
 
         public int Value
@@ -49,7 +49,12 @@ namespace Core.GlobalVariables
             OnValueChanged += valueChange;
         }
 
-        public void Invoke(int amount)
+        public void UnSubscribe(ValueChange valueChange)
+        {
+            OnValueChanged -= valueChange;
+        }
+
+        public void Raise(int amount)
         {
             value = amount;
             OnValueChanged.Invoke();

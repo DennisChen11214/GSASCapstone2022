@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Core.GlobalEvents
 {
     [CustomEditor(typeof(GlobalEvent), editorForChildClasses: true)]
-    public class EventEditor : Editor
+    public class GlobalEventEditor : Editor
     {
         public override void OnInspectorGUI()
         {

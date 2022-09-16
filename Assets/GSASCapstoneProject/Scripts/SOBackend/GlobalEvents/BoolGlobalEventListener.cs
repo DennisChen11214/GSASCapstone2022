@@ -1,16 +1,16 @@
-﻿using UnityEditor;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Core.GlobalEvents
 {
-    public class GlobalEventListener : MonoBehaviour
+    public class BoolGlobalEventListener : MonoBehaviour
     {
         [Tooltip("Event to register with.")]
-        public GlobalEvent Event;
+        public BoolGlobalEvent Event;
 
         [Tooltip("Response to invoke when Event is raised.")]
-        public UnityEvent Response;
+        public UnityEvent<bool> Response;
 
         private void OnEnable()
         {
@@ -22,9 +22,9 @@ namespace Core.GlobalEvents
             Event.UnregisterListener(this);
         }
 
-        public void OnEventRaised()
+        public void OnEventRaised(bool value)
         {
-            Response.Invoke();
+            Response.Invoke(value);
         }
 
     }
