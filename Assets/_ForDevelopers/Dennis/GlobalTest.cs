@@ -12,7 +12,6 @@ public class GlobalTest : MonoBehaviour
     private void Start()
     {
         fEvent.Subscribe(FloatTest);
-        fEvent.UnSubscribe(FloatTest);
     }
 
     private void FloatTest(float val)
