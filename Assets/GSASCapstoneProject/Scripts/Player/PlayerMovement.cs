@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     float movementForce = 1;
     [SerializeField]
     float maxSpeed = 5;
+    [SerializeField]
+    float jumpForce = 5;
     private InputActionAsset inputAsset;
     private InputActionMap actionMap;
     private InputAction movementAction;
@@ -31,7 +33,6 @@ public class PlayerMovement : MonoBehaviour
         Vector2 forceDirection = Vector2.zero;
 
         forceDirection.x += movementAction.ReadValue<Vector2>().x * movementForce;
-        forceDirection.y += movementAction.ReadValue<Vector2>().y * movementForce;
 
         rb.AddForce(forceDirection, ForceMode2D.Impulse);
         forceDirection = Vector3.zero;
@@ -45,8 +46,14 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = horizontalVelocity.normalized * maxSpeed + Vector3.up * rb.velocity.y;
     }
 
+    private void Jump(InputAction.CallbackContext obj)
+    {
+        rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
+    }
+
     private void OnEnable()
     {
-        movementAction = actionMap.FindAction("Movement"); 
+        movementAction = actionMap.FindAction("Movement");
+        actionMap.FindAction("Jump").started += Jump;
     }
 }
