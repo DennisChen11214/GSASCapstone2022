@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BossBasicAttackDamage
   m_EditorClassIdentifier: 
   DeveloperDescription: 
-  DefaultValue: 0
-  value: 0
+  DefaultValue: 10
+  value: 10
