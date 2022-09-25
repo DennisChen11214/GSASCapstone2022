@@ -13,12 +13,12 @@ namespace Core.GlobalVariables
         public bool DefaultValue;
 
         [SerializeField]
-        private bool value;
+        private bool _value;
 
         public bool Value
         {
-            get { return value; }
-            set { this.value = value; }
+            get { return _value; }
+            set { this._value = value; }
         }
 
         public delegate void ValueChange();
@@ -46,13 +46,13 @@ namespace Core.GlobalVariables
 
         public void Raise(bool boolean)
         {
-            value = boolean;
+            _value = boolean;
             OnValueChanged.Invoke();
         }
 
         private void OnEnable()
         {
-            value = DefaultValue;
+            _value = DefaultValue;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Core.GlobalEvents
         /// <summary>
         /// The list of listeners that this event will notify if it is raised.
         /// </summary>
-        private readonly List<GlobalEventListener> eventListeners =
+        private readonly List<GlobalEventListener> _eventListeners =
             new List<GlobalEventListener>();
 
         public delegate void GEvent();
@@ -18,8 +18,8 @@ namespace Core.GlobalEvents
         public void Raise()
         {
             OnGlobalEventCalled.Invoke();
-            for (int i = eventListeners.Count - 1; i >= 0; i--)
-                eventListeners[i].OnEventRaised(); ;
+            for (int i = _eventListeners.Count - 1; i >= 0; i--)
+                _eventListeners[i].OnEventRaised(); ;
         }
 
         public void Subscribe(GEvent floatEvent)
@@ -34,14 +34,14 @@ namespace Core.GlobalEvents
 
         public void RegisterListener(GlobalEventListener listener)
         {
-            if (!eventListeners.Contains(listener))
-                eventListeners.Add(listener);
+            if (!_eventListeners.Contains(listener))
+                _eventListeners.Add(listener);
         }
 
         public void UnregisterListener(GlobalEventListener listener)
         {
-            if (eventListeners.Contains(listener))
-                eventListeners.Remove(listener);
+            if (_eventListeners.Contains(listener))
+                _eventListeners.Remove(listener);
         }
 
     }

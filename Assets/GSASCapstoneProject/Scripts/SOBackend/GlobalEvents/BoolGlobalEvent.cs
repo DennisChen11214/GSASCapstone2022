@@ -9,7 +9,7 @@ namespace Core.GlobalEvents
         /// <summary>
         /// The list of listeners that this event will notify if it is raised.
         /// </summary>
-        private readonly List<BoolGlobalEventListener> eventListeners =
+        private readonly List<BoolGlobalEventListener> _eventListeners =
             new List<BoolGlobalEventListener>();
 
         public delegate void BoolEvent(bool val);
@@ -18,8 +18,8 @@ namespace Core.GlobalEvents
         public void Raise(bool value)
         {
             OnBoolEventCalled.Invoke(value);
-            for (int i = eventListeners.Count - 1; i >= 0; i--)
-                eventListeners[i].OnEventRaised(value); ;
+            for (int i = _eventListeners.Count - 1; i >= 0; i--)
+                _eventListeners[i].OnEventRaised(value); ;
         }
 
         public void Subscribe(BoolEvent boolEvent)
@@ -34,14 +34,14 @@ namespace Core.GlobalEvents
 
         public void RegisterListener(BoolGlobalEventListener listener)
         {
-            if (!eventListeners.Contains(listener))
-                eventListeners.Add(listener);
+            if (!_eventListeners.Contains(listener))
+                _eventListeners.Add(listener);
         }
 
         public void UnregisterListener(BoolGlobalEventListener listener)
         {
-            if (eventListeners.Contains(listener))
-                eventListeners.Remove(listener);
+            if (_eventListeners.Contains(listener))
+                _eventListeners.Remove(listener);
         }
 
     }

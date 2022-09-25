@@ -34,12 +34,6 @@ public class PlayerController : MonoBehaviour, IPlayerController
     public Vector2 Speed => _speed;
     public Vector2 GroundNormal => _groundNormal;
 
-    public virtual void ApplyVelocity(Vector2 vel, PlayerForce forceType)
-    {
-        if (forceType == PlayerForce.Burst) _speed += vel;
-        else _currentExternalVelocity += vel;
-    }
-
     #endregion
 
     protected virtual void Awake()
@@ -52,7 +46,6 @@ public class PlayerController : MonoBehaviour, IPlayerController
         _standingColliderBounds = _col.bounds;
         _standingColliderBounds.center = _col.offset;
 
-        Physics2D.queriesStartInColliders = false;
         _cachedTriggerSetting = Physics2D.queriesHitTriggers;
 
     }
@@ -97,12 +90,8 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
     private readonly RaycastHit2D[] _groundHits = new RaycastHit2D[2];
     private readonly RaycastHit2D[] _ceilingHits = new RaycastHit2D[2];
-    private readonly Collider2D[] _wallHits = new Collider2D[5];
-    private readonly Collider2D[] _ladderHits = new Collider2D[1];
     private int _groundHitCount;
     private int _ceilingHitCount;
-    private int _wallHitCount;
-    private int _ladderHitCount;
     private int _frameLeftGrounded = int.MinValue;
 
     protected virtual void CheckCollisions()
@@ -113,20 +102,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
         _groundHitCount = Physics2D.CapsuleCastNonAlloc(origin, _col.size, _col.direction, 0, Vector2.down, _groundHits, _stats.GrounderDistance, ~_stats.PlayerLayer);
         _ceilingHitCount = Physics2D.CapsuleCastNonAlloc(origin, _col.size, _col.direction, 0, Vector2.up, _ceilingHits, _stats.GrounderDistance, ~_stats.PlayerLayer);
 
-        // Walls and Ladders
-        var bounds = GetWallDetectionBounds();
-        _wallHitCount = Physics2D.OverlapBoxNonAlloc(bounds.center, bounds.size, 0, _wallHits, _stats.ClimbableLayer);
-
-        Physics2D.queriesHitTriggers = true; // Ladders are set to Trigger
-        _ladderHitCount = Physics2D.OverlapBoxNonAlloc(bounds.center, bounds.size, 0, _ladderHits, _stats.LadderLayer);
-
         Physics2D.queriesHitTriggers = _cachedTriggerSetting;
-    }
-
-    private Bounds GetWallDetectionBounds()
-    {
-        var colliderOrigin = transform.position + _standingColliderBounds.center;
-        return new Bounds(colliderOrigin, _stats.WallDetectorSize);
     }
 
     protected virtual void HandleCollisions()
@@ -248,7 +224,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
     {
         if (_dashToConsume && _canDash)
         {
-            var dir = new Vector2(_frameInput.Move.x, Mathf.Max(_frameInput.Move.y, 0f)).normalized;
+            var dir = new Vector2(_frameInput.Move.x, 0f).normalized;
             if (dir == Vector2.zero)
             {
                 _dashToConsume = false;
@@ -298,7 +274,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
             _speed.y = _stats.GroundingForce;
 
             // We use a raycast here as the groundHits from capsule cast act a bit weird.
-            var hit = Physics2D.Raycast(transform.position, Vector2.down, _stats.GrounderDistance * 2, ~_stats.PlayerLayer);
+            var hit = Physics2D.Raycast(transform.position, Vector2.down, _col.size.y / 2 + _stats.GrounderDistance * 2, ~_stats.PlayerLayer);
             if (hit.collider != null)
             {
                 _groundNormal = hit.normal;
@@ -328,16 +304,6 @@ public class PlayerController : MonoBehaviour, IPlayerController
         _rb.velocity = _speed + _currentExternalVelocity;
         _jumpToConsume = false;
     }
-
-    private void OnDrawGizmos()
-    {
-        if (_stats.ShowWallDetection)
-        {
-            Gizmos.color = Color.white;
-            var bounds = GetWallDetectionBounds();
-            Gizmos.DrawWireCube(bounds.center, bounds.size);
-        }
-    }
 }
 
 public interface IPlayerController
@@ -355,18 +321,4 @@ public interface IPlayerController
     public Vector2 Input { get; }
     public Vector2 Speed { get; }
     public Vector2 GroundNormal { get; }
-    public void ApplyVelocity(Vector2 vel, PlayerForce forceType);
-}
-
-public enum PlayerForce
-{
-    /// <summary>
-    /// Added directly to the players movement speed, to be controlled by the standard deceleration
-    /// </summary>
-    Burst,
-
-    /// <summary>
-    /// An additive force handled by the decay system
-    /// </summary>
-    Decay
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5809208991665975628}
   - component: {fileID: 1759196486092950843}
   - component: {fileID: 591278415870586829}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Platform (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1285188898937876548}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -23.94, y: 2.63, z: -0.16860315}
-  m_LocalScale: {x: 20, y: 1, z: 1}
+  m_LocalPosition: {x: -23.94, y: 2.22, z: -0.16860315}
+  m_LocalScale: {x: 20, y: 1.1629074, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7392342148479527380}
@@ -94,7 +94,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1285188898937876548}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: df24dc7357337be469dc0a01737e01cc, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 8556559349797171616}
   - component: {fileID: 3848708026656891339}
   - component: {fileID: 1994731986448497864}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,14 +136,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5436917143899173208}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.3469708, w: 0.9378759}
   m_LocalPosition: {x: 18.88, y: 2.63, z: -0.16860315}
   m_LocalScale: {x: 20, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7392342148479527380}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 40.604}
 --- !u!212 &3848708026656891339
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -205,7 +205,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 5436917143899173208}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: df24dc7357337be469dc0a01737e01cc, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -272,7 +272,7 @@ GameObject:
   - component: {fileID: 7392342148905551941}
   - component: {fileID: 7345058010946162948}
   - component: {fileID: 6059322959289814549}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -392,7 +392,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 43efe0c71a2f92d49b2b4d7aea722bff, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -406,7 +406,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 7392342148905551947}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 43efe0c71a2f92d49b2b4d7aea722bff, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -483,7 +483,7 @@ GameObject:
   - component: {fileID: 7392342149365892900}
   - component: {fileID: 7392342149365892902}
   - component: {fileID: 7392342149365892903}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -566,7 +566,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 7392342149365892901}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: df24dc7357337be469dc0a01737e01cc, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -703,7 +703,7 @@ GameObject:
   - component: {fileID: 7506806359296664942}
   - component: {fileID: 2140662145662990731}
   - component: {fileID: 4337880635631567753}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Platform (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -786,7 +786,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 8660931128647932928}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: df24dc7357337be469dc0a01737e01cc, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0

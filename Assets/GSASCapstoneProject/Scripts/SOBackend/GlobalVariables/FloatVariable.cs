@@ -13,12 +13,12 @@ namespace Core.GlobalVariables
         public float DefaultValue;
 
         [SerializeField]
-        private float value;
+        private float _value;
 
         public float Value
         {
-            get { return value;}
-            set { this.value = value;}
+            get { return _value;}
+            set { this._value = value;}
         }
 
         public delegate void ValueChange();
@@ -56,13 +56,13 @@ namespace Core.GlobalVariables
 
         public void Raise(float amount)
         {
-            value = amount;
+            _value = amount;
             OnValueChanged.Invoke();
         }
 
         private void OnEnable()
         {
-            value = DefaultValue;
+            _value = DefaultValue;
         }
     }
 }

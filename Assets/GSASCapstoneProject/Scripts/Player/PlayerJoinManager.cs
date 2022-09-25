@@ -7,15 +7,15 @@ using UnityEngine.InputSystem;
 public class PlayerJoinManager : MonoBehaviour
 {
     [SerializeField]
-    GameObject player1Prefab;
+    GameObject _player1Prefab;
     [SerializeField]
-    GameObject player2Prefab;
+    GameObject _player2Prefab;
 
     // Start is called before the first frame update
     void Start()
     {
-        PlayerInput player1 = PlayerInput.Instantiate(player1Prefab, 0);
-        PlayerInput player2 = PlayerInput.Instantiate(player2Prefab, 1);
+        PlayerInput player1 = PlayerInput.Instantiate(_player1Prefab, 0);
+        PlayerInput player2 = PlayerInput.Instantiate(_player2Prefab, 1);
         InputDevice[] player1Devices = { Keyboard.current};
         InputDevice[] player2Devices = { Gamepad.all[0] };
         player1.SwitchCurrentControlScheme("KeyboardPlayer1", player1Devices);

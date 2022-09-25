@@ -9,7 +9,7 @@ namespace Core.GlobalEvents
         /// <summary>
         /// The list of listeners that this event will notify if it is raised.
         /// </summary>
-        private readonly List<FloatGlobalEventListener> eventListeners =
+        private readonly List<FloatGlobalEventListener> _eventListeners =
             new List<FloatGlobalEventListener>();
 
         public delegate void FloatEvent(float val);
@@ -18,8 +18,8 @@ namespace Core.GlobalEvents
         public void Raise(float value)
         {
             OnFloatEventCalled.Invoke(value);
-            for (int i = eventListeners.Count - 1; i >= 0; i--)
-                eventListeners[i].OnEventRaised(value); ;
+            for (int i = _eventListeners.Count - 1; i >= 0; i--)
+                _eventListeners[i].OnEventRaised(value); ;
         }
 
         public void Subscribe(FloatEvent floatEvent)
@@ -34,14 +34,14 @@ namespace Core.GlobalEvents
 
         public void RegisterListener(FloatGlobalEventListener listener)
         {
-            if (!eventListeners.Contains(listener))
-                eventListeners.Add(listener);
+            if (!_eventListeners.Contains(listener))
+                _eventListeners.Add(listener);
         }
 
         public void UnregisterListener(FloatGlobalEventListener listener)
         {
-            if (eventListeners.Contains(listener))
-                eventListeners.Remove(listener);
+            if (_eventListeners.Contains(listener))
+                _eventListeners.Remove(listener);
         }
 
     }

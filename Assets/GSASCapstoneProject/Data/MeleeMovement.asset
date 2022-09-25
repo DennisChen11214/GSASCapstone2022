@@ -16,11 +16,7 @@ MonoBehaviour:
   MaxSpeed: 14
   GroundDeceleration: 60
   AirDeceleration: 30
-  GroundingForce: -1.5
-  CrouchInputThreshold: -0.5
-  CrouchSpeedPenalty: 0.5
-  CrouchSlowdownFrames: 50
-  CrouchBufferCheck: 0.1
+  GroundingForce: -10
   AllowDoubleJump: 0
   JumpPower: 36
   MaxFallSpeed: 40
@@ -32,31 +28,9 @@ MonoBehaviour:
   DashVelocity: 50
   DashDurationFrames: 5
   DashEndHorizontalMultiplier: 0.25
-  AllowWalls: 1
-  RequireInputPush: 0
-  WallClimbSpeed: 10
-  WallDetectorSize: {x: 0.75, y: 1}
-  ClimbableLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  WallFallAcceleration: 8
-  MaxWallFallSpeed: 8
-  WallJumpPower: {x: 30, y: 25}
-  WallJumpInputLossFrames: 20
   GrounderDistance: 0.1
   PlayerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   AttackFrameCooldown: 15
-  SnapToLadders: 1
-  LadderSnapSpeed: 0.05
-  LadderShimmySpeedMultiplier: 0.5
-  LadderLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  LadderClimbSpeed: 8
-  LadderSlideMultiplier: 1.5
-  LadderCooldownFrames: 8
-  LadderClimbThreshold: 0.3
   ExternalVelocityDecay: 100
-  ShowWallDetection: 1

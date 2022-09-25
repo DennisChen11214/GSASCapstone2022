@@ -18,19 +18,6 @@ public class ScriptableStats : ScriptableObject {
     [Tooltip("A constant downward force applied while grounded. Helps on vertical moving platforms and slopes"), Range(0f, -10f)]
     public float GroundingForce = -1.5f;
 
-    [Header("CROUCHING")] 
-    [Tooltip("A dead-zone for controllers to prevent unintended crouching")]
-    public float CrouchInputThreshold = -0.5f;
-
-    [Tooltip("A speed multiplier while crouching"), Range(0f, 1f)]
-    public float CrouchSpeedPenalty = 0.5f;
-
-    [Tooltip("The amount of frames it takes to hit the full crouch speed penalty. Higher values provide more crouch sliding")]
-    public int CrouchSlowdownFrames = 50;
-
-    [Tooltip("Detection height offset from the top of the standing collider. Smaller values risk collisions when standing up")]
-    public float CrouchBufferCheck = 0.1f;
-
     [Header("JUMP")] 
     [Tooltip("Enable double jump")]
     public bool AllowDoubleJump;
@@ -64,35 +51,7 @@ public class ScriptableStats : ScriptableObject {
     public int DashDurationFrames = 5;
 
     [Tooltip("The horizontal speed retained when dash has completed")]
-    public float DashEndHorizontalMultiplier = 0.25f;
-        
-    [Header("WALLS")] 
-    [Tooltip("Allow wall sliding & jumping")]
-    public bool AllowWalls = true;
-        
-    [Tooltip("Only wall slide when you're physically pushing against the wall")]
-    public bool RequireInputPush = false;
-
-    [Tooltip("How fast you climb walls.")]
-    public float WallClimbSpeed = 10;
-
-    [Tooltip("Bounds for detecting walls on either side. Ensure it horizontally overflows your collider")]
-    public Vector2 WallDetectorSize = new(0.75f,1);
-        
-    [Tooltip("Set this to the layer climbable walls are on")]
-    public LayerMask ClimbableLayer;
-        
-    [Tooltip("The player's capacity to gain wall sliding speed. 0 = stick to wall")]
-    public float WallFallAcceleration = 8;
-
-    [Tooltip("Clamps the maximum fall speed")]
-    public float MaxWallFallSpeed = 8;
-
-    [Tooltip("The immediate velocity horizontal velocity applied when wall jumping")]
-    public Vector2 WallJumpPower = new(30, 25);
-        
-    [Tooltip("The frames before full horizontal movement is returned after a wall jump")]
-    public int WallJumpInputLossFrames = 20;
+    public float DashEndHorizontalMultiplier = 0.25f; 
         
     [Header("COLLISIONS")]
     [Tooltip("The detection distance for grounding and roof detection")]
@@ -104,37 +63,9 @@ public class ScriptableStats : ScriptableObject {
     [Header("ATTACK")] 
     [Tooltip("The fixed frame cooldown of your players basic attack")]
     public int AttackFrameCooldown = 15;
-        
-    [Header("LADDERS")]
-    [Tooltip("Allow climbing ladders")]
-    public bool SnapToLadders = true;
-        
-    [Tooltip("Ladder snap speed")]
-    public float LadderSnapSpeed = 0.05f;
-        
-    [Tooltip("Speed at which you shimmy on a ladder")]
-    public float LadderShimmySpeedMultiplier = 0.5f;
-        
-    [Tooltip("Set this to the layer your ladders are on")]
-    public LayerMask LadderLayer;
-        
-    [Tooltip("How fast you climb ladders")]
-    public float LadderClimbSpeed = 8;
-
-    [Tooltip("How fast you climb ladders")]
-    public float LadderSlideMultiplier = 1.5f;
-        
-    [Tooltip("How many frames can pass between ladder interactions. Helps jittery movement and jumping glitches")]
-    public int LadderCooldownFrames = 8;
-        
-    [Tooltip("Input required before you mount the ladder. Avoids unwanted climbing using controllers")]
-    public float LadderClimbThreshold = .3f;
 
     [Header("EXTERNAL")] 
     [Tooltip("The rate at which external velocity decays")]
     public int ExternalVelocityDecay = 100;
 
-    [Header("GIZMOS")] 
-    [Tooltip("Color: White")]
-    public bool ShowWallDetection = true;
 }
