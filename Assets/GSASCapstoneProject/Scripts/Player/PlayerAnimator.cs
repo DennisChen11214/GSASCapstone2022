@@ -20,7 +20,6 @@ public class PlayerAnimator : MonoBehaviour
     {
         _player.Jumped += OnJumped;
         _player.DoubleJumped += OnDoubleJumped;
-        _player.Attacked += OnAttacked;
         _player.GroundedChanged += OnGroundedChanged;
         _player.DashingChanged += OnDashingChanged;
     }

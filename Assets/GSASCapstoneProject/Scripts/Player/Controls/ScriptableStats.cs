@@ -60,10 +60,6 @@ public class ScriptableStats : ScriptableObject {
     [Tooltip("Set this to the layer your player is on")]
     public LayerMask PlayerLayer;
 
-    [Header("ATTACK")] 
-    [Tooltip("The fixed frame cooldown of your players basic attack")]
-    public int AttackFrameCooldown = 15;
-
     [Header("EXTERNAL")] 
     [Tooltip("The rate at which external velocity decays")]
     public int ExternalVelocityDecay = 100;

@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
     private Rigidbody2D _rb;
     private PlayerInputActions _input;
+    private PlayerCombat _playerCombat;
+    private SpriteRenderer _sprite;
     private CapsuleCollider2D _col; // Current collider
     private Bounds _standingColliderBounds = new(new(0, 0.75f), Vector3.one); // gets overwritten in Awake. When not in play mode, is used for Gizmos
     private bool _cachedTriggerSetting;
@@ -28,7 +30,6 @@ public class PlayerController : MonoBehaviour, IPlayerController
     public event Action<bool, Vector2> DashingChanged;
     public event Action<bool> Jumped;
     public event Action DoubleJumped;
-    public event Action Attacked;
     public ScriptableStats PlayerStats => _stats;
     public Vector2 Input => _frameInput.Move;
     public Vector2 Speed => _speed;
@@ -41,6 +42,8 @@ public class PlayerController : MonoBehaviour, IPlayerController
         _rb = GetComponent<Rigidbody2D>();
         _input = GetComponent<PlayerInputActions>();
         _col = GetComponent<CapsuleCollider2D>();
+        _playerCombat = GetComponent<PlayerCombat>();
+        _sprite = GetComponent<SpriteRenderer>();
 
         // Colliders cannot be check whilst disabled. Let's cache its bounds
         _standingColliderBounds = _col.bounds;
@@ -132,18 +135,13 @@ public class PlayerController : MonoBehaviour, IPlayerController
     #region Attacking
 
     private bool _attackToConsume;
-    private int _frameLastAttacked = int.MinValue;
 
     protected virtual void HandleAttacking()
     {
         if (!_attackToConsume) return;
 
-        if (_fixedFrame > _frameLastAttacked + _stats.AttackFrameCooldown)
-        {
-            _frameLastAttacked = _fixedFrame;
-            Attacked?.Invoke();
-        }
-
+        _playerCombat.Attack();
+        
         _attackToConsume = false;
     }
 
@@ -156,6 +154,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
         if (_frameInput.Move.x != 0)
         {
             var inputX = _frameInput.Move.x;
+            _sprite.flipX = inputX == 1 ? false : true;
             _speed.x = Mathf.MoveTowards(_speed.x, inputX * _stats.MaxSpeed, _stats.Acceleration * Time.fixedDeltaTime);
         }
         else
@@ -316,7 +315,6 @@ public interface IPlayerController
     public event Action<bool, Vector2> DashingChanged; // Dashing - Dir
     public event Action<bool> Jumped; // Is wall jump
     public event Action DoubleJumped;
-    public event Action Attacked;
     public ScriptableStats PlayerStats { get; }
     public Vector2 Input { get; }
     public Vector2 Speed { get; }
