@@ -18,6 +18,8 @@ public class BossBehavior : MonoBehaviour
     [SerializeField] int _poolSize;
     [SerializeField] Transform _poolParent;
 
+    [SerializeField] float _attackDelay;
+
     // Player attacks must use the component "DamageDealer" to deal damage.
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -51,7 +53,7 @@ public class BossBehavior : MonoBehaviour
             Vector2 dir = _targets[_targetIdx].Value.position - transform.position;
             dir = dir.normalized;
             BulletAttack(dir);
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(_attackDelay);
         }
        
     }

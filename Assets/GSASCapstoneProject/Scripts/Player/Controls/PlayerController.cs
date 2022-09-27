@@ -163,7 +163,7 @@ public class PlayerController : MonoBehaviour
         if (_moveDirection.x != 0)
         {
             var inputX = _moveDirection.x;
-            _sprite.flipX = inputX == 1 ? false : true;
+            _sprite.flipX = inputX > 0 ? false : true;
             _speed.x = Mathf.MoveTowards(_speed.x, inputX * _stats.MaxSpeed, _stats.Acceleration * Time.fixedDeltaTime);
         }
         else

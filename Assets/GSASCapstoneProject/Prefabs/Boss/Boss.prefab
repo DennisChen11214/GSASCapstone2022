@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 1152337751128150387}
   - component: {fileID: 1527104269011092996}
   - component: {fileID: 1152337751128150388}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Boss
   m_TagString: Boss
   m_Icon: {fileID: 0}
@@ -162,6 +162,7 @@ MonoBehaviour:
   _bullet: {fileID: 4251606055080687669, guid: d1971761b2491ad4b9fceaafb9704b02, type: 3}
   _poolSize: 8
   _poolParent: {fileID: 500010549375137958}
+  _attackDelay: 0
 --- !u!114 &1527104269011092996
 MonoBehaviour:
   m_ObjectHideFlags: 0

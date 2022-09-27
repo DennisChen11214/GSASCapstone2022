@@ -21,14 +21,9 @@ public class BossBullet : MonoBehaviour
         _rb.velocity = dir * _speed;
     }
 
-    private void OnTriggerEnter2D(Collider2D col)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        for (int i = 0; i < _ignoredTags.Length; i++)
-        {
-            if (col.CompareTag(_ignoredTags[i])) return;
-        }
-        
-        PlayerCombat playerCombat = col.GetComponent<PlayerCombat>();
+        PlayerCombat playerCombat = collision.GetComponent<PlayerCombat>();
         if (playerCombat)
         {
             playerCombat.TakeDamage(_damage);
