@@ -46,7 +46,6 @@ GameObject:
   - component: {fileID: 7801986762456926425}
   - component: {fileID: 7801986762456926424}
   - component: {fileID: 8015908997304881561}
-  - component: {fileID: 6829660163179597448}
   m_Layer: 7
   m_Name: Player2Main
   m_TagString: Untagged
@@ -167,7 +166,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 43efe0c71a2f92d49b2b4d7aea722bff, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -181,7 +180,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 7801986762456926422}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 43efe0c71a2f92d49b2b4d7aea722bff, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -201,15 +200,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stats: {fileID: 11400000, guid: 5afa4e85200110346b1f375483725374, type: 2}
---- !u!114 &6829660163179597448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7801986762456926422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46c6bf391d9f9e94c8333a3426fcf292, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  _requestSwap: {fileID: 11400000, guid: 1e62224f412ff8a44aa89fc553997662, type: 2}
+  _receiveSwapRequest: {fileID: 11400000, guid: f17ea852cb257b748b032e686caf68a8, type: 2}
+  _swapCompleted: {fileID: 11400000, guid: c2c137196e36f9440aaaa8923095d01a, type: 2}

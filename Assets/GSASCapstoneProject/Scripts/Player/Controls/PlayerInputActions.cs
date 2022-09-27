@@ -9,7 +9,7 @@ public class PlayerInputActions : MonoBehaviour
     private void Update() => FrameInput = Gather();
 
     private InputActionAsset _actions;
-    private InputAction _move, _jump, _dash, _attack;
+    private InputAction _move, _jump, _dash, _attack, _swap;
 
     private void Awake()
     {
@@ -18,6 +18,7 @@ public class PlayerInputActions : MonoBehaviour
         _jump = _actions.FindActionMap("Player").FindAction("Jump");
         _dash = _actions.FindActionMap("Player").FindAction("Movement Ability");
         _attack = _actions.FindActionMap("Player").FindAction("Attack");
+        _swap = _actions.FindActionMap("Player").FindAction("Swap");
     }
 
     private void OnEnable() => _actions.Enable();
@@ -32,6 +33,8 @@ public class PlayerInputActions : MonoBehaviour
             JumpHeld = _jump.IsPressed(),
             DashDown = _dash.WasPressedThisFrame(),
             AttackDown = _attack.WasPressedThisFrame(),
+            SwapDown = _swap.IsPressed(),
+
             Move = _move.ReadValue<Vector2>()
         };
     }
@@ -44,4 +47,5 @@ public struct FrameInput
     public bool JumpHeld;
     public bool DashDown;
     public bool AttackDown;
+    public bool SwapDown;
 }

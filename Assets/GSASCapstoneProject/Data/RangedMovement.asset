@@ -22,7 +22,7 @@ MonoBehaviour:
   MaxFallSpeed: 40
   FallAcceleration: 110
   JumpEndEarlyGravityModifier: 3
-  CoyoteFrames: 7
+  CoyoteFrames: 5
   JumpBufferFrames: 7
   AllowDash: 1
   DashVelocity: 50

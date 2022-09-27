@@ -1,37 +1,40 @@
 using System;
 using UnityEngine;
+using Core.GlobalEvents;
+using Core.GlobalVariables;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
-public class PlayerController : MonoBehaviour, IPlayerController
+public class PlayerController : MonoBehaviour
 {
     [SerializeField] private ScriptableStats _stats;
+    [SerializeField] private TransformGlobalEvent _requestSwap;
+    [SerializeField] private TransformGlobalEvent _receiveSwapRequest;
+    [SerializeField] private GlobalEvent _swapCompleted;
+    [SerializeField] private TransformVariable _playerTransform;
 
     #region Internal
 
     private Rigidbody2D _rb;
-    private PlayerInputActions _input;
     private PlayerCombat _playerCombat;
     private SpriteRenderer _sprite;
     private CapsuleCollider2D _col; // Current collider
-    private Bounds _standingColliderBounds = new(new(0, 0.75f), Vector3.one); // gets overwritten in Awake. When not in play mode, is used for Gizmos
     private bool _cachedTriggerSetting;
 
-    private FrameInput _frameInput;
+    private Vector2 _moveDirection;
     private Vector2 _speed;
     private Vector2 _currentExternalVelocity;
     private int _fixedFrame;
     private bool _grounded;
 
+    private InputActionAsset _actions;
+    private InputAction _move, _jump, _dash, _attack, _swap;
+
     #endregion
 
     #region External
-
-    public event Action<bool, float> GroundedChanged;
-    public event Action<bool, Vector2> DashingChanged;
-    public event Action<bool> Jumped;
-    public event Action DoubleJumped;
     public ScriptableStats PlayerStats => _stats;
-    public Vector2 Input => _frameInput.Move;
+    public Vector2 Input => _moveDirection;
     public Vector2 Speed => _speed;
     public Vector2 GroundNormal => _groundNormal;
 
@@ -40,49 +43,31 @@ public class PlayerController : MonoBehaviour, IPlayerController
     protected virtual void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _input = GetComponent<PlayerInputActions>();
         _col = GetComponent<CapsuleCollider2D>();
         _playerCombat = GetComponent<PlayerCombat>();
         _sprite = GetComponent<SpriteRenderer>();
+        _actions = GetComponent<PlayerInput>().actions;
 
-        // Colliders cannot be check whilst disabled. Let's cache its bounds
-        _standingColliderBounds = _col.bounds;
-        _standingColliderBounds.center = _col.offset;
-
+        _playerTransform.Value = transform;
         _cachedTriggerSetting = Physics2D.queriesHitTriggers;
 
-    }
-
-    protected virtual void Update()
-    {
-        GatherInput();
-    }
-
-    protected virtual void GatherInput()
-    {
-        _frameInput = _input.FrameInput;
-
-        if (_frameInput.JumpDown)
-        {
-            _jumpToConsume = true;
-            _frameJumpWasPressed = _fixedFrame;
-        }
-
-        if (_frameInput.DashDown && _stats.AllowDash) _dashToConsume = true;
-        if (_frameInput.AttackDown) _attackToConsume = true;
+        _move = _actions.FindActionMap("Player").FindAction("Movement");
+        _jump = _actions.FindActionMap("Player").FindAction("Jump");
+        _dash = _actions.FindActionMap("Player").FindAction("Movement Ability");
+        _attack = _actions.FindActionMap("Player").FindAction("Attack");
+        _swap = _actions.FindActionMap("Player").FindAction("Swap");
     }
 
     protected virtual void FixedUpdate()
     {
         _fixedFrame++;
         _currentExternalVelocity = Vector2.MoveTowards(_currentExternalVelocity, Vector2.zero, _stats.ExternalVelocityDecay * Time.fixedDeltaTime);
+        _moveDirection = _move.ReadValue<Vector2>();
 
         CheckCollisions();
 
         HandleCollisions();
-        HandleAttacking();
         HandleHorizontal();
-        HandleJump();
         HandleDash();
         HandleFall();
 
@@ -119,30 +104,54 @@ public class PlayerController : MonoBehaviour, IPlayerController
             _grounded = true;
             _canDash = true;
             ResetJump();
-            GroundedChanged?.Invoke(true, Mathf.Abs(_speed.y));
         }
         // Left the Ground
         else if (_grounded && _groundHitCount == 0)
         {
             _grounded = false;
             _frameLeftGrounded = _fixedFrame;
-            GroundedChanged?.Invoke(false, 0);
         }
+    }
+
+    #endregion
+
+    #region Swapping
+    private bool _swapHeld;
+
+    protected virtual void RequestSwap()
+    {
+        _swapHeld = true;
+        _requestSwap.Raise(transform);
+    }
+
+    protected virtual void CancelSwap()
+    {
+        _swapHeld = false;
+    }
+
+    protected virtual void ReceiveSwapRequest(Transform otherPlayer)
+    {
+        if (_swapHeld)
+        {
+            Vector3 tempPos = transform.position;
+            transform.position = otherPlayer.position;
+            otherPlayer.position = tempPos;
+            _swapCompleted.Raise();
+        }
+    }
+
+    protected virtual void SwapCompleted()
+    {
+        _swapHeld = false;
     }
 
     #endregion
 
     #region Attacking
 
-    private bool _attackToConsume;
-
     protected virtual void HandleAttacking()
     {
-        if (!_attackToConsume) return;
-
         _playerCombat.Attack();
-        
-        _attackToConsume = false;
     }
 
     #endregion
@@ -151,9 +160,9 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
     protected virtual void HandleHorizontal()
     {
-        if (_frameInput.Move.x != 0)
+        if (_moveDirection.x != 0)
         {
-            var inputX = _frameInput.Move.x;
+            var inputX = _moveDirection.x;
             _sprite.flipX = inputX == 1 ? false : true;
             _speed.x = Mathf.MoveTowards(_speed.x, inputX * _stats.MaxSpeed, _stats.Acceleration * Time.fixedDeltaTime);
         }
@@ -165,7 +174,6 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
     #region Jump
 
-    private bool _jumpToConsume;
     private bool _endedJumpEarly;
     private bool _coyoteUsable;
     private bool _doubleJumpUsable;
@@ -178,28 +186,31 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
     protected virtual void HandleJump()
     {
+        _frameJumpWasPressed = _fixedFrame;
+
         // Double jump
-        if (_jumpToConsume && CanDoubleJump)
+        if (CanDoubleJump)
         {
             _speed.y = _stats.JumpPower;
             _doubleJumpUsable = false;
             _endedJumpEarly = false;
-            _jumpToConsume = false;
-            DoubleJumped?.Invoke();
         }
 
         // Standard jump
-        if ((_jumpToConsume && CanUseCoyote) || HasBufferedJump)
+        if (CanUseCoyote || HasBufferedJump)
         {
             _coyoteUsable = false;
             _bufferedJumpUsable = false;
             _speed.y = _stats.JumpPower;
-            Jumped?.Invoke(false);
         }
-
-        // Early end detection
-        if (!_endedJumpEarly && !_grounded && !_frameInput.JumpHeld && _rb.velocity.y > 0) _endedJumpEarly = true;
     }
+
+    protected virtual void CancelJump()
+    {
+        // Early end detection
+        if (!_endedJumpEarly && !_grounded && _rb.velocity.y > 0) _endedJumpEarly = true;
+    }
+
 
     protected virtual void ResetJump()
     {
@@ -213,48 +224,36 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
     #region Dash
 
-    private bool _dashToConsume;
     private bool _canDash;
-    private Vector2 _dashVel;
     private bool _dashing;
     private int _startedDashing;
 
-    protected virtual void HandleDash()
+    protected virtual void StartDash()
     {
-        if (_dashToConsume && _canDash)
+        if (_canDash)
         {
-            var dir = new Vector2(_frameInput.Move.x, 0f).normalized;
-            if (dir == Vector2.zero)
-            {
-                _dashToConsume = false;
-                return;
-            }
-
-            _dashVel = dir * _stats.DashVelocity;
             _dashing = true;
-            DashingChanged?.Invoke(true, dir);
             _canDash = false;
             _startedDashing = _fixedFrame;
 
             // Strip external buildup
             _currentExternalVelocity = Vector2.zero;
         }
+    }
 
+    protected virtual void HandleDash()
+    {
         if (_dashing)
         {
-            _speed = _dashVel;
+            _speed = new Vector2(_moveDirection.x * _stats.DashVelocity, _speed.y >= 0 ? 0 : _speed.y);
             // Cancel when the time is out or we've reached our max safety distance
             if (_fixedFrame > _startedDashing + _stats.DashDurationFrames)
             {
                 _dashing = false;
-                DashingChanged?.Invoke(false, Vector2.zero);
-                if (_speed.y > 0) _speed.y = 0;
                 _speed.x *= _stats.DashEndHorizontalMultiplier;
                 if (_grounded) _canDash = true;
             }
         }
-
-        _dashToConsume = false;
     }
 
     #endregion
@@ -301,22 +300,29 @@ public class PlayerController : MonoBehaviour, IPlayerController
     protected virtual void ApplyVelocity()
     {
         _rb.velocity = _speed + _currentExternalVelocity;
-        _jumpToConsume = false;
     }
-}
 
-public interface IPlayerController
-{
-    /// <summary>
-    /// true = Landed. false = Left the Ground. float is Impact Speed
-    /// </summary>
-    public event Action<bool, float> GroundedChanged;
+    private void OnEnable()
+    {
+        _receiveSwapRequest.Subscribe(ReceiveSwapRequest);
+        _swapCompleted.Subscribe(SwapCompleted);
+        _attack.performed += ctx => HandleAttacking();
+        _jump.started += ctx => HandleJump();
+        _jump.canceled += ctx => CancelJump();
+        _dash.performed += ctx => StartDash();
+        _swap.started += ctx => RequestSwap();
+        _swap.canceled += ctx => CancelSwap();
+    }
 
-    public event Action<bool, Vector2> DashingChanged; // Dashing - Dir
-    public event Action<bool> Jumped; // Is wall jump
-    public event Action DoubleJumped;
-    public ScriptableStats PlayerStats { get; }
-    public Vector2 Input { get; }
-    public Vector2 Speed { get; }
-    public Vector2 GroundNormal { get; }
+    private void OnDisable()
+    {
+        _receiveSwapRequest.UnSubscribe(ReceiveSwapRequest);
+        _swapCompleted.UnSubscribe(SwapCompleted);
+        _attack.performed -= ctx => HandleAttacking();
+        _jump.started -= ctx => HandleJump();
+        _jump.canceled -= ctx => CancelJump();
+        _dash.performed -= ctx => StartDash();
+        _swap.started -= ctx => RequestSwap();
+        _swap.canceled -= ctx => CancelSwap();
+    }
 }
