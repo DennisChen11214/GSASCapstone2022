@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &828809464110644244
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 500010549375137958}
+  m_Layer: 0
+  m_Name: BulletPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &500010549375137958
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828809464110644244}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1152337751128150386}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1152337751128150351
 GameObject:
   m_ObjectHideFlags: 0
@@ -12,10 +43,11 @@ GameObject:
   - component: {fileID: 1152337751128150385}
   - component: {fileID: 1152337751128150384}
   - component: {fileID: 1152337751128150387}
+  - component: {fileID: 1527104269011092996}
   - component: {fileID: 1152337751128150388}
   m_Layer: 0
   m_Name: Boss
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,7 +63,8 @@ Transform:
   m_LocalPosition: {x: 6.44, y: -0.23, z: 0}
   m_LocalScale: {x: 1.800415, y: 1.800415, z: 1.800415}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 500010549375137958}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -120,9 +153,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55c7266e55ca10445960f2d4698bb5bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: {fileID: 11400000, guid: 5f59ca9a4b93edf4b9eef481ef45a7f1, type: 2}
-  target: {fileID: 0}
-  bullet: {fileID: 6475348056974844210, guid: d1971761b2491ad4b9fceaafb9704b02, type: 3}
+  _hp: {fileID: 11400000, guid: 86b7757fc8dfc444dbf97a0488e90cdf, type: 2}
+  _onHealthBelowZero: {fileID: 11400000, guid: 2395615dc3d159742bb389dd5db34e61, type: 2}
+  _targets:
+  - {fileID: 0}
+  - {fileID: 0}
+  _swap: {fileID: 11400000, guid: c2c137196e36f9440aaaa8923095d01a, type: 2}
+  _bullet: {fileID: 4251606055080687669, guid: d1971761b2491ad4b9fceaafb9704b02, type: 3}
+  _poolSize: 8
+  _poolParent: {fileID: 500010549375137958}
+--- !u!114 &1527104269011092996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152337751128150351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6584ff66a191e1b4ab1bc36515e6aa32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: {fileID: 11400000, guid: 86b7757fc8dfc444dbf97a0488e90cdf, type: 2}
+  _bossDestroy: {fileID: 11400000, guid: 2395615dc3d159742bb389dd5db34e61, type: 2}
 --- !u!58 &1152337751128150388
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -133,7 +186,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

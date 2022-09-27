@@ -11,16 +11,15 @@ GameObject:
   - component: {fileID: 9136834791649812895}
   - component: {fileID: 5669733001946796342}
   - component: {fileID: 3060631140399348807}
-  - component: {fileID: 5879078327842424114}
-  - component: {fileID: -586601369798813785}
   - component: {fileID: 5764357041153291212}
+  - component: {fileID: 4251606055080687669}
   m_Layer: 0
-  m_Name: Bullet
-  m_TagString: Untagged
+  m_Name: BossBullet
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9136834791649812895
 Transform:
   m_ObjectHideFlags: 0
@@ -29,8 +28,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6475348056974844210}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.7668, y: -3.1032, z: 0}
-  m_LocalScale: {x: 0.7135, y: 0.7135, z: 0.7135}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.33499834, y: 0.33499834, z: 0.33499834}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -109,37 +108,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &5879078327842424114
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6475348056974844210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68f2aae86adc0ee468a1483f5ae8ea05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage:
-    UseConstant: 0
-    ConstantValue: 10
-    Variable: {fileID: 11400000, guid: 63455e0eabf51f5439d68c9b309ea80b, type: 2}
---- !u!114 &-586601369798813785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6475348056974844210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1720ba40130aaf41aa360c3fc2da8b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 2
-  speedInc: 10
-  dir: {x: 0, y: 0}
 --- !u!58 &5764357041153291212
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -156,3 +124,20 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &4251606055080687669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6475348056974844210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1720ba40130aaf41aa360c3fc2da8b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ignoredTags:
+  - Boss
+  _speed: 20
+  _speedInc: 30
+  _damage: 10
