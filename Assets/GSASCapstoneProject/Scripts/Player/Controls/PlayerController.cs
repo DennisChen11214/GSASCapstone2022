@@ -12,13 +12,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TransformGlobalEvent _receiveSwapRequest;
     [SerializeField] private GlobalEvent _swapCompleted;
     [SerializeField] private TransformVariable _playerTransform;
+    [SerializeField] private PhysicsMaterial2D _movingMaterial;
+    [SerializeField] private PhysicsMaterial2D _stationaryMaterial;
 
     #region Internal
 
     private Rigidbody2D _rb;
     private PlayerCombat _playerCombat;
     private SpriteRenderer _sprite;
-    private CapsuleCollider2D _col; // Current collider
+    private BoxCollider2D _col; // Current collider
     private bool _cachedTriggerSetting;
 
     private Vector2 _moveDirection;
@@ -43,7 +45,7 @@ public class PlayerController : MonoBehaviour
     protected virtual void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _col = GetComponent<CapsuleCollider2D>();
+        _col = GetComponent<BoxCollider2D>();
         _playerCombat = GetComponent<PlayerCombat>();
         _sprite = GetComponent<SpriteRenderer>();
         _actions = GetComponent<PlayerInput>().actions;
@@ -88,8 +90,8 @@ public class PlayerController : MonoBehaviour
         // Ground and Ceiling
         Vector2 origin = (Vector2)transform.position + _col.offset * transform.localScale;
         Vector2 _absScale = new Vector2(Mathf.Abs(transform.localScale.x), Mathf.Abs(transform.localScale.y));
-        _groundHitCount = Physics2D.CapsuleCastNonAlloc(origin, _col.size * _absScale, _col.direction, 0, Vector2.down, _groundHits, _stats.GrounderDistance, ~_stats.PlayerLayer);
-        _ceilingHitCount = Physics2D.CapsuleCastNonAlloc(origin, _col.size * _absScale, _col.direction, 0, Vector2.up, _ceilingHits, _stats.GrounderDistance, ~_stats.PlayerLayer);
+        _groundHitCount = Physics2D.BoxCastNonAlloc(origin, _col.size * _absScale, 0, Vector2.down, _groundHits, _stats.GrounderDistance, ~_stats.PlayerLayer);
+        _ceilingHitCount = Physics2D.BoxCastNonAlloc(origin, _col.size * _absScale, 0, Vector2.up, _ceilingHits, _stats.GrounderDistance, ~_stats.PlayerLayer);
 
         Physics2D.queriesHitTriggers = _cachedTriggerSetting;
     }
@@ -169,9 +171,13 @@ public class PlayerController : MonoBehaviour
                 transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
             }
             _speed.x = Mathf.MoveTowards(_speed.x, inputX * _stats.MaxSpeed, _stats.Acceleration * Time.fixedDeltaTime);
+            _rb.sharedMaterial = _movingMaterial;
         }
         else
+        {
             _speed.x = Mathf.MoveTowards(_speed.x, 0, (_grounded ? _stats.GroundDeceleration : _stats.AirDeceleration) * Time.fixedDeltaTime);
+            if(_speed.x == 0) _rb.sharedMaterial = _stationaryMaterial;
+        }
     }
 
     #endregion
