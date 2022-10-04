@@ -37,18 +37,10 @@ public class RangedPlayerCombat : PlayerCombat
         {
             if (!_bulletPool[i].gameObject.activeSelf)
             {
-                Vector3 bulletSpawn;
-                if (_sprite.flipX)
-                {
-                    bulletSpawn = transform.position - (_spawnPosition.position - transform.position);
-                }
-                else
-                {
-                    bulletSpawn = _spawnPosition.position;
-                }
+                Vector3 bulletSpawn = _spawnPosition.position;
                 _bulletPool[i].transform.position = bulletSpawn;
                 _bulletPool[i].gameObject.SetActive(true);
-                _bulletPool[i].GetComponent<Projectile>().Launch(_sprite.flipX ? Vector3.left : Vector3.right);
+                _bulletPool[i].GetComponent<Projectile>().Launch(Vector3.right);
                 break;
             }
         }

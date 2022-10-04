@@ -86,9 +86,10 @@ public class PlayerController : MonoBehaviour
     {
         Physics2D.queriesHitTriggers = false;
         // Ground and Ceiling
-        var origin = (Vector2)transform.position + _col.offset;
-        _groundHitCount = Physics2D.CapsuleCastNonAlloc(origin, _col.size, _col.direction, 0, Vector2.down, _groundHits, _stats.GrounderDistance, ~_stats.PlayerLayer);
-        _ceilingHitCount = Physics2D.CapsuleCastNonAlloc(origin, _col.size, _col.direction, 0, Vector2.up, _ceilingHits, _stats.GrounderDistance, ~_stats.PlayerLayer);
+        Vector2 origin = (Vector2)transform.position + _col.offset * transform.localScale;
+        Vector2 _absScale = new Vector2(Mathf.Abs(transform.localScale.x), Mathf.Abs(transform.localScale.y));
+        _groundHitCount = Physics2D.CapsuleCastNonAlloc(origin, _col.size * _absScale, _col.direction, 0, Vector2.down, _groundHits, _stats.GrounderDistance, ~_stats.PlayerLayer);
+        _ceilingHitCount = Physics2D.CapsuleCastNonAlloc(origin, _col.size * _absScale, _col.direction, 0, Vector2.up, _ceilingHits, _stats.GrounderDistance, ~_stats.PlayerLayer);
 
         Physics2D.queriesHitTriggers = _cachedTriggerSetting;
     }
@@ -162,8 +163,11 @@ public class PlayerController : MonoBehaviour
     {
         if (_moveDirection.x != 0)
         {
-            var inputX = _moveDirection.x;
-            _sprite.flipX = inputX > 0 ? false : true;
+            float inputX = _moveDirection.x;
+            if((inputX > 0 && transform.localScale.x < 0) || (inputX < 0 && transform.localScale.x > 0))
+            {
+                transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+            }
             _speed.x = Mathf.MoveTowards(_speed.x, inputX * _stats.MaxSpeed, _stats.Acceleration * Time.fixedDeltaTime);
         }
         else
@@ -272,7 +276,7 @@ public class PlayerController : MonoBehaviour
             _speed.y = _stats.GroundingForce;
 
             // We use a raycast here as the groundHits from capsule cast act a bit weird.
-            var hit = Physics2D.Raycast(transform.position, Vector2.down, _col.size.y / 2 + _stats.GrounderDistance * 2, ~_stats.PlayerLayer);
+            var hit = Physics2D.Raycast(transform.position, Vector2.down, _col.size.y * transform.localScale.y / 2 + _stats.GrounderDistance * 2, ~_stats.PlayerLayer);
             if (hit.collider != null)
             {
                 _groundNormal = hit.normal;

@@ -31,5 +31,5 @@ MonoBehaviour:
   GrounderDistance: 0.1
   PlayerLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 128
   ExternalVelocityDecay: 100
