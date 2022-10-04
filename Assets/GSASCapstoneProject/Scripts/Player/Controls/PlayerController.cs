@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using Core.GlobalEvents;
 using Core.GlobalVariables;
@@ -11,9 +12,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TransformGlobalEvent _requestSwap;
     [SerializeField] private TransformGlobalEvent _receiveSwapRequest;
     [SerializeField] private GlobalEvent _swapCompleted;
+    [SerializeField] private GlobalEvent _swapCanceled;
     [SerializeField] private TransformVariable _playerTransform;
     [SerializeField] private PhysicsMaterial2D _movingMaterial;
     [SerializeField] private PhysicsMaterial2D _stationaryMaterial;
+    [SerializeField] private FloatVariable _swapDelay;
 
     #region Internal
 
@@ -26,6 +29,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 _moveDirection;
     private Vector2 _speed;
     private Vector2 _currentExternalVelocity;
+    private Transform _otherPlayer;
     private int _fixedFrame;
     private bool _grounded;
 
@@ -48,7 +52,7 @@ public class PlayerController : MonoBehaviour
         _col = GetComponent<BoxCollider2D>();
         _playerCombat = GetComponent<PlayerCombat>();
         _sprite = GetComponent<SpriteRenderer>();
-        _actions = GetComponent<PlayerInput>().actions;
+        _actions = GetComponentInParent<PlayerInput>().actions;
 
         _playerTransform.Value = transform;
         _cachedTriggerSetting = Physics2D.queriesHitTriggers;
@@ -58,6 +62,13 @@ public class PlayerController : MonoBehaviour
         _dash = _actions.FindActionMap("Player").FindAction("Movement Ability");
         _attack = _actions.FindActionMap("Player").FindAction("Attack");
         _swap = _actions.FindActionMap("Player").FindAction("Swap");
+
+        _attack.performed += ctx => HandleAttacking();
+        _jump.started += ctx => HandleJump();
+        _jump.canceled += ctx => CancelJump();
+        _dash.performed += ctx => StartDash();
+        _swap.started += ctx => RequestSwap();
+        _swap.canceled += ctx => CancelSwap();
     }
 
     protected virtual void FixedUpdate()
@@ -65,7 +76,6 @@ public class PlayerController : MonoBehaviour
         _fixedFrame++;
         _currentExternalVelocity = Vector2.MoveTowards(_currentExternalVelocity, Vector2.zero, _stats.ExternalVelocityDecay * Time.fixedDeltaTime);
         _moveDirection = _move.ReadValue<Vector2>();
-
         CheckCollisions();
 
         HandleCollisions();
@@ -130,17 +140,29 @@ public class PlayerController : MonoBehaviour
     protected virtual void CancelSwap()
     {
         _swapHeld = false;
+        _swapCanceled.Raise();
     }
 
     protected virtual void ReceiveSwapRequest(Transform otherPlayer)
     {
         if (_swapHeld)
         {
-            Vector3 tempPos = transform.position;
-            transform.position = otherPlayer.position;
-            otherPlayer.position = tempPos;
-            _swapCompleted.Raise();
+            _otherPlayer = otherPlayer;
+
+            gameObject.SetActive(false);
+            otherPlayer.gameObject.SetActive(false);
+            Invoke("Swap", _swapDelay.Value);
         }
+    }
+
+    private void Swap()
+    {
+        Vector3 tempPos = transform.position;
+        transform.position = _otherPlayer.position;
+        _otherPlayer.position = tempPos;
+        gameObject.SetActive(true);
+        _otherPlayer.gameObject.SetActive(true);
+        _swapCompleted.Raise();
     }
 
     protected virtual void SwapCompleted()
@@ -316,23 +338,13 @@ public class PlayerController : MonoBehaviour
     {
         _receiveSwapRequest.Subscribe(ReceiveSwapRequest);
         _swapCompleted.Subscribe(SwapCompleted);
-        _attack.performed += ctx => HandleAttacking();
-        _jump.started += ctx => HandleJump();
-        _jump.canceled += ctx => CancelJump();
-        _dash.performed += ctx => StartDash();
-        _swap.started += ctx => RequestSwap();
-        _swap.canceled += ctx => CancelSwap();
+        _actions.Enable();
     }
 
     private void OnDisable()
     {
         _receiveSwapRequest.UnSubscribe(ReceiveSwapRequest);
         _swapCompleted.UnSubscribe(SwapCompleted);
-        _attack.performed -= ctx => HandleAttacking();
-        _jump.started -= ctx => HandleJump();
-        _jump.canceled -= ctx => CancelJump();
-        _dash.performed -= ctx => StartDash();
-        _swap.started -= ctx => RequestSwap();
-        _swap.canceled -= ctx => CancelSwap();
+        _actions.Disable();
     }
 }

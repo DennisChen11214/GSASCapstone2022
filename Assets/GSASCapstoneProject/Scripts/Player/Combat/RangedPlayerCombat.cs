@@ -12,8 +12,6 @@ public class RangedPlayerCombat : PlayerCombat
     Transform _poolParent;
     [SerializeField]
     Transform _spawnPosition;
-    [SerializeField]
-    float _timeBetweenAttacks;
 
     private SpriteRenderer _sprite;
     private Projectile[] _bulletPool;
@@ -32,7 +30,7 @@ public class RangedPlayerCombat : PlayerCombat
 
     public override void Attack()
     {
-        if (Time.time - _prevAttackTIme < _timeBetweenAttacks) return;
+        if (Time.time - _prevAttackTIme < _stats.TimeBeforeAttackResets) return;
         for (int i = 0; i < _poolSize; i++)
         {
             if (!_bulletPool[i].gameObject.activeSelf)
@@ -40,7 +38,7 @@ public class RangedPlayerCombat : PlayerCombat
                 Vector3 bulletSpawn = _spawnPosition.position;
                 _bulletPool[i].transform.position = bulletSpawn;
                 _bulletPool[i].gameObject.SetActive(true);
-                _bulletPool[i].GetComponent<Projectile>().Launch(Vector3.right);
+                _bulletPool[i].GetComponent<Projectile>().Launch(Vector3.right * (transform.localScale.x > 0 ? 1 : -1));
                 break;
             }
         }

@@ -17,7 +17,10 @@ namespace Core.GlobalEvents
 
         public void Raise(Transform value)
         {
-            OnTransformEventCalled.Invoke(value);
+            if(OnTransformEventCalled != null)
+            {
+                OnTransformEventCalled.Invoke(value);
+            }
             for (int i = _eventListeners.Count - 1; i >= 0; i--)
                 _eventListeners[i].OnEventRaised(value); ;
         }

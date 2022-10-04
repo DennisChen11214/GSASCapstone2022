@@ -16,7 +16,6 @@ public class MeleePlayerCombat : PlayerCombat
     float _attackPower;
 
     private Animator _anim;
-    private float _timeBeforeReset = 0.2f;
     private float _attackEndTime;
     private bool _hasAttackBuffered = false;
     private bool _isAttacking = false;
@@ -34,7 +33,7 @@ public class MeleePlayerCombat : PlayerCombat
             _hasAttackBuffered = true;
             return;
         }
-        if(Time.time - _attackEndTime > _timeBeforeReset)
+        if(Time.time - _attackEndTime > _stats.TimeBeforeAttackResets)
         {
             _currentAttack = 0;
         }
@@ -70,7 +69,7 @@ public class MeleePlayerCombat : PlayerCombat
             switch (_currentAttack)
             {
                 case 0:
-                    _anim.SetTrigger("Attack1");
+                    _isAttacking = false;
                     break;
                 case 1:
                     _anim.SetTrigger("Attack2");
@@ -103,5 +102,11 @@ public class MeleePlayerCombat : PlayerCombat
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(_attackPos.position, _attackRadius);
+    }
+
+    private void OnEnable()
+    {
+        _hasAttackBuffered = false;
+        _isAttacking = false;
     }
 }

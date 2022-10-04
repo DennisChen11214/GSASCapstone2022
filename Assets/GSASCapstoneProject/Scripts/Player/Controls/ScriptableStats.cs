@@ -64,4 +64,8 @@ public class ScriptableStats : ScriptableObject {
     [Tooltip("The rate at which external velocity decays")]
     public int ExternalVelocityDecay = 100;
 
+    [Header("Combat")]
+    [Tooltip("The amount of time before the attack combo resets")]
+    public float TimeBeforeAttackResets;
+
 }

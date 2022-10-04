@@ -17,7 +17,10 @@ namespace Core.GlobalEvents
 
         public void Raise(string value)
         {
-            OnStringEventCalled.Invoke(value);
+            if(OnStringEventCalled != null)
+            {
+                OnStringEventCalled.Invoke(value);
+            }
             for (int i = _eventListeners.Count - 1; i >= 0; i--)
                 _eventListeners[i].OnEventRaised(value); ;
         }

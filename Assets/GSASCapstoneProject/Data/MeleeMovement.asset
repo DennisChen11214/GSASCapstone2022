@@ -33,3 +33,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   ExternalVelocityDecay: 100
+  TimeBeforeAttackResets: 0.4
