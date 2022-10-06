@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GlobalEvent _swapCompleted;
     [SerializeField] private GlobalEvent _swapCanceled;
     [SerializeField] private TransformVariable _playerTransform;
+    [SerializeField] private BoolVariable _isKnockedBack;
     [SerializeField] private PhysicsMaterial2D _movingMaterial;
     [SerializeField] private PhysicsMaterial2D _stationaryMaterial;
     [SerializeField] private FloatVariable _swapDelay;
@@ -116,6 +117,7 @@ public class PlayerController : MonoBehaviour
         {
             _grounded = true;
             _canDash = true;
+            _isKnockedBack.Value = false;
             ResetJump();
         }
         // Left the Ground
@@ -185,6 +187,7 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void HandleHorizontal()
     {
+        if (_isKnockedBack.Value) return;
         if (_moveDirection.x != 0)
         {
             float inputX = _moveDirection.x;
@@ -218,6 +221,8 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void HandleJump()
     {
+        if (_isKnockedBack.Value) return;
+
         _frameJumpWasPressed = _fixedFrame;
 
         // Double jump
@@ -262,7 +267,7 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void StartDash()
     {
-        if (_canDash)
+        if (_canDash && !_isKnockedBack.Value)
         {
             _dashing = true;
             _canDash = false;
@@ -293,6 +298,7 @@ public class PlayerController : MonoBehaviour
     #region Falling
 
     private Vector2 _groundNormal;
+    private bool _isFallingAfterKnockback;
 
     protected virtual void HandleFall()
     {
@@ -331,7 +337,20 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void ApplyVelocity()
     {
-        _rb.velocity = _speed + _currentExternalVelocity;
+        if (!_isKnockedBack.Value)
+        {
+            _isFallingAfterKnockback = false;
+            _rb.velocity = _speed + _currentExternalVelocity;
+        }
+        else if(_rb.velocity.y < 0 )
+        {
+            if (!_isFallingAfterKnockback)
+            {
+                _speed = Vector2.zero;
+                _isFallingAfterKnockback = true;
+            }
+            _rb.velocity = new Vector2(_rb.velocity.x, _speed.y);
+        }
     }
 
     private void OnEnable()

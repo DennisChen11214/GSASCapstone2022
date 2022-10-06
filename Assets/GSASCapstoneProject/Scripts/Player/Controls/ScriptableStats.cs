@@ -68,4 +68,12 @@ public class ScriptableStats : ScriptableObject {
     [Tooltip("The amount of time before the attack combo resets")]
     public float TimeBeforeAttackResets;
 
+    [Tooltip("How long a player is knocked back for")]
+    public float KnockbackLength;
+
+    [Tooltip("How much of the original horizontal knockback speed is retained when starting to fall")]
+    public float KnockbackFactor;
+
+    [Tooltip("The amount of knockback the player takes when hit")]
+    public float Knockback;
 }

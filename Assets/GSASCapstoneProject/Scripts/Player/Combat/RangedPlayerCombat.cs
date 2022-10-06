@@ -13,16 +13,24 @@ public class RangedPlayerCombat : PlayerCombat
     [SerializeField]
     Transform _spawnPosition;
 
-    private SpriteRenderer _sprite;
     private Projectile[] _bulletPool;
     private float _prevAttackTIme;
 
-
-    private void Start()
+    protected override void Awake()
     {
-        _sprite = GetComponent<SpriteRenderer>();
+        base.Awake();
+        InitializeBulletPool();
+    }
+
+    protected override void FixedUpdate()
+    {
+        base.FixedUpdate();
+    }
+
+    private void InitializeBulletPool()
+    {
         _bulletPool = new Projectile[_poolSize];
-        for(int i = 0; i < _poolSize; i++)
+        for (int i = 0; i < _poolSize; i++)
         {
             _bulletPool[i] = Instantiate<Projectile>(_bulletPrefab, _spawnPosition.position, Quaternion.identity, _poolParent);
         }
@@ -43,10 +51,5 @@ public class RangedPlayerCombat : PlayerCombat
             }
         }
         _prevAttackTIme = Time.time;
-    }
-
-    public override void TakeDamage(float damage)
-    {
-        _playerHealth.Value -= damage;
     }
 }

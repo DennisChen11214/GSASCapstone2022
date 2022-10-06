@@ -15,15 +15,19 @@ public class MeleePlayerCombat : PlayerCombat
     [SerializeField]
     float _attackPower;
 
-    private Animator _anim;
     private float _attackEndTime;
     private bool _hasAttackBuffered = false;
     private bool _isAttacking = false;
     private int _currentAttack = 0;
 
-    private void Awake()
+    protected override void Awake()
     {
-        _anim = GetComponent<Animator>();
+        base.Awake();
+    }
+
+    protected override void FixedUpdate()
+    {
+        base.FixedUpdate();
     }
 
     public override void Attack()
@@ -92,11 +96,6 @@ public class MeleePlayerCombat : PlayerCombat
                 damageModule.TakeDamage(_attackPower);
             }
         }
-    }
-
-    public override void TakeDamage(float damage)
-    {
-        _playerHealth.Value -= damage;
     }
 
     private void OnDrawGizmos()

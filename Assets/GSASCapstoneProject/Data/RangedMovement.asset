@@ -34,3 +34,6 @@ MonoBehaviour:
     m_Bits: 128
   ExternalVelocityDecay: 100
   TimeBeforeAttackResets: 0.25
+  KnockbackLength: 0.2
+  KnockbackFactor: 0.33
+  Knockback: 10
