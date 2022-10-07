@@ -30,7 +30,7 @@ namespace Core.GlobalEvents
             OnBoolEventCalled += boolEvent;
         }
 
-        public void UnSubscribe(BoolEvent boolEvent)
+        public void Unsubscribe(BoolEvent boolEvent)
         {
             OnBoolEventCalled -= boolEvent;
         }

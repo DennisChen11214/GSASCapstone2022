@@ -30,7 +30,7 @@ namespace Core.GlobalEvents
             OnStringEventCalled += stringEvent;
         }
 
-        public void UnSubscribe(StringEvent stringEvent)
+        public void Unsubscribe(StringEvent stringEvent)
         {
             OnStringEventCalled -= stringEvent;
         }

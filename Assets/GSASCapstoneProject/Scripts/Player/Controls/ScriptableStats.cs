@@ -44,6 +44,9 @@ public class ScriptableStats : ScriptableObject {
     [Tooltip("Allows the player to dash")]
     public bool AllowDash = true;
 
+    [Tooltip("Cooldown for a dash")]
+    public float MovementCooldown = 3;
+
     [Tooltip("The velocity of the dash")] 
     public float DashVelocity = 50;
 
@@ -66,14 +69,14 @@ public class ScriptableStats : ScriptableObject {
 
     [Header("Combat")]
     [Tooltip("The amount of time before the attack combo resets")]
-    public float TimeBeforeAttackResets;
+    public float TimeBeforeAttackResets = 0.3f;
 
     [Tooltip("How long a player is knocked back for")]
-    public float KnockbackLength;
+    public float KnockbackLength = 0.2f;
 
     [Tooltip("How much of the original horizontal knockback speed is retained when starting to fall")]
-    public float KnockbackFactor;
+    public float KnockbackFactor = 0.33f;
 
     [Tooltip("The amount of knockback the player takes when hit")]
-    public float Knockback;
+    public float Knockback = 10;
 }

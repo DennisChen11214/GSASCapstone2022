@@ -30,7 +30,7 @@ namespace Core.GlobalEvents
             OnIntEventCalled += intEvent;
         }
 
-        public void UnSubscribe(IntEvent intEvent)
+        public void Unsubscribe(IntEvent intEvent)
         {
             OnIntEventCalled -= intEvent;
         }

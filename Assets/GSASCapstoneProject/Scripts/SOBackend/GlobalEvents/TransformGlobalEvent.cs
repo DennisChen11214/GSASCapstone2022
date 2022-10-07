@@ -30,7 +30,7 @@ namespace Core.GlobalEvents
             OnTransformEventCalled += transformEvent;
         }
 
-        public void UnSubscribe(TransformEvent transformEvent)
+        public void Unsubscribe(TransformEvent transformEvent)
         {
             OnTransformEventCalled -= transformEvent;
         }

@@ -18,10 +18,14 @@ namespace Core.GlobalVariables
         public bool Value
         {
             get { return _value; }
-            set { this._value = value; }
+            set
+            {
+                this._value = value;
+                Raise(value);
+            }
         }
 
-        public delegate void ValueChange();
+        public delegate void ValueChange(bool newValue);
         public event ValueChange OnValueChanged;
 
         public void SetDefaultValue(bool value)
@@ -39,15 +43,18 @@ namespace Core.GlobalVariables
             OnValueChanged += valueChange;
         }
 
-        public void UnSubscribe(ValueChange valueChange)
+        public void Unsubscribe(ValueChange valueChange)
         {
             OnValueChanged -= valueChange;
         }
 
-        public void Raise(bool boolean)
+        public void Raise(bool newBool)
         {
-            _value = boolean;
-            OnValueChanged.Invoke();
+            _value = newBool;
+            if (OnValueChanged != null)
+            {
+                OnValueChanged.Invoke(newBool);
+            }
         }
 
         private void OnEnable()

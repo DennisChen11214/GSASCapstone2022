@@ -6,7 +6,7 @@ using Core.GlobalVariables;
 public abstract class PlayerCombat : MonoBehaviour
 {
     [SerializeField]
-    protected FloatVariable _playerHealth;
+    protected IntVariable _playerHealth;
     [SerializeField]
     protected BoolVariable _isKnockedBack;
     [SerializeField]
@@ -29,7 +29,7 @@ public abstract class PlayerCombat : MonoBehaviour
         HandleKnockBack();
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage)
     {
         _playerHealth.Value -= damage;
         if (!_isKnockedBack.Value)

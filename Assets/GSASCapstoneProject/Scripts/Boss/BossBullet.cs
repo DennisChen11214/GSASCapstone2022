@@ -6,7 +6,6 @@ public class BossBullet : MonoBehaviour
     [SerializeField] string[] _ignoredTags;
     [SerializeField] float _speed = 20;
     [SerializeField] float _speedInc = 30;
-    [SerializeField] float _damage = 10;
     private Vector2 _dir;
     private Rigidbody2D _rb;
     
@@ -26,7 +25,7 @@ public class BossBullet : MonoBehaviour
         PlayerCombat playerCombat = collision.GetComponent<PlayerCombat>();
         if (playerCombat)
         {
-            playerCombat.TakeDamage(_damage);
+            playerCombat.TakeDamage();
         }
         gameObject.SetActive(false);
     }

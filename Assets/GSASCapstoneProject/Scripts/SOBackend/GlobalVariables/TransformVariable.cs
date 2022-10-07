@@ -18,10 +18,14 @@ namespace Core.GlobalVariables
         public Transform Value
         {
             get { return _value; }
-            set { this._value = value; }
+            set
+            {
+                this._value = value;
+                Raise(value);
+            }
         }
 
-        public delegate void ValueChange();
+        public delegate void ValueChange(Transform newValue);
         public event ValueChange OnValueChanged;
 
         public void SetDefaultValue(Transform value)
@@ -39,15 +43,18 @@ namespace Core.GlobalVariables
             OnValueChanged += valueChange;
         }
 
-        public void UnSubscribe(ValueChange valueChange)
+        public void Unsubscribe(ValueChange valueChange)
         {
             OnValueChanged -= valueChange;
         }
 
-        public void Raise(Transform newString)
+        public void Raise(Transform newTransform)
         {
-            _value = newString;
-            OnValueChanged.Invoke();
+            _value = newTransform;
+            if (OnValueChanged != null)
+            {
+                OnValueChanged.Invoke(newTransform);
+            }
         }
 
         private void OnEnable()

@@ -18,10 +18,14 @@ namespace Core.GlobalVariables
         public float Value
         {
             get { return _value;}
-            set { this._value = value;}
+            set
+            {
+                this._value = value;
+                Raise(value);
+            }
         }
 
-        public delegate void ValueChange();
+        public delegate void ValueChange(float newValue);
         public event ValueChange OnValueChanged; 
 
         public void SetDefaultValue(float value)
@@ -49,15 +53,18 @@ namespace Core.GlobalVariables
             OnValueChanged += valueChange;
         }
 
-        public void UnSubscribe(ValueChange valueChange)
+        public void Unsubscribe(ValueChange valueChange)
         {
             OnValueChanged -= valueChange;
         }
 
-        public void Raise(float amount)
+        public void Raise(float newAmount)
         {
-            _value = amount;
-            OnValueChanged.Invoke();
+            _value = newAmount;
+            if (OnValueChanged != null)
+            {
+                OnValueChanged.Invoke(newAmount);
+            }
         }
 
         private void OnEnable()

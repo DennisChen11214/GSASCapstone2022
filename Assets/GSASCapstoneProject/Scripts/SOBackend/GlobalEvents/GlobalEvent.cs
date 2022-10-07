@@ -30,7 +30,7 @@ namespace Core.GlobalEvents
             OnGlobalEventCalled += floatEvent;
         }
 
-        public void UnSubscribe(GEvent floatEvent)
+        public void Unsubscribe(GEvent floatEvent)
         {
             OnGlobalEventCalled -= floatEvent;
         }

@@ -9,15 +9,17 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private ScriptableStats _stats;
-    [SerializeField] private TransformGlobalEvent _requestSwap;
-    [SerializeField] private TransformGlobalEvent _receiveSwapRequest;
-    [SerializeField] private GlobalEvent _swapCompleted;
-    [SerializeField] private GlobalEvent _swapCanceled;
-    [SerializeField] private TransformVariable _playerTransform;
-    [SerializeField] private BoolVariable _isKnockedBack;
     [SerializeField] private PhysicsMaterial2D _movingMaterial;
     [SerializeField] private PhysicsMaterial2D _stationaryMaterial;
+    [SerializeField] private GlobalEvent _swapCompleted;
+    [SerializeField] private GlobalEvent _swapCanceled;
+    [SerializeField] private TransformGlobalEvent _requestSwap;
+    [SerializeField] private TransformGlobalEvent _receiveSwapRequest;
+    [SerializeField] private TransformVariable _playerTransform;
+    [SerializeField] private BoolVariable _isKnockedBack;
     [SerializeField] private FloatVariable _swapDelay;
+    [SerializeField] private FloatVariable _movementCooldown;
+
 
     #region Internal
 
@@ -221,7 +223,7 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void HandleJump()
     {
-        if (_isKnockedBack.Value) return;
+        if (_isKnockedBack.Value || _dashing) return;
 
         _frameJumpWasPressed = _fixedFrame;
 
@@ -267,11 +269,12 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void StartDash()
     {
-        if (_canDash && !_isKnockedBack.Value)
+        if (_canDash && _movementCooldown.Value <= 0 && !_isKnockedBack.Value)
         {
             _dashing = true;
             _canDash = false;
             _startedDashing = _fixedFrame;
+            _movementCooldown.Value = _stats.MovementCooldown;
 
             // Strip external buildup
             _currentExternalVelocity = Vector2.zero;
@@ -280,9 +283,13 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void HandleDash()
     {
+        if(_movementCooldown.Value > 0)
+        {
+            _movementCooldown.Value -= Time.fixedDeltaTime;
+        }
         if (_dashing)
         {
-            _speed = new Vector2(_moveDirection.x * _stats.DashVelocity, _speed.y >= 0 ? 0 : _speed.y);
+            _speed = new Vector2(_moveDirection.x * _stats.DashVelocity, 0);
             // Cancel when the time is out or we've reached our max safety distance
             if (_fixedFrame > _startedDashing + _stats.DashDurationFrames)
             {
@@ -362,8 +369,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnDisable()
     {
-        _receiveSwapRequest.UnSubscribe(ReceiveSwapRequest);
-        _swapCompleted.UnSubscribe(SwapCompleted);
+        _receiveSwapRequest.Unsubscribe(ReceiveSwapRequest);
+        _swapCompleted.Unsubscribe(SwapCompleted);
         _actions.Disable();
     }
 }
