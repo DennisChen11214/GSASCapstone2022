@@ -12,22 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c21011266506adf4ea20fb5649867318, type: 3}
   m_Name: MeleeMovement
   m_EditorClassIdentifier: 
-  Acceleration: 120
-  MaxSpeed: 14
+  Acceleration: 150
+  MaxSpeed: 20
   GroundDeceleration: 60
   AirDeceleration: 30
   GroundingForce: -10
   AllowDoubleJump: 0
-  JumpPower: 36
+  JumpPower: 40
   MaxFallSpeed: 40
   FallAcceleration: 110
   JumpEndEarlyGravityModifier: 3
   CoyoteFrames: 7
   JumpBufferFrames: 7
   AllowDash: 1
+  MaxDashes: 1
+  MovementCooldown: 1
   DashVelocity: 50
-  DashDurationFrames: 5
+  DashDurationFrames: 9
   DashEndHorizontalMultiplier: 0.25
+  DashEndVerticalMultiplier: 0.25
   GrounderDistance: 0.1
   PlayerLayer:
     serializedVersion: 2

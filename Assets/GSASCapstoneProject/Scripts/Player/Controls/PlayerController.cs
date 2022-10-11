@@ -8,9 +8,26 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
 public class PlayerController : MonoBehaviour
 {
+    public enum MeleeDashType
+    {
+        DodgeDash,
+        OmniDir,
+        AttackDash,
+        ChainTele,
+    }
+
+    public enum RangedDashType
+    {
+        OmniDir,
+        Charge,
+        Penalty,
+        Vertical
+    }
+
     [SerializeField] private ScriptableStats _stats;
     [SerializeField] private PhysicsMaterial2D _movingMaterial;
     [SerializeField] private PhysicsMaterial2D _stationaryMaterial;
+    [SerializeField] private Transform _lastPosOnGround;
     [SerializeField] private GlobalEvent _swapCompleted;
     [SerializeField] private GlobalEvent _swapCanceled;
     [SerializeField] private TransformGlobalEvent _requestSwap;
@@ -25,7 +42,6 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D _rb;
     private PlayerCombat _playerCombat;
-    private SpriteRenderer _sprite;
     private BoxCollider2D _col; // Current collider
     private bool _cachedTriggerSetting;
 
@@ -54,7 +70,6 @@ public class PlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _col = GetComponent<BoxCollider2D>();
         _playerCombat = GetComponent<PlayerCombat>();
-        _sprite = GetComponent<SpriteRenderer>();
         _actions = GetComponentInParent<PlayerInput>().actions;
 
         _playerTransform.Value = transform;
@@ -72,6 +87,8 @@ public class PlayerController : MonoBehaviour
         _dash.performed += ctx => StartDash();
         _swap.started += ctx => RequestSwap();
         _swap.canceled += ctx => CancelSwap();
+
+        _numDashes = _stats.MaxDashes;
     }
 
     protected virtual void FixedUpdate()
@@ -92,28 +109,22 @@ public class PlayerController : MonoBehaviour
     #region Collisions
 
     private readonly RaycastHit2D[] _groundHits = new RaycastHit2D[2];
-    private readonly RaycastHit2D[] _ceilingHits = new RaycastHit2D[2];
     private int _groundHitCount;
-    private int _ceilingHitCount;
     private int _frameLeftGrounded = int.MinValue;
 
     protected virtual void CheckCollisions()
     {
         Physics2D.queriesHitTriggers = false;
-        // Ground and Ceiling
+        // Ground
         Vector2 origin = (Vector2)transform.position + _col.offset * transform.localScale;
         Vector2 _absScale = new Vector2(Mathf.Abs(transform.localScale.x), Mathf.Abs(transform.localScale.y));
         _groundHitCount = Physics2D.BoxCastNonAlloc(origin, _col.size * _absScale, 0, Vector2.down, _groundHits, _stats.GrounderDistance, ~_stats.PlayerLayer);
-        _ceilingHitCount = Physics2D.BoxCastNonAlloc(origin, _col.size * _absScale, 0, Vector2.up, _ceilingHits, _stats.GrounderDistance, ~_stats.PlayerLayer);
 
         Physics2D.queriesHitTriggers = _cachedTriggerSetting;
     }
 
     protected virtual void HandleCollisions()
     {
-        // Hit a Ceiling
-        if (_speed.y > 0 && _ceilingHitCount > 0) _speed.y = 0;
-
         // Landed on the Ground
         if (!_grounded && _groundHitCount > 0)
         {
@@ -247,7 +258,7 @@ public class PlayerController : MonoBehaviour
     protected virtual void CancelJump()
     {
         // Early end detection
-        if (!_endedJumpEarly && !_grounded && _rb.velocity.y > 0) _endedJumpEarly = true;
+        if (!_endedJumpEarly && !_grounded && !_dashing && _rb.velocity.y > 0) _endedJumpEarly = true;
     }
 
 
@@ -266,15 +277,19 @@ public class PlayerController : MonoBehaviour
     private bool _canDash;
     private bool _dashing;
     private int _startedDashing;
+    private int _numDashes;
+    private Vector2 _dashVel;
 
     protected virtual void StartDash()
     {
-        if (_canDash && _movementCooldown.Value <= 0 && !_isKnockedBack.Value)
+        if (_canDash && _numDashes > 0 && !_isKnockedBack.Value)
         {
             _dashing = true;
             _canDash = false;
+            _numDashes--;
             _startedDashing = _fixedFrame;
             _movementCooldown.Value = _stats.MovementCooldown;
+            _dashVel = _moveDirection;
 
             // Strip external buildup
             _currentExternalVelocity = Vector2.zero;
@@ -287,15 +302,31 @@ public class PlayerController : MonoBehaviour
         {
             _movementCooldown.Value -= Time.fixedDeltaTime;
         }
+        if(_movementCooldown.Value <= 0 && _numDashes < _stats.MaxDashes)
+        {
+            _numDashes++;
+            if(_numDashes < _stats.MaxDashes)
+            {
+                _movementCooldown.Value = _stats.MovementCooldown;
+            }
+        }
         if (_dashing)
         {
-            _speed = new Vector2(_moveDirection.x * _stats.DashVelocity, 0);
+            if(_dashVel == Vector2.zero)
+            {
+                _speed = new Vector2(transform.localScale.x > 0 ? 1 : -1, 0) * _stats.DashVelocity;
+            }
+            else
+            {
+                _speed = new Vector2(_dashVel.x, _dashVel.y).normalized * _stats.DashVelocity;
+            }
             // Cancel when the time is out or we've reached our max safety distance
             if (_fixedFrame > _startedDashing + _stats.DashDurationFrames)
             {
                 _dashing = false;
                 _speed.x *= _stats.DashEndHorizontalMultiplier;
-                if (_grounded) _canDash = true;
+                _speed.y *= _stats.DashEndVerticalMultiplier;
+                _canDash = true;
             }
         }
     }

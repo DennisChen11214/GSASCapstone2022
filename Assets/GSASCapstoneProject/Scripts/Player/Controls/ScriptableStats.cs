@@ -2,6 +2,9 @@ using UnityEngine;
 
 [CreateAssetMenu]
 public class ScriptableStats : ScriptableObject {
+    [Tooltip("True if the character is melee")]
+    public bool Melee;
+
     [Header("MOVEMENT")] 
     [Tooltip("The player's capacity to gain horizontal speed")]
     public float Acceleration = 120;
@@ -44,7 +47,10 @@ public class ScriptableStats : ScriptableObject {
     [Tooltip("Allows the player to dash")]
     public bool AllowDash = true;
 
-    [Tooltip("Cooldown for a dash")]
+    [Tooltip("Maximum Number of Dash Charges")]
+    public int MaxDashes = 1;
+    
+    [Tooltip("Cooldown for a dash charge")]
     public float MovementCooldown = 3;
 
     [Tooltip("The velocity of the dash")] 
@@ -54,8 +60,11 @@ public class ScriptableStats : ScriptableObject {
     public int DashDurationFrames = 5;
 
     [Tooltip("The horizontal speed retained when dash has completed")]
-    public float DashEndHorizontalMultiplier = 0.25f; 
-        
+    public float DashEndHorizontalMultiplier = 0.25f;
+
+    [Tooltip("The vertical speed retained when dash has completed")]
+    public float DashEndVerticalMultiplier = 0.25f;
+
     [Header("COLLISIONS")]
     [Tooltip("The detection distance for grounding and roof detection")]
     public float GrounderDistance = 0.1f;

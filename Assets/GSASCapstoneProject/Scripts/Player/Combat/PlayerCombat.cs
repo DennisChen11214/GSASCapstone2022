@@ -46,6 +46,11 @@ public abstract class PlayerCombat : MonoBehaviour
         _isKnockedBack.Value = true;
     }
 
+    public void TakeDamageNoKnockback()
+    {
+        _playerHealth.Value -= 1;
+    }
+
     protected virtual void HandleKnockBack()
     {
         if (_knockbackTime > 0)

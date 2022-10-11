@@ -22,7 +22,7 @@ namespace Core.GlobalEvents
                 OnGlobalEventCalled.Invoke();
             }
             for (int i = _eventListeners.Count - 1; i >= 0; i--)
-                _eventListeners[i].OnEventRaised(); ;
+                _eventListeners[i].OnEventRaised();
         }
 
         public void Subscribe(GEvent floatEvent)
