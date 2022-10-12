@@ -10,6 +10,8 @@ public abstract class PlayerCombat : MonoBehaviour
     [SerializeField]
     protected BoolVariable _isKnockedBack;
     [SerializeField]
+    protected BoolVariable _isInvincible;
+    [SerializeField]
     protected ScriptableStats _stats;
 
     protected Rigidbody2D _rb;
@@ -29,20 +31,14 @@ public abstract class PlayerCombat : MonoBehaviour
         HandleKnockBack();
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage()
     {
-        _playerHealth.Value -= damage;
+        if (_isInvincible.Value) return;
+        _playerHealth.Value -= 1;
         if (!_isKnockedBack.Value)
         {
             _knockbackTime = _stats.KnockbackLength;
         }
-        _isKnockedBack.Value = true;
-    }
-
-    public void TakeDamage()
-    {
-        _playerHealth.Value -= 1;
-        _knockbackTime = _stats.KnockbackLength;
         _isKnockedBack.Value = true;
     }
 

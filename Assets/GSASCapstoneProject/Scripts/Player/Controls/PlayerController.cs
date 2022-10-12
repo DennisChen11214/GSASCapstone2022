@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
         DodgeDash,
         OmniDir,
         AttackDash,
-        ChainTele,
     }
 
     public enum RangedDashType
@@ -27,13 +26,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private ScriptableStats _stats;
     [SerializeField] private PhysicsMaterial2D _movingMaterial;
     [SerializeField] private PhysicsMaterial2D _stationaryMaterial;
-    [SerializeField] private Transform _lastPosOnGround;
+    [SerializeField] private MeleeDashType _meleeDashType;
+    [SerializeField] private RangedDashType _rangedDashType;
+    [SerializeField] private LayerMask _bossLayer;
     [SerializeField] private GlobalEvent _swapCompleted;
     [SerializeField] private GlobalEvent _swapCanceled;
     [SerializeField] private TransformGlobalEvent _requestSwap;
     [SerializeField] private TransformGlobalEvent _receiveSwapRequest;
     [SerializeField] private TransformVariable _playerTransform;
     [SerializeField] private BoolVariable _isKnockedBack;
+    [SerializeField] private BoolVariable _isInvincible;
     [SerializeField] private FloatVariable _swapDelay;
     [SerializeField] private FloatVariable _movementCooldown;
 
@@ -293,6 +295,8 @@ public class PlayerController : MonoBehaviour
 
             // Strip external buildup
             _currentExternalVelocity = Vector2.zero;
+
+            _dealtDamageThisDash = false;
         }
     }
 
@@ -310,9 +314,66 @@ public class PlayerController : MonoBehaviour
                 _movementCooldown.Value = _stats.MovementCooldown;
             }
         }
+        if (_stats.Melee)
+        {
+            switch (_meleeDashType)
+            {
+                case MeleeDashType.DodgeDash:
+                    MeleeDodgeDash();
+                    break;
+                case MeleeDashType.OmniDir:
+                    MeleeOmniDash();
+                    break;
+                case MeleeDashType.AttackDash:
+                    MeleeAttackDash();
+                    break;
+            }
+        }
+        else
+        {
+            switch (_rangedDashType)
+            {
+                case RangedDashType.OmniDir:
+                    RangedOmniDash();
+                    break;
+                case RangedDashType.Charge:
+                    RangedChargeDash();
+                    break;
+                case RangedDashType.Penalty:
+                    RangedPenaltyDash();
+                    break;
+                case RangedDashType.Vertical:
+                    RangedVerticalDash();
+                    break;
+            }
+        }
+    }
+
+    private void MeleeDodgeDash()
+    {
+        _stats.DashDurationFrames = 9;
         if (_dashing)
         {
-            if(_dashVel == Vector2.zero)
+            _isInvincible.Value = true;
+            _speed = new Vector2(transform.localScale.x > 0 ? 1 : -1, 0) * _stats.DashVelocity;
+            // Cancel when the time is out or we've reached our max safety distance
+            if (_fixedFrame > _startedDashing + _stats.DashDurationFrames)
+            {
+                _dashing = false;
+                _speed.x *= _stats.DashEndHorizontalMultiplier;
+                _canDash = true;
+                _isInvincible.Value = false;
+            }
+        }
+    }
+
+    private void MeleeOmniDash()
+    {
+        _stats.DashDurationFrames = 7;
+        if (_dashing)
+        {
+            _isInvincible.Value = true;
+            if (_dashVel == Vector2.zero)
             {
                 _speed = new Vector2(transform.localScale.x > 0 ? 1 : -1, 0) * _stats.DashVelocity;
             }
@@ -327,8 +388,56 @@ public class PlayerController : MonoBehaviour
                 _speed.x *= _stats.DashEndHorizontalMultiplier;
                 _speed.y *= _stats.DashEndVerticalMultiplier;
                 _canDash = true;
+                _isInvincible.Value = false;
             }
         }
+    }
+
+    private bool _dealtDamageThisDash;
+    private void MeleeAttackDash()
+    {
+        _stats.DashDurationFrames = 9;
+        if (_dashing)
+        {
+            _isInvincible.Value = true;
+            _speed = new Vector2(transform.localScale.x > 0 ? 1 : -1, 0) * _stats.DashVelocity;
+            // Cancel when the time is out or we've reached our max safety distance
+            if (_fixedFrame > _startedDashing + _stats.DashDurationFrames)
+            {
+                _dashing = false;
+                _speed.x *= _stats.DashEndHorizontalMultiplier;
+                _canDash = true;
+                _isInvincible.Value = false;
+            }
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (_dashing && _stats.Melee && _meleeDashType == MeleeDashType.AttackDash 
+            && !_dealtDamageThisDash && _bossLayer == (_bossLayer | (1 << collision.gameObject.layer)))
+        {
+            _dealtDamageThisDash = true;
+            collision.gameObject.GetComponent<DamageModule>().TakeDamage(_stats.DashDamage);
+        }
+    }
+
+    private void RangedOmniDash()
+    {
+
+    }
+    private void RangedChargeDash()
+    {
+
+    }
+    private void RangedPenaltyDash()
+    {
+
+    }
+
+    private void RangedVerticalDash()
+    {
+
     }
 
     #endregion

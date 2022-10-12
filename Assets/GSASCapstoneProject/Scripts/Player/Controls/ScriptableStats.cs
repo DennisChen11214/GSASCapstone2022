@@ -56,6 +56,15 @@ public class ScriptableStats : ScriptableObject {
     [Tooltip("The velocity of the dash")] 
     public float DashVelocity = 50;
 
+    [Tooltip("Damage of the attack dash")]
+    public float DashDamage = 10;
+
+    [Tooltip("Amount of charge the charge dash gives")]
+    public float ChargeGivenDash = 0.3f;
+
+    [Tooltip("Amount of charge the penalty charge takes away")]
+    public float PenaltyGivenDash = 0.4f;
+
     [Tooltip("How many fixed frames the dash will last")]
     public int DashDurationFrames = 5;
 

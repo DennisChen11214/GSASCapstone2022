@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c21011266506adf4ea20fb5649867318, type: 3}
   m_Name: MeleeMovement
   m_EditorClassIdentifier: 
+  Melee: 1
   Acceleration: 150
   MaxSpeed: 20
   GroundDeceleration: 60
@@ -25,9 +26,12 @@ MonoBehaviour:
   CoyoteFrames: 7
   JumpBufferFrames: 7
   AllowDash: 1
-  MaxDashes: 1
+  MaxDashes: 3
   MovementCooldown: 1
   DashVelocity: 50
+  DashDamage: 10
+  ChargeGivenDash: 0.3
+  PenaltyGivenDash: 0.4
   DashDurationFrames: 9
   DashEndHorizontalMultiplier: 0.25
   DashEndVerticalMultiplier: 0.25
