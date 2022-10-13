@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c21011266506adf4ea20fb5649867318, type: 3}
   m_Name: RangedMovement
   m_EditorClassIdentifier: 
+  Melee: 0
   Acceleration: 120
   MaxSpeed: 14
   GroundDeceleration: 60
@@ -25,15 +26,27 @@ MonoBehaviour:
   CoyoteFrames: 5
   JumpBufferFrames: 7
   AllowDash: 1
+  MaxDashes: 1
+  MovementCooldown: 3
   DashVelocity: 50
+  DashDamage: 10
+  ChargeGivenDash: 0.3
+  PenaltyGivenDash: 0.4
   DashDurationFrames: 5
   DashEndHorizontalMultiplier: 0.25
+  DashEndVerticalMultiplier: 0.25
   GrounderDistance: 0.1
   PlayerLayer:
     serializedVersion: 2
     m_Bits: 128
   ExternalVelocityDecay: 100
   TimeBeforeAttackResets: 0.25
+  TimeBeforeNextCombo: 1
   KnockbackLength: 0.2
   KnockbackFactor: 0.33
   Knockback: 10
+  NumProjectilesAttack1: 4
+  NumProjectilesAttack2: 5
+  NumProjectilesAttack3: 7
+  AngleOfVariation: 25
+  ChargeTime: 3

@@ -18,6 +18,7 @@ public class MeleePlayerCombat : PlayerCombat
     private float _attackEndTime;
     private bool _hasAttackBuffered = false;
     private bool _isAttacking = false;
+    private bool _isComboFinished = false;
     private int _currentAttack = 0;
 
     protected override void Awake()
@@ -37,7 +38,12 @@ public class MeleePlayerCombat : PlayerCombat
             _hasAttackBuffered = true;
             return;
         }
-        if(Time.time - _attackEndTime > _stats.TimeBeforeAttackResets)
+        if (_isComboFinished && Time.time - _attackEndTime < _stats.TimeBeforeNextCombo)
+        {
+            return;
+        }
+        _isComboFinished = false;
+        if (Time.time - _attackEndTime > _stats.TimeBeforeAttackResets)
         {
             _currentAttack = 0;
         }
@@ -61,6 +67,10 @@ public class MeleePlayerCombat : PlayerCombat
         _attackEndTime = Time.time;
         _isAttacking = false;
         _currentAttack = (_currentAttack + 1) % 3;
+        if (_currentAttack == 0)
+        {
+            _isComboFinished = true;
+        }
         CheckForBufferedAttack();
     }
 

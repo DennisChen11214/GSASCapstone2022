@@ -8,6 +8,10 @@ public class Projectile : MonoBehaviour
     float _speed;
     [SerializeField]
     float _damage;
+    [SerializeField]
+    float _duration;
+
+    private float curTime;
     private Rigidbody2D _rb;
 
     private void Awake()
@@ -15,9 +19,18 @@ public class Projectile : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
     }
 
-    public void Launch(Vector3 direction)
+    private void Update()
+    {
+        if(Time.time - curTime > _duration)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    public void Launch(Vector2 direction)
     {
         _rb.velocity = direction * _speed;
+        curTime = Time.time;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

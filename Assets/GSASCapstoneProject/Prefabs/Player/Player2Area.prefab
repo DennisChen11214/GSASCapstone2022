@@ -466,7 +466,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: deb5ce95b793b154e9ab75569e92184d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f9678fd529234a44db5a318dc320afb3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2884,10 +2884,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7392342149005715175}
     m_Modifications:
-    - target: {fileID: 311555601327746084, guid: 0e96d0082611734468809c4fe6f1c45a, type: 3}
-      propertyPath: _playerHealth
-      value: 
-      objectReference: {fileID: 11400000, guid: 5a155a07f05d0954a9b3ba41df27b287, type: 2}
     - target: {fileID: 1940466977131165247, guid: 0e96d0082611734468809c4fe6f1c45a, type: 3}
       propertyPath: m_Name
       value: Player2
@@ -2936,30 +2932,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7801986762456926423, guid: 0e96d0082611734468809c4fe6f1c45a, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801986762456926423, guid: 0e96d0082611734468809c4fe6f1c45a, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801986762456926423, guid: 0e96d0082611734468809c4fe6f1c45a, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8015908997304881561, guid: 0e96d0082611734468809c4fe6f1c45a, type: 3}
-      propertyPath: _stats
-      value: 
-      objectReference: {fileID: 11400000, guid: 87e27283a4e693f4a86ffe6fb6a36b85, type: 2}
-    - target: {fileID: 8015908997304881561, guid: 0e96d0082611734468809c4fe6f1c45a, type: 3}
-      propertyPath: _swapDelay
-      value: 
-      objectReference: {fileID: 11400000, guid: c43a1ce09d4c0e8429e4d35f2c4d3acc, type: 2}
-    - target: {fileID: 8015908997304881561, guid: 0e96d0082611734468809c4fe6f1c45a, type: 3}
-      propertyPath: _movementCooldown
-      value: 
-      objectReference: {fileID: 11400000, guid: b3e12bc910aaff44191fdb405c86c4d9, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e96d0082611734468809c4fe6f1c45a, type: 3}
 --- !u!4 &2565350126332799903 stripped

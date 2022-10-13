@@ -83,7 +83,8 @@ public class PlayerController : MonoBehaviour
         _attack = _actions.FindActionMap("Player").FindAction("Attack");
         _swap = _actions.FindActionMap("Player").FindAction("Swap");
 
-        _attack.performed += ctx => HandleAttacking();
+        _attack.started += ctx => HandleAttacking();
+        _attack.canceled += ctx => CancelCharging();
         _jump.started += ctx => HandleJump();
         _jump.canceled += ctx => CancelJump();
         _dash.performed += ctx => StartDash();
@@ -193,7 +194,15 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void HandleAttacking()
     {
-        _playerCombat.Attack();
+        if (!_isKnockedBack.Value)
+        {
+            _playerCombat.Attack();
+        }
+    }
+
+    protected virtual void CancelCharging()
+    {
+        _playerCombat.CancelAttack(true);
     }
 
     #endregion

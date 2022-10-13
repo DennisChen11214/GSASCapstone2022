@@ -19,12 +19,15 @@ public abstract class PlayerCombat : MonoBehaviour
     protected float _knockbackTime;
 
     public abstract void Attack();
+    public virtual void CancelAttack(bool isAttackCanceled) {;}
 
     protected virtual void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();        
         _anim = GetComponent<Animator>();
     }
+
+    protected virtual void Update() { }
 
     protected virtual void FixedUpdate()
     {

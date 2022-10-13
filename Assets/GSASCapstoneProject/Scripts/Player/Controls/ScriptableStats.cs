@@ -89,6 +89,9 @@ public class ScriptableStats : ScriptableObject {
     [Tooltip("The amount of time before the attack combo resets")]
     public float TimeBeforeAttackResets = 0.3f;
 
+    [Tooltip("The amount of time between attack combos")]
+    public float TimeBeforeNextCombo = 2f;
+
     [Tooltip("How long a player is knocked back for")]
     public float KnockbackLength = 0.2f;
 
@@ -97,4 +100,20 @@ public class ScriptableStats : ScriptableObject {
 
     [Tooltip("The amount of knockback the player takes when hit")]
     public float Knockback = 10;
+
+    [Tooltip("Number of projectiles the ranged character spawns for the 1st attack")]
+    public int NumProjectilesAttack1 = 4;
+
+    [Tooltip("Number of projectiles the ranged character spawns for the 2nd attack")]
+    public int NumProjectilesAttack2 = 5;
+
+    [Tooltip("Number of projectiles the ranged character spawns for the 3rd attack")]
+    public int NumProjectilesAttack3 = 7;
+
+    [Tooltip("Maximum variation in angle from the horizontal for each projectile shot")]
+    public float AngleOfVariation = 45;
+
+    [Tooltip("How Long the Ranged Character Takes to Charge the attack")]
+    public float ChargeTime = 3;
+
 }

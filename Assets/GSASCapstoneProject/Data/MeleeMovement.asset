@@ -41,6 +41,12 @@ MonoBehaviour:
     m_Bits: 128
   ExternalVelocityDecay: 100
   TimeBeforeAttackResets: 0.4
+  TimeBeforeNextCombo: 0.5
   KnockbackLength: 0.2
   KnockbackFactor: 0.33
   Knockback: 10
+  NumProjectilesAttack1: 7
+  NumProjectilesAttack2: 7
+  NumProjectilesAttack3: 7
+  AngleOfVariation: 45
+  ChargeTime: 3

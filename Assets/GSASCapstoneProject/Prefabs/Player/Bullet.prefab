@@ -138,3 +138,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 30
   _damage: 10
+  _duration: 0.5
