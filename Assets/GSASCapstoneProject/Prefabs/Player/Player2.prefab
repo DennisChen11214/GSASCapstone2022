@@ -436,6 +436,7 @@ MonoBehaviour:
   _playerTransform: {fileID: 11400000, guid: 7a64d60e0103fc048a7f4e32c9e297a4, type: 2}
   _isKnockedBack: {fileID: 11400000, guid: 1d45de0f28cc6a248950c930c858f4ca, type: 2}
   _isInvincible: {fileID: 11400000, guid: 1ef36dd7af99921428ac010fee10fd91, type: 2}
+  _isCharging: {fileID: 11400000, guid: 578ecc672c0c82943a942373c221ac3d, type: 2}
   _swapDelay: {fileID: 11400000, guid: c43a1ce09d4c0e8429e4d35f2c4d3acc, type: 2}
   _movementCooldown: {fileID: 11400000, guid: b3e12bc910aaff44191fdb405c86c4d9, type: 2}
 --- !u!114 &311555601327746084
@@ -458,3 +459,4 @@ MonoBehaviour:
   _poolSize: 21
   _poolParent: {fileID: 580325420}
   _spawnPosition: {fileID: 941029671}
+  _isCharging: {fileID: 11400000, guid: 578ecc672c0c82943a942373c221ac3d, type: 2}

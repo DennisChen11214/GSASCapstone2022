@@ -1,4 +1,9 @@
-﻿using System.Collections.Generic;
+﻿///
+/// Created by Dennis Chen
+/// Reference: Ryan's code talked about in https://www.youtube.com/watch?v=raQ3iHhE_Kk
+///
+
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Core

@@ -1,8 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+///
+/// Created by Dennis Chen
+///
+
 using UnityEngine;
-using UnityEngine.Animations;
-using Core.GlobalVariables;
 
 public class MeleePlayerCombat : PlayerCombat
 {

@@ -1,5 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+///
+/// Created by Dennis Chen
+///
+
 using UnityEngine;
 using Core.GlobalVariables;
 
@@ -19,7 +21,7 @@ public abstract class PlayerCombat : MonoBehaviour
     protected float _knockbackTime;
 
     public abstract void Attack();
-    public virtual void CancelAttack(bool isAttackCanceled) {;}
+    public virtual void CancelAttack() {}
 
     protected virtual void Awake()
     {

@@ -236,7 +236,6 @@ MonoBehaviour:
   _stats: {fileID: 11400000, guid: 5afa4e85200110346b1f375483725374, type: 2}
   _movingMaterial: {fileID: 6200000, guid: 43efe0c71a2f92d49b2b4d7aea722bff, type: 2}
   _stationaryMaterial: {fileID: 6200000, guid: dfdbc5589c827e64aa67ea52c57e20e8, type: 2}
-  _lastPosOnGround: {fileID: 0}
   _meleeDashType: 0
   _rangedDashType: 0
   _bossLayer:
@@ -249,6 +248,7 @@ MonoBehaviour:
   _playerTransform: {fileID: 11400000, guid: b85b4d804d1c1f74fb789011bf31489f, type: 2}
   _isKnockedBack: {fileID: 11400000, guid: aa99a7be4adb70140a23c7d05ef0c36b, type: 2}
   _isInvincible: {fileID: 11400000, guid: db8164d74fbc529418a09b7aedb57f7f, type: 2}
+  _isCharging: {fileID: 11400000, guid: 578ecc672c0c82943a942373c221ac3d, type: 2}
   _swapDelay: {fileID: 11400000, guid: c43a1ce09d4c0e8429e4d35f2c4d3acc, type: 2}
   _movementCooldown: {fileID: 11400000, guid: 4cfb0ef61a681b244bd2c19e368ec54f, type: 2}
 --- !u!114 &6314119147361709869

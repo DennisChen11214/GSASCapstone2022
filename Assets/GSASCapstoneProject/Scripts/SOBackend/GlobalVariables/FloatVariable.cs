@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿///
+/// Created by Dennis Chen
+/// Reference: Ryan's code talked about in https://www.youtube.com/watch?v=raQ3iHhE_Kk
+///
+
+using UnityEngine;
 using Unity.Collections;
 
 namespace Core.GlobalVariables

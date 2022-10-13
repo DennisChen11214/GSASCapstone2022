@@ -1178,6 +1178,10 @@ PrefabInstance:
       value: 3.9
       objectReference: {fileID: 0}
     - target: {fileID: 757408862601419165, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: _isCharging
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 757408862601419165, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: _meleeDashType
       value: 2
       objectReference: {fileID: 0}

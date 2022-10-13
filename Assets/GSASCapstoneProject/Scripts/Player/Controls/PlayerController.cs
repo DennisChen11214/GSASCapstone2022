@@ -1,5 +1,8 @@
-using System;
-using System.Collections;
+///
+/// Created by Dennis Chen
+/// Reference: Tarodev's code talked about in https://www.youtube.com/watch?v=3sWTzMsmdx8
+///
+
 using UnityEngine;
 using Core.GlobalEvents;
 using Core.GlobalVariables;
@@ -36,6 +39,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TransformVariable _playerTransform;
     [SerializeField] private BoolVariable _isKnockedBack;
     [SerializeField] private BoolVariable _isInvincible;
+    [SerializeField] private BoolVariable _isCharging;
     [SerializeField] private FloatVariable _swapDelay;
     [SerializeField] private FloatVariable _movementCooldown;
 
@@ -64,6 +68,9 @@ public class PlayerController : MonoBehaviour
     public Vector2 Input => _moveDirection;
     public Vector2 Speed => _speed;
     public Vector2 GroundNormal => _groundNormal;
+
+
+    public bool IsShootingLaser;
 
     #endregion
 
@@ -192,6 +199,7 @@ public class PlayerController : MonoBehaviour
 
     #region Attacking
 
+
     protected virtual void HandleAttacking()
     {
         if (!_isKnockedBack.Value)
@@ -202,7 +210,7 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void CancelCharging()
     {
-        _playerCombat.CancelAttack(true);
+        _playerCombat.CancelAttack();
     }
 
     #endregion
@@ -211,7 +219,7 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void HandleHorizontal()
     {
-        if (_isKnockedBack.Value) return;
+        if (_isKnockedBack.Value || IsShootingLaser) return;
         if (_moveDirection.x != 0)
         {
             float inputX = _moveDirection.x;
@@ -245,17 +253,17 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void HandleJump()
     {
-        if (_isKnockedBack.Value || _dashing) return;
+        if (_isKnockedBack.Value || _dashing || IsShootingLaser) return;
 
         _frameJumpWasPressed = _fixedFrame;
 
         // Double jump
-        if (CanDoubleJump)
+        /*if (CanDoubleJump)
         {
             _speed.y = _stats.JumpPower;
             _doubleJumpUsable = false;
             _endedJumpEarly = false;
-        }
+        }*/
 
         // Standard jump
         if (CanUseCoyote || HasBufferedJump)
@@ -293,7 +301,7 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void StartDash()
     {
-        if (_canDash && _numDashes > 0 && !_isKnockedBack.Value)
+        if (_canDash && _numDashes > 0 && !_isKnockedBack.Value && !IsShootingLaser)
         {
             _dashing = true;
             _canDash = false;
@@ -366,17 +374,81 @@ public class PlayerController : MonoBehaviour
             _isInvincible.Value = true;
             _speed = new Vector2(transform.localScale.x > 0 ? 1 : -1, 0) * _stats.DashVelocity;
             // Cancel when the time is out or we've reached our max safety distance
+            if(_fixedFrame > _startedDashing + _stats.DashInvincibleFrames)
+            {
+                _isInvincible.Value = false;
+            }
             if (_fixedFrame > _startedDashing + _stats.DashDurationFrames)
             {
                 _dashing = false;
                 _speed.x *= _stats.DashEndHorizontalMultiplier;
                 _canDash = true;
-                _isInvincible.Value = false;
             }
         }
     }
 
     private void MeleeOmniDash()
+    {
+        _stats.DashDurationFrames = 7;
+        if (_dashing)
+        {
+            _isInvincible.Value = true;
+            if (_dashVel == Vector2.zero)
+            {
+                _speed = new Vector2(transform.localScale.x > 0 ? 1 : -1, 0) * _stats.DashVelocity;
+            }
+            else
+            {
+                _speed = new Vector2(_dashVel.x, _dashVel.y).normalized * _stats.DashVelocity;
+            }
+            if (_fixedFrame > _startedDashing + _stats.DashInvincibleFrames)
+            {
+                _isInvincible.Value = false;
+            }
+            // Cancel when the time is out or we've reached our max safety distance
+            if (_fixedFrame > _startedDashing + _stats.DashDurationFrames)
+            {
+                _dashing = false;
+                _speed.x *= _stats.DashEndHorizontalMultiplier;
+                _speed.y *= _stats.DashEndVerticalMultiplier;
+                _canDash = true;
+            }
+        }
+    }
+
+    private bool _dealtDamageThisDash;
+    private void MeleeAttackDash()
+    {
+        _stats.DashDurationFrames = 9;
+        if (_dashing)
+        {
+            _isInvincible.Value = true;
+            _speed = new Vector2(transform.localScale.x > 0 ? 1 : -1, 0) * _stats.DashVelocity;
+            // Cancel when the time is out or we've reached our max safety distance
+            if (_fixedFrame > _startedDashing + _stats.DashInvincibleFrames)
+            {
+                _isInvincible.Value = false;
+            }
+            if (_fixedFrame > _startedDashing + _stats.DashDurationFrames)
+            {
+                _dashing = false;
+                _speed.x *= _stats.DashEndHorizontalMultiplier;
+                _canDash = true;
+            }
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (_dashing && _stats.Melee && _meleeDashType == MeleeDashType.AttackDash 
+            && !_dealtDamageThisDash && _bossLayer == (_bossLayer | (1 << collision.gameObject.layer)))
+        {
+            _dealtDamageThisDash = true;
+            collision.gameObject.GetComponent<DamageModule>().TakeDamage(_stats.DashDamage);
+        }
+    }
+
+    private void RangedOmniDash()
     {
         _stats.DashDurationFrames = 7;
         if (_dashing)
@@ -400,40 +472,6 @@ public class PlayerController : MonoBehaviour
                 _isInvincible.Value = false;
             }
         }
-    }
-
-    private bool _dealtDamageThisDash;
-    private void MeleeAttackDash()
-    {
-        _stats.DashDurationFrames = 9;
-        if (_dashing)
-        {
-            _isInvincible.Value = true;
-            _speed = new Vector2(transform.localScale.x > 0 ? 1 : -1, 0) * _stats.DashVelocity;
-            // Cancel when the time is out or we've reached our max safety distance
-            if (_fixedFrame > _startedDashing + _stats.DashDurationFrames)
-            {
-                _dashing = false;
-                _speed.x *= _stats.DashEndHorizontalMultiplier;
-                _canDash = true;
-                _isInvincible.Value = false;
-            }
-        }
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (_dashing && _stats.Melee && _meleeDashType == MeleeDashType.AttackDash 
-            && !_dealtDamageThisDash && _bossLayer == (_bossLayer | (1 << collision.gameObject.layer)))
-        {
-            _dealtDamageThisDash = true;
-            collision.gameObject.GetComponent<DamageModule>().TakeDamage(_stats.DashDamage);
-        }
-    }
-
-    private void RangedOmniDash()
-    {
-
     }
     private void RangedChargeDash()
     {
@@ -497,6 +535,10 @@ public class PlayerController : MonoBehaviour
         {
             _isFallingAfterKnockback = false;
             _rb.velocity = _speed + _currentExternalVelocity;
+            if (!_stats.Melee && _isCharging.Value)
+            {
+                _rb.velocity *= _stats.ChargeSlow;
+            }
         }
         else if(_rb.velocity.y < 0 )
         {

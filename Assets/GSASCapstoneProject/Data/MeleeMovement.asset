@@ -25,16 +25,16 @@ MonoBehaviour:
   JumpEndEarlyGravityModifier: 3
   CoyoteFrames: 7
   JumpBufferFrames: 7
-  AllowDash: 1
   MaxDashes: 3
   MovementCooldown: 1
   DashVelocity: 50
+  DashDurationFrames: 9
+  DashInvincibleFrames: 5
+  DashEndHorizontalMultiplier: 0.25
+  DashEndVerticalMultiplier: 0.25
   DashDamage: 10
   ChargeGivenDash: 0.3
   PenaltyGivenDash: 0.4
-  DashDurationFrames: 9
-  DashEndHorizontalMultiplier: 0.25
-  DashEndVerticalMultiplier: 0.25
   GrounderDistance: 0.1
   PlayerLayer:
     serializedVersion: 2
@@ -45,8 +45,17 @@ MonoBehaviour:
   KnockbackLength: 0.2
   KnockbackFactor: 0.33
   Knockback: 10
+  MeleeDamageAttack1: 3
+  MeleeDamageAttack2: 5
+  MeleeDamageAttack3: 8
+  MeleeDamageVerticalAttack: 5
   NumProjectilesAttack1: 7
   NumProjectilesAttack2: 7
   NumProjectilesAttack3: 7
+  ProjectileSpeed: 1
+  ProjectileDuration: 1
+  ProjectileDamage: 3
   AngleOfVariation: 45
   ChargeTime: 3
+  ChargeBeamDamage: 3
+  ChargeSlow: 0.7

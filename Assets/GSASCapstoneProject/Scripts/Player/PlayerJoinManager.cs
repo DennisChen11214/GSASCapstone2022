@@ -1,8 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+///
+/// Created by Dennis Chen
+///
+
 using UnityEngine;
 using UnityEngine.InputSystem;
-
 
 public class PlayerJoinManager : MonoBehaviour
 {

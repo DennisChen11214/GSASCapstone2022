@@ -1,18 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
+///
+/// Created by Dennis Chen
+///
+
 using UnityEngine;
 using Core.GlobalVariables;
 
 public class RangedPlayerCombat : PlayerCombat
 {
     [SerializeField]
-    Projectile _bulletPrefab;
+    private BoolVariable _isCharging;
     [SerializeField]
-    int _poolSize;
+    private Projectile _bulletPrefab;
     [SerializeField]
-    Transform _poolParent;
+    private int _poolSize;
     [SerializeField]
-    Transform _spawnPosition;
+    private Transform _poolParent;
+    [SerializeField]
+    private Transform _spawnPosition;
 
     private Projectile[] _bulletPool;
     private float _attackEndTime;
@@ -20,7 +24,6 @@ public class RangedPlayerCombat : PlayerCombat
     private bool _hasAttackBuffered = false;
     private bool _isAttacking = false;
     private bool _isComboFinished = false;
-    private bool _charging = false;
     private int _currentAttack = 0;
 
     protected override void Awake()
@@ -32,7 +35,7 @@ public class RangedPlayerCombat : PlayerCombat
     protected override void Update()
     {
         base.Update();
-        if (_charging)
+        if (_isCharging.Value)
         {
             _curCharge += Time.deltaTime;
             if(_curCharge > _stats.ChargeTime)
@@ -58,7 +61,8 @@ public class RangedPlayerCombat : PlayerCombat
 
     public override void Attack()
     {
-        _charging = true;
+        _isCharging.Value = true;
+        GetComponent<SpriteRenderer>().color = Color.green;
         if (_isAttacking)
         {
             _hasAttackBuffered = true;
@@ -119,15 +123,22 @@ public class RangedPlayerCombat : PlayerCombat
         CheckForBufferedAttack();
     }
 
-    public override void CancelAttack(bool isAttackCanceled)
+    public override void CancelAttack()
     {
-        if (isAttackCanceled)
+        if(_curCharge > _stats.ChargeTime)
         {
-            if(_curCharge > _stats.ChargeTime)
-            {
-                _anim.SetTrigger("ChargeBeam");
-            }
-            _charging = false;
+            _anim.SetTrigger("ChargeBeam");
+        }
+        _isCharging.Value = false;
+        _curCharge = 0;
+        GetComponent<SpriteRenderer>().color = Color.white;
+    }
+
+    private void CancelIfKnockedBack(bool isKnockedBack)
+    {
+        if (isKnockedBack)
+        {
+            _isCharging.Value = false;
             _curCharge = 0;
             GetComponent<SpriteRenderer>().color = Color.white;
         }
@@ -158,11 +169,11 @@ public class RangedPlayerCombat : PlayerCombat
     {
         _hasAttackBuffered = false;
         _isAttacking = false;
-        _isKnockedBack.Subscribe(CancelAttack);
+        _isKnockedBack.Subscribe(CancelIfKnockedBack);
     }
 
     private void OnDisable()
     {
-        _isKnockedBack.Unsubscribe(CancelAttack);
+        _isKnockedBack.Unsubscribe(CancelIfKnockedBack);
     }
 }

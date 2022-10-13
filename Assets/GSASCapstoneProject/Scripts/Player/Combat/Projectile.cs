@@ -1,15 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
+///
+/// Created by Dennis Chen
+///
+
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
     [SerializeField]
-    float _speed;
-    [SerializeField]
-    float _damage;
-    [SerializeField]
-    float _duration;
+    private ScriptableStats _stats;
 
     private float curTime;
     private Rigidbody2D _rb;
@@ -21,7 +19,7 @@ public class Projectile : MonoBehaviour
 
     private void Update()
     {
-        if(Time.time - curTime > _duration)
+        if(Time.time - curTime > _stats.ProjectileDuration)
         {
             gameObject.SetActive(false);
         }
@@ -29,7 +27,7 @@ public class Projectile : MonoBehaviour
 
     public void Launch(Vector2 direction)
     {
-        _rb.velocity = direction * _speed;
+        _rb.velocity = direction * _stats.ProjectileSpeed;
         curTime = Time.time;
     }
 
@@ -41,7 +39,7 @@ public class Projectile : MonoBehaviour
             gameObject.SetActive(false);
             return;
         }
-        damageModule.TakeDamage(_damage);
+        damageModule.TakeDamage(_stats.ProjectileDamage);
         gameObject.SetActive(false);
     }
 }
