@@ -152,6 +152,10 @@ public class ScriptableStats : ScriptableObject {
     [BoolAttribute("Melee", true)]
     public float MeleeDamageVerticalAttack = 5;
 
+    [Tooltip("The vertical speed of the character after down attacking in the air")]
+    [BoolAttribute("Melee", true)]
+    public float DownAttackBounceSpeed = 50;
+
     [Tooltip("Number of projectiles the ranged character spawns for the 1st attack")]
     [BoolAttribute("Melee", false)]
     public int NumProjectilesAttack1 = 4;

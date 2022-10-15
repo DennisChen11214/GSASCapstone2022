@@ -28,11 +28,15 @@ MonoBehaviour:
   MaxDashes: 3
   MovementCooldown: 1
   DashVelocity: 50
-  DashDurationFrames: 9
+  DashDurationFrames: 7
   DashInvincibleFrames: 5
   DashEndHorizontalMultiplier: 0.25
   DashEndVerticalMultiplier: 0.25
   DashDamage: 10
+  TeleportDistance: 5
+  TeleportLayers:
+    serializedVersion: 2
+    m_Bits: 0
   ChargeGivenDash: 0.3
   PenaltyGivenDash: 0.4
   GrounderDistance: 0.1
@@ -49,6 +53,7 @@ MonoBehaviour:
   MeleeDamageAttack2: 5
   MeleeDamageAttack3: 8
   MeleeDamageVerticalAttack: 5
+  DownAttackBounceSpeed: 50
   NumProjectilesAttack1: 7
   NumProjectilesAttack2: 7
   NumProjectilesAttack3: 7

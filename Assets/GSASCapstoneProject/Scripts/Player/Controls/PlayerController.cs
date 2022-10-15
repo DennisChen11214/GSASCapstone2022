@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask _bossLayer;
     [SerializeField] private GlobalEvent _swapCompleted;
     [SerializeField] private GlobalEvent _swapCanceled;
+    [SerializeField] private GlobalEvent _onDownAttackInAir;
     [SerializeField] private TransformGlobalEvent _requestSwap;
     [SerializeField] private TransformGlobalEvent _receiveSwapRequest;
     [SerializeField] private TransformVariable _playerTransform;
@@ -236,13 +237,25 @@ public class PlayerController : MonoBehaviour
     {
         if (!_isKnockedBack.Value)
         {
-            _playerCombat.Attack();
+            if(Mathf.Abs(_moveDirection.y) > 0 && _moveDirection.x == 0)
+            {
+                _playerCombat.VerticalAttack(_moveDirection.y > 0);
+            }
+            else
+            {
+                _playerCombat.Attack();
+            }
         }
     }
 
     protected virtual void CancelCharging()
     {
         _playerCombat.CancelAttack();
+    }
+
+    protected virtual void DownAttackAirBounce()
+    {
+        _speed.y = _stats.DownAttackBounceSpeed;
     }
 
     #endregion
@@ -611,6 +624,10 @@ public class PlayerController : MonoBehaviour
     {
         _receiveSwapRequest.Subscribe(ReceiveSwapRequest);
         _swapCompleted.Subscribe(SwapCompleted);
+        if (_stats.Melee)
+        {
+            _onDownAttackInAir.Subscribe(DownAttackAirBounce);
+        }
         _actions.Enable();
     }
 
@@ -618,6 +635,10 @@ public class PlayerController : MonoBehaviour
     {
         _receiveSwapRequest.Unsubscribe(ReceiveSwapRequest);
         _swapCompleted.Unsubscribe(SwapCompleted);
+        if (_stats.Melee)
+        {
+            _onDownAttackInAir.Unsubscribe(DownAttackAirBounce);
+        }
         _actions.Disable();
     }
 }

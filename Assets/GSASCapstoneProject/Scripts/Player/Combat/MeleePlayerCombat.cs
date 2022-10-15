@@ -3,6 +3,7 @@
 ///
 
 using UnityEngine;
+using Core.GlobalEvents;
 
 public class MeleePlayerCombat : PlayerCombat
 {
@@ -13,11 +14,15 @@ public class MeleePlayerCombat : PlayerCombat
     [SerializeField]
     float _attackRadius;
     [SerializeField]
-    float _attackPower;
+    GlobalEvent _onDownAttackInAir;
 
     private float _attackEndTime;
     private bool _hasAttackBuffered = false;
+    private bool _hasUpAttackBuffered = false;
+    private bool _hasDownAttackBuffered = false;
     private bool _isAttacking = false;
+    private bool _isUpAttacking = false;
+    private bool _isDownAttacking = false;
     private bool _isComboFinished = false;
     private int _currentAttack = 0;
 
@@ -33,13 +38,15 @@ public class MeleePlayerCombat : PlayerCombat
 
     public override void Attack()
     {
+        if (_isComboFinished && Time.time - _attackEndTime < _stats.TimeBeforeNextCombo)
+        {
+            return;
+        }
         if (_isAttacking)
         {
             _hasAttackBuffered = true;
-            return;
-        }
-        if (_isComboFinished && Time.time - _attackEndTime < _stats.TimeBeforeNextCombo)
-        {
+            _hasUpAttackBuffered = false;
+            _hasDownAttackBuffered = false;
             return;
         }
         _isComboFinished = false;
@@ -62,6 +69,36 @@ public class MeleePlayerCombat : PlayerCombat
         }
     }
 
+    public override void VerticalAttack(bool up)
+    {
+        if (_isComboFinished && Time.time - _attackEndTime < _stats.TimeBeforeNextCombo)
+        {
+            return;
+        }
+        if (_isAttacking)
+        {
+            _hasAttackBuffered = false;
+            _hasUpAttackBuffered = up;
+            _hasDownAttackBuffered = !up;
+            return;
+        }
+        if(_isDownAttacking || _isUpAttacking)
+        {
+            return;
+        }
+        _isComboFinished = false;
+        _isUpAttacking = up;
+        _isDownAttacking = !up;
+        if (up)
+        {
+            _anim.SetTrigger("UpAttack");
+        }
+        else
+        {
+            _anim.SetTrigger("DownAttack");
+        }
+    }
+
     public void OnAttackEnd()
     {
         _attackEndTime = Time.time;
@@ -72,6 +109,15 @@ public class MeleePlayerCombat : PlayerCombat
             _isComboFinished = true;
         }
         CheckForBufferedAttack();
+    }
+
+    public void OnVerticalAttackEnd()
+    {
+        _attackEndTime = Time.time;
+        _isUpAttacking = false;
+        _isDownAttacking = false;
+        _currentAttack = 0;
+        _isComboFinished = true;
     }
 
     private void CheckForBufferedAttack()
@@ -93,17 +139,59 @@ public class MeleePlayerCombat : PlayerCombat
                     break;
             }
         }
+        else if (_hasUpAttackBuffered)
+        {
+            _hasUpAttackBuffered = false;
+            if (_currentAttack != 0)
+            {
+                _isUpAttacking = true;
+                _anim.SetTrigger("UpAttack");
+            }
+        }
+        else if (_hasDownAttackBuffered)
+        {
+            _hasDownAttackBuffered = false;
+            if (_currentAttack != 0)
+            {
+                _isDownAttacking = true;
+                _anim.SetTrigger("DownAttack");
+            }
+        }
     }
 
     public void CheckHit()
     {
+        float damage = 0;
+        if (_isAttacking)
+        {
+            switch (_currentAttack)
+            {
+                case 0:
+                    damage = _stats.MeleeDamageAttack1;
+                    break;
+                case 1:
+                    damage = _stats.MeleeDamageAttack2;
+                    break;
+                case 2:
+                    damage = _stats.MeleeDamageAttack3;
+                    break;
+            }
+        }
+        else
+        {
+            damage = _stats.MeleeDamageVerticalAttack;
+        }
         Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(_attackPos.position, _attackRadius, _enemyLayer);
         foreach (Collider2D enemy in enemiesHit)
         {
             DamageModule damageModule = enemy.GetComponent<DamageModule>();
             if (damageModule != null)
             {
-                damageModule.TakeDamage(_attackPower);
+                damageModule.TakeDamage(damage);
+                if (_isDownAttacking && _rb.velocity.y != 0)
+                {
+                    _onDownAttackInAir.Raise();
+                }
             }
         }
     }
@@ -116,6 +204,15 @@ public class MeleePlayerCombat : PlayerCombat
     private void OnEnable()
     {
         _hasAttackBuffered = false;
+        _hasDownAttackBuffered = false;
+        _hasUpAttackBuffered = false;
         _isAttacking = false;
+        _isUpAttacking = false;
+        _isDownAttacking = false;
+    }
+
+    private void OnDisable()
+    {
+        
     }
 }

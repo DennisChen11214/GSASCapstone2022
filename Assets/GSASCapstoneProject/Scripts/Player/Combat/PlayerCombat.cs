@@ -21,7 +21,8 @@ public abstract class PlayerCombat : MonoBehaviour
     protected float _knockbackTime;
 
     public abstract void Attack();
-    public virtual void CancelAttack() {}
+    public virtual void VerticalAttack(bool up) { }
+    public virtual void CancelAttack() { }
     public virtual void IncreaseCharge(float percent) { }
 
     protected virtual void Awake()

@@ -53,6 +53,7 @@ MonoBehaviour:
   MeleeDamageAttack2: 5
   MeleeDamageAttack3: 8
   MeleeDamageVerticalAttack: 5
+  DownAttackBounceSpeed: 50
   NumProjectilesAttack1: 4
   NumProjectilesAttack2: 5
   NumProjectilesAttack3: 7

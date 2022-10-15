@@ -1180,18 +1180,34 @@ PrefabInstance:
     - target: {fileID: 757408862601419165, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: _isCharging
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: aa99a7be4adb70140a23c7d05ef0c36b, type: 2}
     - target: {fileID: 757408862601419165, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: _meleeDashType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 757408862601419165, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: _onDownAttackInAir
+      value: 
+      objectReference: {fileID: 11400000, guid: 65e64e7fc8ce558468da9710a02d486e, type: 2}
     - target: {fileID: 815508048440885705, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1152337751566177809, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1152337751566177836, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 9.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 1152337751566177836, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -10.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 1152337751566177837, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: _attackDelay
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2284915995113420125, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: m_Layer
@@ -1200,6 +1216,14 @@ PrefabInstance:
     - target: {fileID: 2574757401112748377, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: m_Layer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2582163699999638793, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.91
+      objectReference: {fileID: 0}
+    - target: {fileID: 2582163699999638793, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.76
       objectReference: {fileID: 0}
     - target: {fileID: 3030912328876667992, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: m_Layer
@@ -1261,6 +1285,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8558465253591033179, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: _onDownAttackInAir
+      value: 
+      objectReference: {fileID: 11400000, guid: 65e64e7fc8ce558468da9710a02d486e, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
 --- !u!1 &1478993773
@@ -1385,7 +1413,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1152337751081297030, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1152337751081297082, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
+      propertyPath: _attackDelay
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1430073431015340593, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
       propertyPath: m_Layer
