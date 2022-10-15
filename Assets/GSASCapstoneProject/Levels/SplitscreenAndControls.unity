@@ -1199,15 +1199,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1152337751566177836, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.72
+      value: 13.14
       objectReference: {fileID: 0}
     - target: {fileID: 1152337751566177836, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -10.84
+      value: -2.79
       objectReference: {fileID: 0}
     - target: {fileID: 1152337751566177837, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: _attackDelay
-      value: 10
+      value: 9.99
       objectReference: {fileID: 0}
     - target: {fileID: 2284915995113420125, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: m_Layer
