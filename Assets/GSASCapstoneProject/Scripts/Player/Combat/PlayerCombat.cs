@@ -22,6 +22,7 @@ public abstract class PlayerCombat : MonoBehaviour
 
     public abstract void Attack();
     public virtual void CancelAttack() {}
+    public virtual void IncreaseCharge(float percent) { }
 
     protected virtual void Awake()
     {

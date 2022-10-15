@@ -37,8 +37,9 @@ public class RangedPlayerCombat : PlayerCombat
         base.Update();
         if (_isCharging.Value)
         {
-            _curCharge += Time.deltaTime;
-            if(_curCharge > _stats.ChargeTime)
+            _curCharge = Mathf.Min(_curCharge + Time.deltaTime, _stats.ChargeTime);
+            GetComponent<SpriteRenderer>().color = Color.green;
+            if (_curCharge >= _stats.ChargeTime)
             {
                 GetComponent<SpriteRenderer>().color = Color.black;
             }  
@@ -62,7 +63,7 @@ public class RangedPlayerCombat : PlayerCombat
     public override void Attack()
     {
         _isCharging.Value = true;
-        GetComponent<SpriteRenderer>().color = Color.green;
+        _curCharge = 0;
         if (_isAttacking)
         {
             _hasAttackBuffered = true;
@@ -90,6 +91,11 @@ public class RangedPlayerCombat : PlayerCombat
                 _anim.SetTrigger("Attack3");
                 break;
         }
+    }
+
+    public override void IncreaseCharge(float percent)
+    {
+        _curCharge = Mathf.Clamp(_curCharge + _stats.ChargeTime * percent, 0, _stats.ChargeTime);
     }
 
     public void SpawnProjectiles()
@@ -125,7 +131,7 @@ public class RangedPlayerCombat : PlayerCombat
 
     public override void CancelAttack()
     {
-        if(_curCharge > _stats.ChargeTime)
+        if(_curCharge >= _stats.ChargeTime)
         {
             _anim.SetTrigger("ChargeBeam");
         }

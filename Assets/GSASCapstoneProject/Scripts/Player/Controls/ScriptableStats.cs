@@ -86,12 +86,20 @@ public class ScriptableStats : ScriptableObject {
     public float DashDamage = 10;
 
     [BoolAttribute("Melee", false)]
+    [Tooltip("How far the teleport goes")]
+    public float TeleportDistance = 5;
+
+    [BoolAttribute("Melee", false)]
+    [Tooltip("What layers the vertical teleport works on")]
+    public LayerMask TeleportLayers;
+
+    [BoolAttribute("Melee", false)]
     [Tooltip("Amount of charge the charge dash gives")]
     public float ChargeGivenDash = 0.3f;
 
     [BoolAttribute("Melee", false)]
-    [Tooltip("Amount of charge the penalty charge takes away")]
-    public float PenaltyGivenDash = 0.4f;
+    [Tooltip("Amount of charge the penalty dash gives (NEGATIVE)")]
+    public float PenaltyGivenDash = -0.4f;
 
     #endregion
 

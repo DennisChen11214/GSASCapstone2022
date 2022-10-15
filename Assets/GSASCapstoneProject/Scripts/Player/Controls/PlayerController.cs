@@ -3,9 +3,9 @@
 /// Reference: Tarodev's code talked about in https://www.youtube.com/watch?v=3sWTzMsmdx8
 ///
 
-using UnityEngine;
 using Core.GlobalEvents;
 using Core.GlobalVariables;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private BoolVariable _isCharging;
     [SerializeField] private FloatVariable _swapDelay;
     [SerializeField] private FloatVariable _movementCooldown;
+    [SerializeField] private IntVariable _numDashes;
 
 
     #region Internal
@@ -69,7 +70,7 @@ public class PlayerController : MonoBehaviour
     public Vector2 Speed => _speed;
     public Vector2 GroundNormal => _groundNormal;
 
-
+    [HideInInspector]
     public bool IsShootingLaser;
 
     #endregion
@@ -98,14 +99,23 @@ public class PlayerController : MonoBehaviour
         _swap.started += ctx => RequestSwap();
         _swap.canceled += ctx => CancelSwap();
 
-        _numDashes = _stats.MaxDashes;
+        _numDashes.Value = _stats.MaxDashes;
+        _movementCooldown.Value = _stats.MovementCooldown;
     }
 
     protected virtual void FixedUpdate()
     {
         _fixedFrame++;
         _currentExternalVelocity = Vector2.MoveTowards(_currentExternalVelocity, Vector2.zero, _stats.ExternalVelocityDecay * Time.fixedDeltaTime);
-        _moveDirection = _move.ReadValue<Vector2>();
+        if (_move.ReadValue<Vector2>().magnitude > 0.1f)
+        {
+            _moveDirection = _move.ReadValue<Vector2>().normalized;
+            _moveDirection = AngleToDirection(Vector2.Angle(Vector2.right, _moveDirection), _moveDirection.y > 0, _moveDirection.x > 0);
+        }
+        else 
+        {
+            _moveDirection = Vector2.zero;
+        }
         CheckCollisions();
 
         HandleCollisions();
@@ -114,6 +124,28 @@ public class PlayerController : MonoBehaviour
         HandleFall();
 
         ApplyVelocity();
+    }
+
+    private static Vector2 AngleToDirection(float angle, bool up, bool right)
+    {
+        int vertFactor = up ? 1 : -1;
+        int horFactor = right ? 1 : -1;
+        if (angle >= 22.5f && angle < 67.5f)
+        {
+            return new Vector2(1, 1 * vertFactor);
+        }
+        else if (angle >= 67.5f && angle < 112.5)
+        {
+            return new Vector2(0, 1 * vertFactor);
+        }
+        else if (angle >= 112.5 && angle < 157.5)
+        {
+            return new Vector2(-1, 1 * vertFactor);
+        }
+        else
+        {
+            return new Vector2(1 * horFactor, 0);
+        }
     }
 
     #region Collisions
@@ -219,8 +251,8 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void HandleHorizontal()
     {
-        if (_isKnockedBack.Value || IsShootingLaser) return;
-        if (_moveDirection.x != 0)
+        if (_isKnockedBack.Value) return;
+        if (_moveDirection.x != 0 && !IsShootingLaser)
         {
             float inputX = _moveDirection.x;
             if((inputX > 0 && transform.localScale.x < 0) || (inputX < 0 && transform.localScale.x > 0))
@@ -296,18 +328,16 @@ public class PlayerController : MonoBehaviour
     private bool _canDash;
     private bool _dashing;
     private int _startedDashing;
-    private int _numDashes;
     private Vector2 _dashVel;
 
     protected virtual void StartDash()
     {
-        if (_canDash && _numDashes > 0 && !_isKnockedBack.Value && !IsShootingLaser)
+        if (_canDash && _numDashes.Value > 0 && !_isKnockedBack.Value && !IsShootingLaser)
         {
             _dashing = true;
             _canDash = false;
-            _numDashes--;
+            _numDashes.Value--;
             _startedDashing = _fixedFrame;
-            _movementCooldown.Value = _stats.MovementCooldown;
             _dashVel = _moveDirection;
 
             // Strip external buildup
@@ -319,15 +349,15 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void HandleDash()
     {
-        if(_movementCooldown.Value > 0)
+        if(_numDashes.Value < _stats.MaxDashes)
         {
-            _movementCooldown.Value -= Time.fixedDeltaTime;
-        }
-        if(_movementCooldown.Value <= 0 && _numDashes < _stats.MaxDashes)
-        {
-            _numDashes++;
-            if(_numDashes < _stats.MaxDashes)
+            if (_movementCooldown.Value > 0)
             {
+                _movementCooldown.Value -= Time.fixedDeltaTime;
+            }
+            else
+            {
+                _numDashes.Value++;
                 _movementCooldown.Value = _stats.MovementCooldown;
             }
         }
@@ -351,16 +381,16 @@ public class PlayerController : MonoBehaviour
             switch (_rangedDashType)
             {
                 case RangedDashType.OmniDir:
-                    RangedOmniDash();
+                    RangedOmniTeleport();
                     break;
                 case RangedDashType.Charge:
-                    RangedChargeDash();
+                    RangedChargeDash(_stats.ChargeGivenDash);
                     break;
                 case RangedDashType.Penalty:
-                    RangedPenaltyDash();
+                    RangedChargeDash(_stats.PenaltyGivenDash);
                     break;
                 case RangedDashType.Vertical:
-                    RangedVerticalDash();
+                    RangedVerticalTeleport();
                     break;
             }
         }
@@ -448,43 +478,69 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void RangedOmniDash()
+    private void RangedOmniTeleport()
     {
-        _stats.DashDurationFrames = 7;
         if (_dashing)
         {
-            _isInvincible.Value = true;
             if (_dashVel == Vector2.zero)
             {
-                _speed = new Vector2(transform.localScale.x > 0 ? 1 : -1, 0) * _stats.DashVelocity;
+                transform.position += new Vector3(transform.localScale.x > 0 ? 1 : -1, 0, 0) * _stats.TeleportDistance;
             }
             else
             {
-                _speed = new Vector2(_dashVel.x, _dashVel.y).normalized * _stats.DashVelocity;
+                transform.position += new Vector3(_dashVel.x, _dashVel.y, 0).normalized * _stats.TeleportDistance;
             }
+            _dashing = false;
+            _speed.y = 0;
+            _canDash = true;
+            CheckCollisions();
+            HandleCollisions();
+        }
+    }
+    private void RangedChargeDash(float percent)
+    {
+        _stats.DashDurationFrames = 9;
+        if (_dashing)
+        {
+            _isInvincible.Value = true;
+            _speed = new Vector2(transform.localScale.x > 0 ? 1 : -1, 0) * _stats.DashVelocity;
             // Cancel when the time is out or we've reached our max safety distance
+            if (_fixedFrame > _startedDashing + _stats.DashInvincibleFrames)
+            {
+                _isInvincible.Value = false;
+            }
             if (_fixedFrame > _startedDashing + _stats.DashDurationFrames)
             {
                 _dashing = false;
                 _speed.x *= _stats.DashEndHorizontalMultiplier;
-                _speed.y *= _stats.DashEndVerticalMultiplier;
+                _playerCombat.IncreaseCharge(percent);
                 _canDash = true;
-                _isInvincible.Value = false;
             }
         }
     }
-    private void RangedChargeDash()
+    
+    private void RangedVerticalTeleport()
     {
-
-    }
-    private void RangedPenaltyDash()
-    {
-
-    }
-
-    private void RangedVerticalDash()
-    {
-
+        if (_dashing)
+        {
+            RaycastHit2D hit2D = Physics2D.Raycast(transform.position, Vector2.up * _dashVel.y, 50, _stats.TeleportLayers);
+            if(_dashVel.y == 0 || hit2D.collider == null)
+            {
+                _dashing = false;
+                _canDash = true;
+                _numDashes.Value++;
+                _movementCooldown.Value = _stats.MovementCooldown;
+                return;
+            }
+            Vector2 teleportPos = hit2D.point;
+            teleportPos.y += ((BoxCollider2D)hit2D.collider).size.y * hit2D.collider.gameObject.transform.lossyScale.y;
+            teleportPos.y += _col.size.y / 2 - _col.offset.y;
+            transform.position = teleportPos;
+            _dashing = false;
+            _canDash = true;
+            CheckCollisions();
+            HandleCollisions();
+        }
     }
 
     #endregion

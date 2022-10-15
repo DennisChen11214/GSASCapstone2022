@@ -439,6 +439,8 @@ MonoBehaviour:
   _isCharging: {fileID: 11400000, guid: 578ecc672c0c82943a942373c221ac3d, type: 2}
   _swapDelay: {fileID: 11400000, guid: c43a1ce09d4c0e8429e4d35f2c4d3acc, type: 2}
   _movementCooldown: {fileID: 11400000, guid: b3e12bc910aaff44191fdb405c86c4d9, type: 2}
+  _numDashes: {fileID: 11400000, guid: bbbc20237b6f4c24faa205ab0a7fe6f5, type: 2}
+  IsShootingLaser: 0
 --- !u!114 &311555601327746084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -455,8 +457,8 @@ MonoBehaviour:
   _isKnockedBack: {fileID: 11400000, guid: 1d45de0f28cc6a248950c930c858f4ca, type: 2}
   _isInvincible: {fileID: 11400000, guid: 1ef36dd7af99921428ac010fee10fd91, type: 2}
   _stats: {fileID: 11400000, guid: 87e27283a4e693f4a86ffe6fb6a36b85, type: 2}
+  _isCharging: {fileID: 11400000, guid: 578ecc672c0c82943a942373c221ac3d, type: 2}
   _bulletPrefab: {fileID: 5929163992211481052, guid: 1ff9092f2b2cbb244baf777632efeeb7, type: 3}
   _poolSize: 21
   _poolParent: {fileID: 580325420}
   _spawnPosition: {fileID: 941029671}
-  _isCharging: {fileID: 11400000, guid: 578ecc672c0c82943a942373c221ac3d, type: 2}
