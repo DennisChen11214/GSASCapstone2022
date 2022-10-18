@@ -236,19 +236,20 @@ MonoBehaviour:
   _stats: {fileID: 11400000, guid: 5afa4e85200110346b1f375483725374, type: 2}
   _movingMaterial: {fileID: 6200000, guid: 43efe0c71a2f92d49b2b4d7aea722bff, type: 2}
   _stationaryMaterial: {fileID: 6200000, guid: dfdbc5589c827e64aa67ea52c57e20e8, type: 2}
-  _meleeDashType: 0
+  _meleeDashType: 1
   _rangedDashType: 0
   _bossLayer:
     serializedVersion: 2
     m_Bits: 64
   _swapCompleted: {fileID: 11400000, guid: c2c137196e36f9440aaaa8923095d01a, type: 2}
   _swapCanceled: {fileID: 11400000, guid: f55374eb370cc5941a36b74ee51d4693, type: 2}
+  _onDownAttackInAir: {fileID: 11400000, guid: 65e64e7fc8ce558468da9710a02d486e, type: 2}
   _requestSwap: {fileID: 11400000, guid: f17ea852cb257b748b032e686caf68a8, type: 2}
   _receiveSwapRequest: {fileID: 11400000, guid: 1e62224f412ff8a44aa89fc553997662, type: 2}
   _playerTransform: {fileID: 11400000, guid: b85b4d804d1c1f74fb789011bf31489f, type: 2}
   _isKnockedBack: {fileID: 11400000, guid: aa99a7be4adb70140a23c7d05ef0c36b, type: 2}
   _isInvincible: {fileID: 11400000, guid: db8164d74fbc529418a09b7aedb57f7f, type: 2}
-  _isCharging: {fileID: 11400000, guid: 578ecc672c0c82943a942373c221ac3d, type: 2}
+  _isCharging: {fileID: 11400000, guid: aa99a7be4adb70140a23c7d05ef0c36b, type: 2}
   _swapDelay: {fileID: 11400000, guid: c43a1ce09d4c0e8429e4d35f2c4d3acc, type: 2}
   _movementCooldown: {fileID: 11400000, guid: 4cfb0ef61a681b244bd2c19e368ec54f, type: 2}
   _numDashes: {fileID: 11400000, guid: 603a1959f0d19394693fa47399b10c3c, type: 2}
@@ -274,7 +275,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   _attackRadius: 1
-  _attackPower: 15
+  _onDownAttackInAir: {fileID: 0}
 --- !u!1 &5409529332463569975
 GameObject:
   m_ObjectHideFlags: 0

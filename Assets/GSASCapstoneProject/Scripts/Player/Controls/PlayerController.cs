@@ -7,6 +7,7 @@ using Core.GlobalEvents;
 using Core.GlobalVariables;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
 public class PlayerController : MonoBehaviour
@@ -32,6 +33,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private MeleeDashType _meleeDashType;
     [SerializeField] private RangedDashType _rangedDashType;
     [SerializeField] private LayerMask _bossLayer;
+    [SerializeField] private LayerMask _platformLayer;
     [SerializeField] private GlobalEvent _swapCompleted;
     [SerializeField] private GlobalEvent _swapCanceled;
     [SerializeField] private GlobalEvent _onDownAttackInAir;
@@ -164,6 +166,19 @@ public class PlayerController : MonoBehaviour
         _groundHitCount = Physics2D.BoxCastNonAlloc(origin, _col.size * _absScale, 0, Vector2.down, _groundHits, _stats.GrounderDistance, ~_stats.PlayerLayer);
 
         Physics2D.queriesHitTriggers = _cachedTriggerSetting;
+
+        if (_downJumpCollider != null)
+        {
+            List<Collider2D> results = new List<Collider2D>();
+            ContactFilter2D contactFilter = new ContactFilter2D();
+            contactFilter.SetLayerMask(_platformLayer);
+            Physics2D.OverlapCollider(_col, contactFilter, results);
+            if(!results.Contains(_downJumpCollider))
+            {
+                _downJumpCollider.gameObject.GetComponent<PlatformEffector2D>().rotationalOffset = 0;
+                _downJumpCollider = null;
+            }
+        }
     }
 
     protected virtual void HandleCollisions()
@@ -290,6 +305,7 @@ public class PlayerController : MonoBehaviour
     private bool _coyoteUsable;
     private bool _doubleJumpUsable;
     private bool _bufferedJumpUsable;
+    private Collider2D _downJumpCollider;
     private int _frameJumpWasPressed = int.MinValue;
 
     private bool CanUseCoyote => _coyoteUsable && !_grounded && _fixedFrame < _frameLeftGrounded + _stats.CoyoteFrames;
@@ -310,12 +326,30 @@ public class PlayerController : MonoBehaviour
             _endedJumpEarly = false;
         }*/
 
+        //Down jump through platform
+        if (_grounded && _moveDirection.y == -1)
+        {
+            DownJump();
+        }
         // Standard jump
-        if (CanUseCoyote || HasBufferedJump)
+        else if (CanUseCoyote || HasBufferedJump)
         {
             _coyoteUsable = false;
             _bufferedJumpUsable = false;
             _speed.y = _stats.JumpPower;
+        }
+    }
+
+    protected virtual void DownJump()
+    {
+        Vector2 origin = (Vector2)transform.position + _col.offset * transform.localScale;
+        RaycastHit2D hit2D = Physics2D.Raycast(origin, Vector2.down, 5, _platformLayer);
+        _downJumpCollider = hit2D.collider;
+        if(_downJumpCollider != null)
+        {
+            _downJumpCollider.gameObject.GetComponent<PlatformEffector2D>().rotationalOffset = 180;   
+            _coyoteUsable = false;
+            _bufferedJumpUsable = false;
         }
     }
 

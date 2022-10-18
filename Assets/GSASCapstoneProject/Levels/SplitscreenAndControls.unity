@@ -1178,17 +1178,9 @@ PrefabInstance:
       value: 3.9
       objectReference: {fileID: 0}
     - target: {fileID: 757408862601419165, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
-      propertyPath: _isCharging
-      value: 
-      objectReference: {fileID: 11400000, guid: aa99a7be4adb70140a23c7d05ef0c36b, type: 2}
-    - target: {fileID: 757408862601419165, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
-      propertyPath: _meleeDashType
-      value: 1
+      propertyPath: _platformLayer.m_Bits
+      value: 8
       objectReference: {fileID: 0}
-    - target: {fileID: 757408862601419165, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
-      propertyPath: _onDownAttackInAir
-      value: 
-      objectReference: {fileID: 11400000, guid: 65e64e7fc8ce558468da9710a02d486e, type: 2}
     - target: {fileID: 815508048440885705, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: m_Layer
       value: 10
@@ -1442,6 +1434,10 @@ PrefabInstance:
     - target: {fileID: 3094511901696735910, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
       propertyPath: _rangedDashType
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3094511901696735910, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
+      propertyPath: _platformLayer.m_Bits
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4502039518167083317, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
       propertyPath: m_Size.x
