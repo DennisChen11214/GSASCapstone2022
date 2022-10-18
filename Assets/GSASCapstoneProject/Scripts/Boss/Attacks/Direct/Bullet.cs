@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class BossBullet : MonoBehaviour
+public class Bullet : MonoBehaviour
 {
     [SerializeField] string[] _ignoredTags;
     [SerializeField] float _speed = 20;
@@ -12,6 +12,11 @@ public class BossBullet : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void Start()
+    {
+        gameObject.SetActive(false);
     }
 
     public void Launch(Vector2 dir)

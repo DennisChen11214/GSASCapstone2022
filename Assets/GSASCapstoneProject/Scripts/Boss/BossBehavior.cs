@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Core.GlobalVariables;
@@ -12,13 +12,7 @@ public class BossBehavior : MonoBehaviour
     [SerializeField] TransformVariable[] _targets;
     private int _targetIdx = 0;
     [SerializeField] GlobalEvent _swap;
-    
-    [SerializeField] BossBullet _bullet;
-    private BossBullet[] _bulletPool;
-    [SerializeField] int _poolSize;
-    [SerializeField] Transform _poolParent;
 
-    [SerializeField] float _attackDelay;
 
     // Player attacks must use the component "DamageDealer" to deal damage.
     private void OnTriggerEnter2D(Collider2D collision)
@@ -31,45 +25,13 @@ public class BossBehavior : MonoBehaviour
         }
     }
 
-    private void BulletAttack(Vector3 dir)
-    {
-        for (int i = 0; i < _poolSize; i++)
-        {
-            if (!_bulletPool[i].gameObject.activeSelf)
-            {
-                var position = transform.position;
-                _bulletPool[i].transform.position = position;
-                _bulletPool[i].gameObject.SetActive(true);
-                _bulletPool[i].GetComponent<BossBullet>().Launch(dir);
-                break;
-            }
-        }
-    }
+  
     
-    IEnumerator StartBulletAttack()
-    {
-        while(true)
-        {
-            Vector2 dir = _targets[_targetIdx].Value.position - transform.position;
-            dir = dir.normalized;
-            BulletAttack(dir);
-            yield return new WaitForSeconds(_attackDelay);
-        }
-       
-    }
     
     private void Start()
     {
         _swap.Subscribe(SwapTarget);
         _onHealthBelowZero.Subscribe(Death);
-        
-        _bulletPool = new BossBullet[_poolSize];
-        for(int i = 0; i < _poolSize; i++)
-        {
-            _bulletPool[i] = Instantiate<BossBullet>(_bullet, transform.position, Quaternion.identity, _poolParent);
-            _bulletPool[i].gameObject.SetActive(false);
-        }
-        StartCoroutine(StartBulletAttack());
     }
 
     private void SwapTarget()

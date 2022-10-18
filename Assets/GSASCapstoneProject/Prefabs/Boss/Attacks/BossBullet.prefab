@@ -138,6 +138,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ignoredTags:
   - Boss
-  _speed: 20
-  _speedInc: 30
-  _damage: 10
+  _speed: 15
+  _speedInc: 0
