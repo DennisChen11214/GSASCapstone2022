@@ -34,15 +34,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private RangedDashType _rangedDashType;
     [SerializeField] private LayerMask _bossLayer;
     [SerializeField] private LayerMask _platformLayer;
+    [SerializeField] private LayerMask _respawnLayer;
     [SerializeField] private GlobalEvent _swapCompleted;
     [SerializeField] private GlobalEvent _swapCanceled;
     [SerializeField] private GlobalEvent _onDownAttackInAir;
+    [SerializeField] private GlobalEvent _onOtherPlayerRevived;
     [SerializeField] private TransformGlobalEvent _requestSwap;
     [SerializeField] private TransformGlobalEvent _receiveSwapRequest;
     [SerializeField] private TransformVariable _playerTransform;
     [SerializeField] private BoolVariable _isKnockedBack;
     [SerializeField] private BoolVariable _isInvincible;
     [SerializeField] private BoolVariable _isCharging;
+    [SerializeField] private BoolVariable _isOtherPlayerDead;
     [SerializeField] private FloatVariable _swapDelay;
     [SerializeField] private FloatVariable _movementCooldown;
     [SerializeField] private IntVariable _numDashes;
@@ -96,6 +99,7 @@ public class PlayerController : MonoBehaviour
 
         _attack.started += ctx => HandleAttacking();
         _attack.canceled += ctx => CancelCharging();
+        _attack.performed += ctx => TryRevive();
         _jump.started += ctx => HandleJump();
         _jump.canceled += ctx => CancelJump();
         _dash.performed += ctx => StartDash();
@@ -206,6 +210,7 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void RequestSwap()
     {
+        if (_isOtherPlayerDead.Value) return;
         _swapHeld = true;
         _requestSwap.Raise(transform);
     }
@@ -259,6 +264,23 @@ public class PlayerController : MonoBehaviour
             else
             {
                 _playerCombat.Attack();
+            }
+        }
+    }
+
+    protected virtual void TryRevive()
+    {
+        if (_isOtherPlayerDead.Value)
+        {
+            ContactFilter2D contactFilter = new ContactFilter2D();
+            contactFilter.SetLayerMask(_respawnLayer);
+            contactFilter.useTriggers = true;
+            List<Collider2D> colliders = new List<Collider2D>();
+            Physics2D.OverlapCollider(_col, contactFilter, colliders);
+            if(colliders.Count > 0)
+            {
+                _onOtherPlayerRevived.Raise();
+                _isOtherPlayerDead.Value = false;
             }
         }
     }

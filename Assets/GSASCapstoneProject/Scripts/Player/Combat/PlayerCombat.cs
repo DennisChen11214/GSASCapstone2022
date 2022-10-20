@@ -4,6 +4,7 @@
 
 using UnityEngine;
 using Core.GlobalVariables;
+using Core.GlobalEvents;
 
 public abstract class PlayerCombat : MonoBehaviour
 {
@@ -13,6 +14,14 @@ public abstract class PlayerCombat : MonoBehaviour
     protected BoolVariable _isKnockedBack;
     [SerializeField]
     protected BoolVariable _isInvincible;
+    [SerializeField]
+    protected BoolVariable _isPlayerDead;
+    [SerializeField]
+    protected GlobalEvent _onPlayerDied;
+    [SerializeField]
+    protected GlobalEvent _onPlayerRevived;
+    [SerializeField]
+    protected GlobalEvent _onOtherPlayerRevived;
     [SerializeField]
     protected ScriptableStats _stats;
 
@@ -29,6 +38,8 @@ public abstract class PlayerCombat : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();        
         _anim = GetComponent<Animator>();
+        _onPlayerRevived.Subscribe(Revive);
+        _onOtherPlayerRevived.Subscribe(ReviveOtherPlayer);
     }
 
     protected virtual void Update() { }
@@ -42,6 +53,11 @@ public abstract class PlayerCombat : MonoBehaviour
     {
         if (_isInvincible.Value) return;
         _playerHealth.Value -= 1;
+        if (_playerHealth.Value == 0)
+        {
+            Die();
+            return;
+        }
         if (!_isKnockedBack.Value)
         {
             _knockbackTime = _stats.KnockbackLength;
@@ -49,9 +65,34 @@ public abstract class PlayerCombat : MonoBehaviour
         _isKnockedBack.Value = true;
     }
 
+    private void Die()
+    {
+        _isPlayerDead.Value = true;
+        _onPlayerDied.Raise();
+        gameObject.SetActive(false);
+    }
+
+    private void Revive()
+    {
+        _playerHealth.Value = 1;
+    }
+
+    private void ReviveOtherPlayer()
+    {
+        if(_playerHealth.Value != 1)
+        {
+            _playerHealth.Value -= 1;
+        }
+    }
+
     public void TakeDamageNoKnockback()
     {
         _playerHealth.Value -= 1;
+        if (_playerHealth.Value == 0)
+        {
+            Die();
+            return;
+        }
     }
 
     protected virtual void HandleKnockBack()
