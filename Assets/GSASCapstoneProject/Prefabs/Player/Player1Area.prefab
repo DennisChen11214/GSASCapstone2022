@@ -2645,7 +2645,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: -2
   m_Sprite: {fileID: 21300000, guid: deb5ce95b793b154e9ab75569e92184d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3559,29 +3559,37 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1152337751128150385, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6c194e8d4ced4c64ab21dd6497d967f0, type: 3}
+    - target: {fileID: 1152337751128150385, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 1152337751128150386, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1152337751128150386, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 4.749675
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1152337751128150386, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 4.749675
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1152337751128150386, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
       propertyPath: m_LocalScale.z
-      value: 4.749675
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1152337751128150386, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.14
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1152337751128150386, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.79
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1152337751128150386, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
       propertyPath: m_LocalPosition.z
