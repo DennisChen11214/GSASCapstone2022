@@ -8,10 +8,6 @@ public class BossBehavior : MonoBehaviour
 {
     [SerializeField] FloatVariable _hp;
     [SerializeField] private GlobalEvent _onHealthBelowZero;
-    
-    [SerializeField] TransformVariable[] _targets;
-    private int _targetIdx = 0;
-    [SerializeField] GlobalEvent _swap;
 
 
     // Player attacks must use the component "DamageDealer" to deal damage.
@@ -30,15 +26,9 @@ public class BossBehavior : MonoBehaviour
     
     private void Start()
     {
-        _swap.Subscribe(SwapTarget);
         _onHealthBelowZero.Subscribe(Death);
     }
-
-    private void SwapTarget()
-    {
-        _targetIdx = (_targetIdx + 1) % 2;
-    }
-
+    
     private void Death()
     {
         Destroy(gameObject);
