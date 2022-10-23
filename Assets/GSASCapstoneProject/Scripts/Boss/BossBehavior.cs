@@ -6,31 +6,40 @@ using Core.GlobalEvents;
 
 public class BossBehavior : MonoBehaviour
 {
-    [SerializeField] FloatVariable _hp;
-    [SerializeField] private GlobalEvent _onHealthBelowZero;
+    [SerializeField] FloatVariable hp;
+    [SerializeField] private GlobalEvent onHealthBelowZero;
+    [SerializeField] private GlobalEvent bossTakesDamage;
+    [SerializeField] private SpriteRenderer sprite;
 
-
-    // Player attacks must use the component "DamageDealer" to deal damage.
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        DamageDealer dd = collision.gameObject.GetComponent<DamageDealer>();
-        if (dd != null && dd.CompareTag("PlayerAttack"))
-        {
-            _hp.Value -= dd.damage;
-            Debug.Log("Boss got hit");
-        }
-    }
-
-  
+    private Color _c;
     
     
     private void Start()
     {
-        _onHealthBelowZero.Subscribe(Death);
+        onHealthBelowZero.Subscribe(Death);
+        bossTakesDamage.Subscribe(ShowDamageEffect);
+        if (sprite == null)
+        {
+            sprite = GetComponent<SpriteRenderer>();
+        }
+
+        _c = sprite.color;
     }
     
     private void Death()
     {
         Destroy(gameObject);
+    }
+
+    private void ShowDamageEffect()
+    {
+        StartCoroutine(_DamageEffect());
+    }
+    
+    IEnumerator _DamageEffect()
+    {
+        sprite.color = _c + new Color(1.0f, 0.1f, 0.0f, 0.3f);
+        yield return new WaitForSeconds(0.2f);
+        sprite.color = _c;
     }
 }
