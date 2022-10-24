@@ -258,8 +258,10 @@ MonoBehaviour:
   _isInvincible: {fileID: 11400000, guid: db8164d74fbc529418a09b7aedb57f7f, type: 2}
   _isCharging: {fileID: 11400000, guid: aa99a7be4adb70140a23c7d05ef0c36b, type: 2}
   _isOtherPlayerDead: {fileID: 11400000, guid: 65dffe666a722fd4d8dc55533157def1, type: 2}
+  _isAttacking: {fileID: 11400000, guid: 8e419524fe416ce46bba7e6ef5f24600, type: 2}
   _swapDelay: {fileID: 11400000, guid: c43a1ce09d4c0e8429e4d35f2c4d3acc, type: 2}
   _movementCooldown: {fileID: 11400000, guid: 4cfb0ef61a681b244bd2c19e368ec54f, type: 2}
+  _floatTime: {fileID: 11400000, guid: 47b8c058666dcb340a5203ff9c32a342, type: 2}
   _numDashes: {fileID: 11400000, guid: 603a1959f0d19394693fa47399b10c3c, type: 2}
   IsShootingLaser: 0
 --- !u!114 &6314119147361709869
@@ -288,6 +290,8 @@ MonoBehaviour:
     m_Bits: 64
   _attackRadius: 1
   _onDownAttackInAir: {fileID: 11400000, guid: 65e64e7fc8ce558468da9710a02d486e, type: 2}
+  _floatTime: {fileID: 11400000, guid: 47b8c058666dcb340a5203ff9c32a342, type: 2}
+  _isAttacking: {fileID: 11400000, guid: 8e419524fe416ce46bba7e6ef5f24600, type: 2}
 --- !u!1 &5409529332463569975
 GameObject:
   m_ObjectHideFlags: 0

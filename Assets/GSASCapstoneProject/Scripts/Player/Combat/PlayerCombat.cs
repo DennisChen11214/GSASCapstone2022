@@ -17,6 +17,8 @@ public abstract class PlayerCombat : MonoBehaviour
     [SerializeField]
     protected BoolVariable _isPlayerDead;
     [SerializeField]
+    protected BoolVariable _isAttacking;
+    [SerializeField]
     protected GlobalEvent _onPlayerDied;
     [SerializeField]
     protected GlobalEvent _onPlayerRevived;
