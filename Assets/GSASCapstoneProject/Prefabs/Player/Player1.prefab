@@ -280,6 +280,7 @@ MonoBehaviour:
   _isKnockedBack: {fileID: 11400000, guid: aa99a7be4adb70140a23c7d05ef0c36b, type: 2}
   _isInvincible: {fileID: 11400000, guid: db8164d74fbc529418a09b7aedb57f7f, type: 2}
   _isPlayerDead: {fileID: 11400000, guid: f2fd8e9827e1d9a41b1300c48d26f6ac, type: 2}
+  _isAttacking: {fileID: 11400000, guid: 8e419524fe416ce46bba7e6ef5f24600, type: 2}
   _onPlayerDied: {fileID: 11400000, guid: a7f4e5dd266afc848afacbc0659775cc, type: 2}
   _onPlayerRevived: {fileID: 11400000, guid: b896c08e760f11c4ea969d5dd58d369b, type: 2}
   _onOtherPlayerRevived: {fileID: 11400000, guid: 057c9d86ca12b614db10feb9a0f23b24, type: 2}
@@ -291,7 +292,10 @@ MonoBehaviour:
   _attackRadius: 1
   _onDownAttackInAir: {fileID: 11400000, guid: 65e64e7fc8ce558468da9710a02d486e, type: 2}
   _floatTime: {fileID: 11400000, guid: 47b8c058666dcb340a5203ff9c32a342, type: 2}
-  _isAttacking: {fileID: 11400000, guid: 8e419524fe416ce46bba7e6ef5f24600, type: 2}
+  _animClips:
+  - {fileID: 7400000, guid: 0bafac48b1090284da2048c29bc986ff, type: 2}
+  - {fileID: 7400000, guid: 3688e492878501d4882fffca4cb3bbff, type: 2}
+  - {fileID: 7400000, guid: c42aa71ad221ea349a7ee113bb662657, type: 2}
 --- !u!1 &5409529332463569975
 GameObject:
   m_ObjectHideFlags: 0
