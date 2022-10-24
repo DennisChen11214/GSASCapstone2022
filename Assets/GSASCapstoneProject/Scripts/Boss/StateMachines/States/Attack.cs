@@ -1,7 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 
 [Serializable]
 public class Attack : iState
@@ -31,9 +32,10 @@ public class Attack : iState
     public void OnEnter()
     {
         doneAttacking = false;
-        _manager.bulletAttackModule.SetTarget(_manager.target.Value);
-        _manager.bulletAttackModule.SetBossPart(_manager.transform);
+        _manager.bulletAttackModule.SetTarget(_manager.target);
+        _manager.bulletAttackModule.SetBossPart(_manager.bossPart);
         _manager.bulletAttackModule.Burst();
+        if (_manager.DEBUG) Debug.Log("Attack Done OnEnter()");
     }
 
     public void OnUpdate()
@@ -45,13 +47,13 @@ public class Attack : iState
 
         if (doneAttacking)
         {
-            _manager.TransitionToState(BossStateType.Idle);
+            _manager.TransitionToState(BossStateType.Idle, "Attack");
         }
     }
 
     public void OnExit()
     {
-        
+        if (_manager.DEBUG) Debug.Log("Attack Done OnExit()");
     }
     
 }

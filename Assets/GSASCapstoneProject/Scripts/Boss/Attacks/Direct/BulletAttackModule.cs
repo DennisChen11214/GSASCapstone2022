@@ -13,7 +13,7 @@ public class BulletAttackModule : MonoBehaviour
     [SerializeField] private Transform _poolParent;
 
     [SerializeField] private Transform target;
-    [SerializeField] private Transform bossPart;
+    [SerializeField] private Transform bossPart; 
     
     public bool doneAttacking;
     

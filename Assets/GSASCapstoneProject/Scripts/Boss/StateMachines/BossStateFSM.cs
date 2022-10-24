@@ -2,43 +2,71 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Core.GlobalVariables;
+using Core.GlobalEvents;
 using Unity.VisualScripting;
 using UnityEngine;
 
 
-
 public enum BossStateType
 {
-    Idle, Attack 
+    Idle,
+    Attack,
+    Move
 }
 
-public class BossStateFSM: MonoBehaviour
+public class BossStateFSM : MonoBehaviour
 {
+    public bool DEBUG = true;
     
-    public TransformVariable target;
+    [SerializeField] TransformVariable[] _targets;
+    private int _targetIdx = 0;
+    [SerializeField] GlobalEvent _swap;
+    [NonSerialized] public Transform target; // The true target
+
+    public Transform bossPart; // The Actual boss that takes damage and attacks
     
+
+    #region Attack State
     // modules attack module
     public BulletAttackModule bulletAttackModule;
     public LightningAttackModule lightningAttackModule;
     public RayAttackModule rayAttackModule;
 
-    // floating cooldown between attacks
+    #endregion
+    
+    
+    #region Idle State
+    // floating cooldown between attacks (Idle State)
     public float idleMin;
     public float idleMax;
+
+    #endregion
+
+
+    #region Move State
+    public Transform[] locations;
+    public float moveCoolDown;
+    public bool canMove;
     
-    
+    #endregion
+
     [SerializeField] private iState currentState;
     private Dictionary<BossStateType, iState> _states;
 
     private void Start()
     {
+        target = _targets[_targetIdx].Value;
+        _swap.Subscribe(SwapTarget);
         if (_states == null)
         {
             _states = new Dictionary<BossStateType, iState>();
             _states.Add(BossStateType.Idle, new Idle(this));
             _states.Add(BossStateType.Attack, new Attack(this));
+            _states.Add(BossStateType.Move, new Move(this));
         }
-        TransitionToState(BossStateType.Idle);
+
+        StartCoroutine(InitialMoveCoolDown());
+        TransitionToState(BossStateType.Idle, "Initialization");
     }
 
     private void Update()
@@ -46,13 +74,27 @@ public class BossStateFSM: MonoBehaviour
         currentState.OnUpdate();
     }
 
-    public void TransitionToState(BossStateType state)
+    public void TransitionToState(BossStateType state, string caller = "")
     {
+        if (DEBUG) Debug.Log(caller + " Requests Transition -> " + state + "VVVVVVVVVVVVVVVVVVVV");
         currentState?.OnExit();
         iState newState = _states[state];
         newState.OnEnter();
-        Debug.Log("Transition from " + currentState + " to " + newState);
+        if (DEBUG) Debug.Log("Done Transition from " + currentState + " to " + newState + "(" + caller + ")" + "^^^^^^^^^^^^^^^^^^^^");
         currentState = newState;
     }
+    
+    
+    private void SwapTarget()
+    {
+        _targetIdx = (_targetIdx + 1) % 2;
+        target = _targets[_targetIdx].Value;
+    }
+    
+    IEnumerator InitialMoveCoolDown()
+    {
+        canMove = false;
+        yield return new WaitForSeconds(moveCoolDown);
+        canMove = true;
+    }
 }
-  
