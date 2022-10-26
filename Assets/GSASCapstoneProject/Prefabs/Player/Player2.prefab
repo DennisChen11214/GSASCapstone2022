@@ -446,8 +446,10 @@ MonoBehaviour:
   _isInvincible: {fileID: 11400000, guid: 1ef36dd7af99921428ac010fee10fd91, type: 2}
   _isCharging: {fileID: 11400000, guid: 578ecc672c0c82943a942373c221ac3d, type: 2}
   _isOtherPlayerDead: {fileID: 11400000, guid: f2fd8e9827e1d9a41b1300c48d26f6ac, type: 2}
+  _isAttacking: {fileID: 11400000, guid: b171196f5c65f8441b4aeb52bb5a4957, type: 2}
   _swapDelay: {fileID: 11400000, guid: c43a1ce09d4c0e8429e4d35f2c4d3acc, type: 2}
   _movementCooldown: {fileID: 11400000, guid: b3e12bc910aaff44191fdb405c86c4d9, type: 2}
+  _floatTime: {fileID: 0}
   _numDashes: {fileID: 11400000, guid: bbbc20237b6f4c24faa205ab0a7fe6f5, type: 2}
   IsShootingLaser: 0
 --- !u!114 &311555601327746084
@@ -466,6 +468,7 @@ MonoBehaviour:
   _isKnockedBack: {fileID: 11400000, guid: 1d45de0f28cc6a248950c930c858f4ca, type: 2}
   _isInvincible: {fileID: 11400000, guid: 1ef36dd7af99921428ac010fee10fd91, type: 2}
   _isPlayerDead: {fileID: 11400000, guid: 65dffe666a722fd4d8dc55533157def1, type: 2}
+  _isAttacking: {fileID: 11400000, guid: b171196f5c65f8441b4aeb52bb5a4957, type: 2}
   _onPlayerDied: {fileID: 11400000, guid: d949992198da83245adc48398deb7336, type: 2}
   _onPlayerRevived: {fileID: 11400000, guid: 057c9d86ca12b614db10feb9a0f23b24, type: 2}
   _onOtherPlayerRevived: {fileID: 11400000, guid: b896c08e760f11c4ea969d5dd58d369b, type: 2}

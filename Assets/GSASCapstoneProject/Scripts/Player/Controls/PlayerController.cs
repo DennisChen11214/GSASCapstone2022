@@ -46,8 +46,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private BoolVariable _isInvincible;
     [SerializeField] private BoolVariable _isCharging;
     [SerializeField] private BoolVariable _isOtherPlayerDead;
+    [SerializeField] private BoolVariable _isAttacking;
     [SerializeField] private FloatVariable _swapDelay;
     [SerializeField] private FloatVariable _movementCooldown;
+    [SerializeField] private FloatVariable _floatTime;
     [SerializeField] private IntVariable _numDashes;
 
 
@@ -257,7 +259,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!_isKnockedBack.Value)
         {
-            if(Mathf.Abs(_moveDirection.y) > 0 && _moveDirection.x == 0)
+            if(Mathf.Abs(_moveDirection.y) > 0 && _moveDirection.x == 0 && _stats.Melee)
             {
                 _playerCombat.VerticalAttack(_moveDirection.y > 0);
             }
@@ -305,8 +307,9 @@ public class PlayerController : MonoBehaviour
         if (_moveDirection.x != 0 && !IsShootingLaser)
         {
             float inputX = _moveDirection.x;
-            if((inputX > 0 && transform.localScale.x < 0) || (inputX < 0 && transform.localScale.x > 0))
+            if(!_isAttacking.Value && ((inputX > 0 && transform.localScale.x < 0) || (inputX < 0 && transform.localScale.x > 0)))
             {
+
                 transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
             }
             _speed.x = Mathf.MoveTowards(_speed.x, inputX * _stats.MaxSpeed, _stats.Acceleration * Time.fixedDeltaTime);
@@ -316,6 +319,20 @@ public class PlayerController : MonoBehaviour
         {
             _speed.x = Mathf.MoveTowards(_speed.x, 0, (_grounded ? _stats.GroundDeceleration : _stats.AirDeceleration) * Time.fixedDeltaTime);
             if(_speed.x == 0) _rb.sharedMaterial = _stationaryMaterial;
+        }
+    }
+
+    public void CheckForFlip()
+    {
+        if (_isKnockedBack.Value) return;
+        if (_moveDirection.x != 0 && !IsShootingLaser)
+        {
+            float inputX = _moveDirection.x;
+            if ((inputX > 0 && transform.localScale.x < 0) || (inputX < 0 && transform.localScale.x > 0))
+            {
+
+                transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+            }
         }
     }
 
@@ -646,6 +663,14 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        if(_stats.Melee && _floatTime.Value > 0)
+        {
+            _floatTime.Value -= Time.fixedDeltaTime;
+            _speed.x *= 0.5f;
+            _speed.y = 0;
+            return;
+        }
+        
         // In Air
         var fallSpeed = _stats.FallAcceleration;
         if (_endedJumpEarly && _speed.y > 0) fallSpeed *= _stats.JumpEndEarlyGravityModifier;

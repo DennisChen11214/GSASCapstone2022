@@ -13,7 +13,6 @@ public class ChargeBeam : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log(other.gameObject);
         DamageModule damageModule = other.gameObject.GetComponent<DamageModule>();
         if (damageModule != null)
         {

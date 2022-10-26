@@ -4,6 +4,7 @@
 
 using UnityEngine;
 using Core.GlobalEvents;
+using Core.GlobalVariables;
 
 public class MeleePlayerCombat : PlayerCombat
 {
@@ -15,12 +16,15 @@ public class MeleePlayerCombat : PlayerCombat
     float _attackRadius;
     [SerializeField]
     GlobalEvent _onDownAttackInAir;
+    [SerializeField]
+    FloatVariable _floatTime;
+    [SerializeField]
+    AnimationClip[] _animClips;
 
     private float _attackEndTime;
     private bool _hasAttackBuffered = false;
     private bool _hasUpAttackBuffered = false;
     private bool _hasDownAttackBuffered = false;
-    private bool _isAttacking = false;
     private bool _isUpAttacking = false;
     private bool _isDownAttacking = false;
     private bool _isComboFinished = false;
@@ -42,7 +46,7 @@ public class MeleePlayerCombat : PlayerCombat
         {
             return;
         }
-        if (_isAttacking)
+        if (_isAttacking.Value)
         {
             _hasAttackBuffered = true;
             _hasUpAttackBuffered = false;
@@ -54,7 +58,7 @@ public class MeleePlayerCombat : PlayerCombat
         {
             _currentAttack = 0;
         }
-        _isAttacking = true;
+        _isAttacking.Value = true;
         switch (_currentAttack)
         {
             case 0:
@@ -75,7 +79,7 @@ public class MeleePlayerCombat : PlayerCombat
         {
             return;
         }
-        if (_isAttacking)
+        if (_isAttacking.Value)
         {
             _hasAttackBuffered = false;
             _hasUpAttackBuffered = up;
@@ -102,7 +106,7 @@ public class MeleePlayerCombat : PlayerCombat
     public void OnAttackEnd()
     {
         _attackEndTime = Time.time;
-        _isAttacking = false;
+        _isAttacking.Value = false;
         _currentAttack = (_currentAttack + 1) % 3;
         if (_currentAttack == 0)
         {
@@ -124,12 +128,12 @@ public class MeleePlayerCombat : PlayerCombat
     {
         if (_hasAttackBuffered)
         {
-            _isAttacking = true;
+            _isAttacking.Value = true;
             _hasAttackBuffered = false;
             switch (_currentAttack)
             {
                 case 0:
-                    _isAttacking = false;
+                    _isAttacking.Value = false;
                     break;
                 case 1:
                     _anim.SetTrigger("Attack2");
@@ -162,7 +166,7 @@ public class MeleePlayerCombat : PlayerCombat
     public void CheckHit()
     {
         float damage = 0;
-        if (_isAttacking)
+        if (_isAttacking.Value)
         {
             switch (_currentAttack)
             {
@@ -192,6 +196,10 @@ public class MeleePlayerCombat : PlayerCombat
                 {
                     _onDownAttackInAir.Raise();
                 }
+                else
+                {
+                    _floatTime.Value = _animClips[_currentAttack].length;
+                }
             }
         }
     }
@@ -206,7 +214,7 @@ public class MeleePlayerCombat : PlayerCombat
         _hasAttackBuffered = false;
         _hasDownAttackBuffered = false;
         _hasUpAttackBuffered = false;
-        _isAttacking = false;
+        _isAttacking.Value = false;
         _isUpAttacking = false;
         _isDownAttacking = false;
     }

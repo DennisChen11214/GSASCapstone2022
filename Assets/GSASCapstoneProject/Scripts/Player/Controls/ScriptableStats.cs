@@ -101,6 +101,7 @@ public class ScriptableStats : ScriptableObject {
     [Tooltip("Amount of charge the penalty dash gives (NEGATIVE)")]
     public float PenaltyGivenDash = -0.4f;
 
+
     #endregion
 
     #region Collisions
