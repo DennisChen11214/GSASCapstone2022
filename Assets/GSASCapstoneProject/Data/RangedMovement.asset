@@ -19,7 +19,7 @@ MonoBehaviour:
   AirDeceleration: 30
   GroundingForce: -10
   AllowDoubleJump: 0
-  JumpPower: 36
+  JumpPower: 38
   MaxFallSpeed: 40
   FallAcceleration: 110
   JumpEndEarlyGravityModifier: 3
@@ -61,6 +61,6 @@ MonoBehaviour:
   ProjectileDuration: 0.5
   ProjectileDamage: 1
   AngleOfVariation: 25
-  ChargeTime: 3
+  ChargeTime: 1.5
   ChargeBeamDamage: 20
   ChargeSlow: 0.7
