@@ -195,6 +195,7 @@ public class PlayerController : MonoBehaviour
             _grounded = true;
             _canDash = true;
             _isKnockedBack.Value = false;
+            Invoke("TurnOffInvincibility", _stats.InvincibleTime);
             ResetJump();
         }
         // Left the Ground
@@ -202,6 +203,14 @@ public class PlayerController : MonoBehaviour
         {
             _grounded = false;
             _frameLeftGrounded = _fixedFrame;
+        }
+    }
+
+    private void TurnOffInvincibility()
+    {
+        if (!_dashing)
+        {
+            _isInvincible.Value = false;
         }
     }
 

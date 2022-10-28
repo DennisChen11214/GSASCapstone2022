@@ -63,6 +63,7 @@ public abstract class PlayerCombat : MonoBehaviour
         if (!_isKnockedBack.Value)
         {
             _knockbackTime = _stats.KnockbackLength;
+            _isInvincible.Value = true;
         }
         _isKnockedBack.Value = true;
     }
