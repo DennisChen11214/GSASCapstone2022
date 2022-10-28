@@ -19,21 +19,21 @@ MonoBehaviour:
   AirDeceleration: 30
   GroundingForce: -10
   AllowDoubleJump: 0
-  JumpPower: 38
+  JumpPower: 40
   MaxFallSpeed: 40
   FallAcceleration: 110
   JumpEndEarlyGravityModifier: 3
   CoyoteFrames: 5
   JumpBufferFrames: 7
-  MaxDashes: 1
-  MovementCooldown: 3
+  MaxDashes: 2
+  MovementCooldown: 2
   DashVelocity: 50
   DashDurationFrames: 9
   DashInvincibleFrames: 5
   DashEndHorizontalMultiplier: 0.25
   DashEndVerticalMultiplier: 0.25
   DashDamage: 10
-  TeleportDistance: 7.5
+  TeleportDistance: 6.8
   TeleportLayers:
     serializedVersion: 2
     m_Bits: 8

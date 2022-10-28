@@ -1387,6 +1387,10 @@ PrefabInstance:
       propertyPath: _meleeDashType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3094511901696735910, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
+      propertyPath: _rangedDashType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3169387459918610934, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
       propertyPath: m_Layer
       value: 11
@@ -1418,6 +1422,10 @@ PrefabInstance:
     - target: {fileID: 6162105122480637423, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
       propertyPath: m_Layer
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6374823616628719759, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6502677188876001769, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
       propertyPath: m_IsActive
