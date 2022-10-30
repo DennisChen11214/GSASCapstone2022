@@ -1,3 +1,7 @@
+///
+/// Created by Dennis Chen
+///
+
 using Core.GlobalEvents;
 using UnityEngine;
 using System.Collections.Generic;
