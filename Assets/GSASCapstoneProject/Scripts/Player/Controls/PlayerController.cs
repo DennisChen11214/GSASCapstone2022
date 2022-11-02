@@ -99,15 +99,6 @@ public class PlayerController : MonoBehaviour
         _attack = _actions.FindActionMap("Player").FindAction("Attack");
         _swap = _actions.FindActionMap("Player").FindAction("Swap");
 
-        _attack.started += ctx => HandleAttacking();
-        _attack.canceled += ctx => CancelCharging();
-        _attack.performed += ctx => TryRevive();
-        _jump.started += ctx => HandleJump();
-        _jump.canceled += ctx => CancelJump();
-        _dash.performed += ctx => StartDash();
-        _swap.started += ctx => RequestSwap();
-        _swap.canceled += ctx => CancelSwap();
-
         _numDashes.Value = _stats.MaxDashes;
         _movementCooldown.Value = _stats.MovementCooldown;
     }
@@ -719,6 +710,14 @@ public class PlayerController : MonoBehaviour
             _onDownAttackInAir.Subscribe(DownAttackAirBounce);
         }
         _actions.Enable();
+        _attack.started += ctx => HandleAttacking();
+        _attack.canceled += ctx => CancelCharging();
+        _attack.performed += ctx => TryRevive();
+        _jump.started += ctx => HandleJump();
+        _jump.canceled += ctx => CancelJump();
+        _dash.performed += ctx => StartDash();
+        _swap.started += ctx => RequestSwap();
+        _swap.canceled += ctx => CancelSwap();
     }
 
     private void OnDisable()
@@ -730,5 +729,13 @@ public class PlayerController : MonoBehaviour
             _onDownAttackInAir.Unsubscribe(DownAttackAirBounce);
         }
         _actions.Disable();
+        _attack.started -= ctx => HandleAttacking();
+        _attack.canceled -= ctx => CancelCharging();
+        _attack.performed -= ctx => TryRevive();
+        _jump.started -= ctx => HandleJump();
+        _jump.canceled -= ctx => CancelJump();
+        _dash.performed -= ctx => StartDash();
+        _swap.started -= ctx => RequestSwap();
+        _swap.canceled -= ctx => CancelSwap();
     }
 }

@@ -20,10 +20,6 @@ public class RespawnPointManager : MonoBehaviour
 
     private void Awake()
     {
-        _onPlayerDied.Subscribe(PlayerDied);
-        _onPlayerRevived.Subscribe(PlayerRevived);
-        _onOtherPlayerRevived.Subscribe(OtherPlayerRevived);
-        _onPlayerSwapped.Subscribe(PlayersSwapped);
         _respawnPointsList[_playerNum] = new List<Transform>();
         for(int i = 0; i < transform.childCount; i++)
         {
@@ -61,5 +57,21 @@ public class RespawnPointManager : MonoBehaviour
                 child.SetActive(false);
             }
         }
+    }
+
+    private void OnEnable()
+    {
+        _onPlayerDied.Subscribe(PlayerDied);
+        _onPlayerRevived.Subscribe(PlayerRevived);
+        _onOtherPlayerRevived.Subscribe(OtherPlayerRevived);
+        _onPlayerSwapped.Subscribe(PlayersSwapped);
+    }
+
+    private void OnDisable()
+    {
+        _onPlayerDied.Unsubscribe(PlayerDied);
+        _onPlayerRevived.Unsubscribe(PlayerRevived);
+        _onOtherPlayerRevived.Unsubscribe(OtherPlayerRevived);
+        _onPlayerSwapped.Unsubscribe(PlayersSwapped);
     }
 }

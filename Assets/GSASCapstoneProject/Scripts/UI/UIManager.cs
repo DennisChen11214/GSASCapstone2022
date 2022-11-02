@@ -2,19 +2,26 @@
 /// Created by Dennis Chen
 ///
 
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using Core.GlobalEvents;
 
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
-    RectTransform _player1UI;
+    private RectTransform _player1UI;
     [SerializeField]
-    RectTransform _player2UI;
+    private RectTransform _player2UI;
     [SerializeField]
-    GlobalEvent _swapCompleted;
+    private GameObject _endScreen;
+    [SerializeField]
+    private TMP_Text _endText;
+    [SerializeField]
+    private GlobalEvent _swapCompleted;
+    [SerializeField]
+    private GlobalEvent _playerWin;
+    [SerializeField]
+    private GlobalEvent _gameOver;
 
     private void SwapUI()
     {
@@ -29,13 +36,29 @@ public class UIManager : MonoBehaviour
         _player2UI.anchoredPosition = tempPos;
     }
 
+    private void PlayerWin()
+    {
+        _endScreen.SetActive(true);
+        _endText.text = "Victory";
+    }
+
+    private void GameOver()
+    {
+        _endScreen.SetActive(true);
+        _endText.text = "Game Over";
+    }
+
     private void OnEnable()
     {
         _swapCompleted.Subscribe(SwapUI);
+        _playerWin.Subscribe(PlayerWin);
+        _gameOver.Subscribe(GameOver);
     }
 
     private void OnDisable()
     {
-        _swapCompleted.Unsubscribe(SwapUI);   
+        _swapCompleted.Unsubscribe(SwapUI);
+        _playerWin.Unsubscribe(PlayerWin);
+        _gameOver.Unsubscribe(GameOver);
     }
 }
