@@ -1,27 +1,16 @@
-///
-/// Created by Dennis Chen
-///
-
-using TMPro;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Core.GlobalEvents;
 
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
-    private RectTransform _player1UI;
+    RectTransform _player1UI;
     [SerializeField]
-    private RectTransform _player2UI;
+    RectTransform _player2UI;
     [SerializeField]
-    private GameObject _endScreen;
-    [SerializeField]
-    private TMP_Text _endText;
-    [SerializeField]
-    private GlobalEvent _swapCompleted;
-    [SerializeField]
-    private GlobalEvent _playerWin;
-    [SerializeField]
-    private GlobalEvent _gameOver;
+    GlobalEvent _swapCompleted;
 
     private void SwapUI()
     {
@@ -36,29 +25,13 @@ public class UIManager : MonoBehaviour
         _player2UI.anchoredPosition = tempPos;
     }
 
-    private void PlayerWin()
-    {
-        _endScreen.SetActive(true);
-        _endText.text = "Victory";
-    }
-
-    private void GameOver()
-    {
-        _endScreen.SetActive(true);
-        _endText.text = "Game Over";
-    }
-
     private void OnEnable()
     {
         _swapCompleted.Subscribe(SwapUI);
-        _playerWin.Subscribe(PlayerWin);
-        _gameOver.Subscribe(GameOver);
     }
 
     private void OnDisable()
     {
-        _swapCompleted.Unsubscribe(SwapUI);
-        _playerWin.Unsubscribe(PlayerWin);
-        _gameOver.Unsubscribe(GameOver);
+        _swapCompleted.Unsubscribe(SwapUI);   
     }
 }

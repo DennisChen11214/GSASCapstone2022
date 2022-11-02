@@ -137,9 +137,6 @@ public class ScriptableStats : ScriptableObject {
     [Tooltip("The amount of knockback the player takes when hit")]
     public float Knockback = 10;
 
-    [Tooltip("Time the player is invicible after getting hit and hitting the ground")]
-    public float InvincibleTime = 1f;
-
     [Tooltip("How much damage the melee character's first attack does")]
     [BoolAttribute("Melee", true)]
     public float MeleeDamageAttack1 = 3;

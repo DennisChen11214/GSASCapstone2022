@@ -33,7 +33,6 @@ public class MeleePlayerCombat : PlayerCombat
     protected override void Awake()
     {
         base.Awake();
-        _attackEndTime = 0;
     }
 
     protected override void FixedUpdate()
@@ -193,7 +192,6 @@ public class MeleePlayerCombat : PlayerCombat
             if (damageModule != null)
             {
                 damageModule.TakeDamage(damage);
-                _damageDealt.Value += damage;
                 if (_isDownAttacking && _rb.velocity.y != 0)
                 {
                     _onDownAttackInAir.Raise();

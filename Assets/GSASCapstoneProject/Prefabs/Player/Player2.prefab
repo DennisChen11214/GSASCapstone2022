@@ -225,7 +225,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stats: {fileID: 11400000, guid: 87e27283a4e693f4a86ffe6fb6a36b85, type: 2}
-  _damageDealt: {fileID: 11400000, guid: 2b79e1c683e742a46a503291606592c0, type: 2}
 --- !u!61 &2304103161917926208
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -466,9 +465,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerHealth: {fileID: 11400000, guid: 5a155a07f05d0954a9b3ba41df27b287, type: 2}
-  _numDeaths: {fileID: 11400000, guid: 8a35e96f5dd1d30458b329ac923f0edb, type: 2}
-  _damageDealt: {fileID: 11400000, guid: 05c819021bab78c4f9371be874fa558e, type: 2}
-  _damageTaken: {fileID: 11400000, guid: 068d28d8466e509489bea158d33b320c, type: 2}
   _isKnockedBack: {fileID: 11400000, guid: 1d45de0f28cc6a248950c930c858f4ca, type: 2}
   _isInvincible: {fileID: 11400000, guid: 1ef36dd7af99921428ac010fee10fd91, type: 2}
   _isPlayerDead: {fileID: 11400000, guid: 65dffe666a722fd4d8dc55533157def1, type: 2}

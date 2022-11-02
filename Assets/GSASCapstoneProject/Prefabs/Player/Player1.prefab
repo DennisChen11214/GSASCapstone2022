@@ -277,9 +277,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerHealth: {fileID: 11400000, guid: 20037cef67d987f468020f229befdecf, type: 2}
-  _numDeaths: {fileID: 11400000, guid: 217c50557638c014d8853b3e8022a6c0, type: 2}
-  _damageDealt: {fileID: 11400000, guid: 2b79e1c683e742a46a503291606592c0, type: 2}
-  _damageTaken: {fileID: 11400000, guid: d317ae566b6ad024593f8d58c75de11a, type: 2}
   _isKnockedBack: {fileID: 11400000, guid: aa99a7be4adb70140a23c7d05ef0c36b, type: 2}
   _isInvincible: {fileID: 11400000, guid: db8164d74fbc529418a09b7aedb57f7f, type: 2}
   _isPlayerDead: {fileID: 11400000, guid: f2fd8e9827e1d9a41b1300c48d26f6ac, type: 2}

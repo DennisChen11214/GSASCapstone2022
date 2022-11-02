@@ -2,15 +2,14 @@
 /// Created by Dennis Chen
 ///
 
-using Core.GlobalVariables;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ChargeBeam : MonoBehaviour
 {
     [SerializeField]
     private ScriptableStats _stats;
-    [SerializeField]
-    private FloatVariable _damageDealt;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -18,7 +17,6 @@ public class ChargeBeam : MonoBehaviour
         if (damageModule != null)
         {
             damageModule.TakeDamage(_stats.ChargeBeamDamage);
-            _damageDealt.Value += _stats.ChargeBeamDamage;
         }
     }
 }

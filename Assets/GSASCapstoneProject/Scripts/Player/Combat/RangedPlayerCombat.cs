@@ -29,7 +29,6 @@ public class RangedPlayerCombat : PlayerCombat
     {
         base.Awake();
         InitializeBulletPool();
-        _isCharging.Value = false;
     }
 
     protected override void Update()
