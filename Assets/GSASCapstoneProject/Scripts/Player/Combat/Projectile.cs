@@ -3,9 +3,12 @@
 ///
 
 using UnityEngine;
+using Core.GlobalVariables;
 
 public class Projectile : MonoBehaviour
 {
+    [SerializeField]
+    private FloatVariable _damageDealt;
     [SerializeField]
     private ScriptableStats _stats;
 
@@ -40,6 +43,7 @@ public class Projectile : MonoBehaviour
             return;
         }
         damageModule.TakeDamage(_stats.ProjectileDamage);
+        _damageDealt.Value += _stats.ProjectileDamage;
         gameObject.SetActive(false);
     }
 }

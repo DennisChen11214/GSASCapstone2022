@@ -419,10 +419,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55c7266e55ca10445960f2d4698bb5bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: {fileID: 11400000, guid: 86b7757fc8dfc444dbf97a0488e90cdf, type: 2}
-  onHealthBelowZero: {fileID: 11400000, guid: 2395615dc3d159742bb389dd5db34e61, type: 2}
-  bossTakesDamage: {fileID: 0}
-  sprite: {fileID: 5292002422474863508}
+  _hp: {fileID: 11400000, guid: 86b7757fc8dfc444dbf97a0488e90cdf, type: 2}
+  _onHealthBelowZero: {fileID: 11400000, guid: 2395615dc3d159742bb389dd5db34e61, type: 2}
 --- !u!114 &4883727100723713986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,7 +435,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _health: {fileID: 11400000, guid: 86b7757fc8dfc444dbf97a0488e90cdf, type: 2}
   _bossDestroy: {fileID: 11400000, guid: 2395615dc3d159742bb389dd5db34e61, type: 2}
-  _bossTakesDamage: {fileID: 0}
 --- !u!50 &2456603782600121245
 Rigidbody2D:
   serializedVersion: 4
