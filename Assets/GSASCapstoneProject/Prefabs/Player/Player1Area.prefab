@@ -1066,6 +1066,7 @@ MonoBehaviour:
   _onPlayerDied: {fileID: 11400000, guid: d949992198da83245adc48398deb7336, type: 2}
   _onPlayerRevived: {fileID: 11400000, guid: b896c08e760f11c4ea969d5dd58d369b, type: 2}
   _onOtherPlayerRevived: {fileID: 11400000, guid: 057c9d86ca12b614db10feb9a0f23b24, type: 2}
+  _onPlayerSwapped: {fileID: 11400000, guid: c2c137196e36f9440aaaa8923095d01a, type: 2}
   _player: {fileID: 719124602272055506}
 --- !u!1 &2284915995113420125
 GameObject:

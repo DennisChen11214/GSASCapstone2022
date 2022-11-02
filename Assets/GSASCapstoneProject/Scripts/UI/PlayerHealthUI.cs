@@ -25,6 +25,7 @@ public class PlayerHealthUI : MonoBehaviour
 
     private void UpdateHearts(int health)
     {
+        if (_hearts == null || _hearts.Count == 0) return;
         for(int i = 0; i < health; i++)
         {
             _hearts[i].SetActive(true);

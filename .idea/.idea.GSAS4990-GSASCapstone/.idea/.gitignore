@@ -1,0 +1,13 @@
+﻿# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/modules.xml
+/projectSettingsUpdater.xml
+/.idea.GSAS4990-GSASCapstone.iml
+/contentModel.xml
+# Datasource local storage ignored files
+/../../../../../../../../:\JUAN TMD\2022 Fall\Courses\GSAS4990-GSASCapstone\.idea\.idea.GSAS4990-GSASCapstone\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
