@@ -30,6 +30,11 @@ namespace Core.GlobalEvents
                 _eventListeners[i].OnEventRaised(value); ;
         }
 
+        public string GetSubscribers()
+        {
+            return OnBoolEventCalled.GetInvocationList().Length + "";
+        }
+
         public void Subscribe(BoolEvent boolEvent)
         {
             OnBoolEventCalled += boolEvent;

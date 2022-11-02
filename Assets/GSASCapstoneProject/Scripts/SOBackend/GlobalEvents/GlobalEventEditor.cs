@@ -20,6 +20,7 @@ namespace Core.GlobalEvents
             GlobalEvent e = target as GlobalEvent;
             if (GUILayout.Button("Raise"))
                 e.Raise();
+            GUILayout.Label("" + e.GetSubscribers());
         }
     }
 }

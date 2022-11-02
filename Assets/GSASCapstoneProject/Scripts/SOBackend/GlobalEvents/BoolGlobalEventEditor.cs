@@ -22,6 +22,7 @@ namespace Core.GlobalEvents
             value = EditorGUILayout.Toggle("Value", value);
             if (GUILayout.Button("Raise"))
                 be.Raise(value);
+            GUILayout.Label("" + be.GetSubscribers());
         }
     }
 }

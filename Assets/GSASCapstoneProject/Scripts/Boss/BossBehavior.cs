@@ -28,7 +28,12 @@ public class BossBehavior : MonoBehaviour
     {
         _onHealthBelowZero.Subscribe(Death);
     }
-    
+
+    private void OnDestroy()
+    {
+        _onHealthBelowZero.Unsubscribe(Death);
+    }
+
     private void Death()
     {
         Destroy(gameObject);

@@ -97,4 +97,9 @@ public class BossStateFSM : MonoBehaviour
         yield return new WaitForSeconds(moveCoolDown);
         canMove = true;
     }
+
+    private void OnDestroy()
+    {
+        _swap.Unsubscribe(SwapTarget);
+    }
 }
