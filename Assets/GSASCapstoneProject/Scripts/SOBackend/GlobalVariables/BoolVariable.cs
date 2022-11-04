@@ -33,6 +33,20 @@ namespace Core.GlobalVariables
         public delegate void ValueChange(bool newValue);
         public event ValueChange OnValueChanged;
 
+        public string GetSubscribers()
+        {
+            string subscribers = "Subscribers: \n";
+            if (OnValueChanged != null)
+            {
+                for (int i = 0; i < OnValueChanged.GetInvocationList().Length; i++)
+                {
+                    subscribers += OnValueChanged.GetInvocationList()[i].Target.ToString() + ": " +
+                                   OnValueChanged.GetInvocationList()[i].Method.ToString() + "\n";
+                }
+            }
+            return subscribers;
+        }
+
         public void SetDefaultValue(bool value)
         {
             DefaultValue = value;

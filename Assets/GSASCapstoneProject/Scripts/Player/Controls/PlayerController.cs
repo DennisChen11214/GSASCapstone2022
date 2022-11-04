@@ -99,6 +99,15 @@ public class PlayerController : MonoBehaviour
         _attack = _actions.FindActionMap("Player").FindAction("Attack");
         _swap = _actions.FindActionMap("Player").FindAction("Swap");
 
+        _attack.started += HandleAttacking;
+        _attack.canceled += CancelCharging;
+        _attack.performed += TryRevive;
+        _jump.started += HandleJump;
+        _jump.canceled += CancelJump;
+        _dash.performed += StartDash;
+        _swap.started += RequestSwap;
+        _swap.canceled += CancelSwap;
+
         _numDashes.Value = _stats.MaxDashes;
         _movementCooldown.Value = _stats.MovementCooldown;
     }
@@ -210,14 +219,14 @@ public class PlayerController : MonoBehaviour
     #region Swapping
     private bool _swapHeld;
 
-    protected virtual void RequestSwap()
+    protected virtual void RequestSwap(InputAction.CallbackContext ctx)
     {
         if (_isOtherPlayerDead.Value) return;
         _swapHeld = true;
         _requestSwap.Raise(transform);
     }
 
-    protected virtual void CancelSwap()
+    protected virtual void CancelSwap(InputAction.CallbackContext ctx)
     {
         _swapHeld = false;
         _swapCanceled.Raise();
@@ -255,7 +264,7 @@ public class PlayerController : MonoBehaviour
     #region Attacking
 
 
-    protected virtual void HandleAttacking()
+    protected virtual void HandleAttacking(InputAction.CallbackContext ctx)
     {
         if (!_isKnockedBack.Value)
         {
@@ -270,7 +279,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    protected virtual void TryRevive()
+    protected virtual void TryRevive(InputAction.CallbackContext ctx)
     {
         if (_isOtherPlayerDead.Value)
         {
@@ -287,7 +296,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    protected virtual void CancelCharging()
+    protected virtual void CancelCharging(InputAction.CallbackContext ctx)
     {
         _playerCombat.CancelAttack();
     }
@@ -351,7 +360,7 @@ public class PlayerController : MonoBehaviour
     private bool HasBufferedJump => _grounded && _bufferedJumpUsable && _fixedFrame < _frameJumpWasPressed + _stats.JumpBufferFrames;
     private bool CanDoubleJump => _stats.AllowDoubleJump && _doubleJumpUsable && !_coyoteUsable;
 
-    protected virtual void HandleJump()
+    protected virtual void HandleJump(InputAction.CallbackContext ctx)
     {
         if (_isKnockedBack.Value || _dashing || IsShootingLaser) return;
 
@@ -392,7 +401,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    protected virtual void CancelJump()
+    protected virtual void CancelJump(InputAction.CallbackContext ctx)
     {
         // Early end detection
         if (!_endedJumpEarly && !_grounded && !_dashing && _rb.velocity.y > 0) _endedJumpEarly = true;
@@ -416,7 +425,7 @@ public class PlayerController : MonoBehaviour
     private int _startedDashing;
     private Vector2 _dashVel;
 
-    protected virtual void StartDash()
+    protected virtual void StartDash(InputAction.CallbackContext ctx)
     {
         if (_canDash && _numDashes.Value > 0 && !_isKnockedBack.Value && !IsShootingLaser)
         {
@@ -710,14 +719,6 @@ public class PlayerController : MonoBehaviour
             _onDownAttackInAir.Subscribe(DownAttackAirBounce);
         }
         _actions.Enable();
-        _attack.started += ctx => HandleAttacking();
-        _attack.canceled += ctx => CancelCharging();
-        _attack.performed += ctx => TryRevive();
-        _jump.started += ctx => HandleJump();
-        _jump.canceled += ctx => CancelJump();
-        _dash.performed += ctx => StartDash();
-        _swap.started += ctx => RequestSwap();
-        _swap.canceled += ctx => CancelSwap();
     }
 
     private void OnDisable()
@@ -729,13 +730,17 @@ public class PlayerController : MonoBehaviour
             _onDownAttackInAir.Unsubscribe(DownAttackAirBounce);
         }
         _actions.Disable();
-        _attack.started -= ctx => HandleAttacking();
-        _attack.canceled -= ctx => CancelCharging();
-        _attack.performed -= ctx => TryRevive();
-        _jump.started -= ctx => HandleJump();
-        _jump.canceled -= ctx => CancelJump();
-        _dash.performed -= ctx => StartDash();
-        _swap.started -= ctx => RequestSwap();
-        _swap.canceled -= ctx => CancelSwap();
+    }
+
+    private void OnDestroy()
+    {
+        _attack.started -= HandleAttacking;
+        _attack.canceled -= CancelCharging;
+        _attack.performed -= TryRevive;
+        _jump.started -= HandleJump;
+        _jump.canceled -= CancelJump;
+        _dash.performed -= StartDash;
+        _swap.started -= RequestSwap;
+        _swap.canceled -= CancelSwap;
     }
 }

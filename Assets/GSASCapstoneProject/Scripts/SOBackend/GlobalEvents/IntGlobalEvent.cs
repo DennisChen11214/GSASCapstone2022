@@ -30,6 +30,20 @@ namespace Core.GlobalEvents
                 _eventListeners[i].OnEventRaised(value); ;
         }
 
+        public string GetSubscribers()
+        {
+            string subscribers = "Subscribers: \n";
+            if (OnIntEventCalled != null)
+            {
+                for (int i = 0; i < OnIntEventCalled.GetInvocationList().Length; i++)
+                {
+                    subscribers += OnIntEventCalled.GetInvocationList()[i].Target.ToString() + ": " +
+                                   OnIntEventCalled.GetInvocationList()[i].Method.ToString() + "\n";
+                }
+            }
+            return subscribers;
+        }
+
         public void Subscribe(IntEvent intEvent)
         {
             OnIntEventCalled += intEvent;

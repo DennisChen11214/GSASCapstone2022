@@ -24,4 +24,10 @@ public class GameManager : MonoBehaviour
             _gameOver.Raise();
         }
     }
+
+    private void OnDestroy()
+    {
+        _player1Dead.Unsubscribe(CheckForLoss);
+        _player2Dead.Unsubscribe(CheckForLoss);
+    }
 }

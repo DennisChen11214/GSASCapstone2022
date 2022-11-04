@@ -29,6 +29,19 @@ namespace Core.GlobalEvents
             for (int i = _eventListeners.Count - 1; i >= 0; i--)
                 _eventListeners[i].OnEventRaised(value); ;
         }
+        public string GetSubscribers()
+        {
+            string subscribers = "Subscribers: \n";
+            if (OnTransformEventCalled != null)
+            {
+                for (int i = 0; i < OnTransformEventCalled.GetInvocationList().Length; i++)
+                {
+                    subscribers += OnTransformEventCalled.GetInvocationList()[i].Target.ToString() + ": " +
+                                   OnTransformEventCalled.GetInvocationList()[i].Method.ToString() + "\n";
+                }
+            }
+            return subscribers;
+        }
 
         public void Subscribe(TransformEvent transformEvent)
         {

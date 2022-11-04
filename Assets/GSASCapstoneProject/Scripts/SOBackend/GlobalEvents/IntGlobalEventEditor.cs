@@ -23,6 +23,7 @@ namespace Core.GlobalEvents
             value = EditorGUILayout.IntField("Value", value);
             if (GUILayout.Button("Raise"))
                 ie.Raise(value);
+            GUILayout.Label("" + ie.GetSubscribers());
         }
     }
 }

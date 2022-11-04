@@ -24,6 +24,7 @@ namespace Core.GlobalEvents
             value = EditorGUILayout.ObjectField("Object", value, typeof(Transform), true) as Transform;
             if (GUILayout.Button("Raise"))
                 se.Raise(value);
+            GUILayout.Label("" + se.GetSubscribers());
         }
     }
 }
