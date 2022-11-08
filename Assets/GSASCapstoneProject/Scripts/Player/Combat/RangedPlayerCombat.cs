@@ -17,6 +17,8 @@ public class RangedPlayerCombat : PlayerCombat
     private Transform _poolParent;
     [SerializeField]
     private Transform _spawnPosition;
+    [SerializeField]
+    private ParticleSystem _chargeParticles;
 
     private Projectile[] _bulletPool;
     private float _attackEndTime;
@@ -38,10 +40,13 @@ public class RangedPlayerCombat : PlayerCombat
         if (_isCharging.Value)
         {
             _curCharge = Mathf.Min(_curCharge + Time.deltaTime, _stats.ChargeTime);
-            GetComponent<SpriteRenderer>().color = Color.green;
             if (_curCharge >= _stats.ChargeTime)
             {
-                GetComponent<SpriteRenderer>().color = Color.black;
+                ParticleSystem.MainModule main = _chargeParticles.main;
+                ParticleSystem.ShapeModule shape = _chargeParticles.shape;
+                main.startLifetime = 0.1f;
+                main.startSize = 1.5f;
+                shape.radius = 0.1f;
             }  
         }
     }
@@ -97,6 +102,25 @@ public class RangedPlayerCombat : PlayerCombat
     {
         _curCharge = Mathf.Clamp(_curCharge + _stats.ChargeTime * percent, 0, _stats.ChargeTime);
     }
+
+    private void StartOrStopCharging(bool _isCharging)
+    {
+        if (_isCharging)
+        {
+            ParticleSystem.MainModule main = _chargeParticles.main;
+            ParticleSystem.ShapeModule shape = _chargeParticles.shape;
+            _chargeParticles.Play();
+            main.startLifetime = 0.4f;
+            main.startSize = 0.7f;
+            shape.radius = 1.4f;
+        }
+        else
+        {
+            _chargeParticles.Stop();
+        }
+    }
+
+
 
     public void SpawnProjectiles()
     {
@@ -176,10 +200,12 @@ public class RangedPlayerCombat : PlayerCombat
         _hasAttackBuffered = false;
         _isAttacking.Value = false;
         _isKnockedBack.Subscribe(CancelIfKnockedBack);
+        _isCharging.Subscribe(StartOrStopCharging);
     }
 
     private void OnDisable()
     {
         _isKnockedBack.Unsubscribe(CancelIfKnockedBack);
+        _isCharging.Unsubscribe(StartOrStopCharging);
     }
 }

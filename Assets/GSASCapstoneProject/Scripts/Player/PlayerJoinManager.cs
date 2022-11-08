@@ -2,6 +2,7 @@
 /// Created by Dennis Chen
 ///
 
+using Core.GlobalVariables;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,36 +12,57 @@ public class PlayerJoinManager : MonoBehaviour
     PlayerInput _player1Input;
     [SerializeField]
     PlayerInput _player2Input;
+    [SerializeField]
+    StringVariable _p1Device;
+    [SerializeField]
+    StringVariable _p2Device;
 
     // Start is called before the first frame update
     void Start()
     {
-        if(Gamepad.all.Count == 1)
+        InputDevice[] player1Devices = new InputDevice[1];
+        InputDevice[] player2Devices = new InputDevice[1];
+        if (_p1Device.Value == "" && _p2Device.Value == "")
         {
-            InputDevice[] player1Devices = { Keyboard.current};
-            InputDevice[] player2Devices = { Gamepad.all[0] };
+            player1Devices[0] = Keyboard.current;
             _player1Input.SwitchCurrentControlScheme("KeyboardPlayer1", player1Devices);
-            _player2Input.SwitchCurrentControlScheme("Controller", player2Devices);
+            player2Devices[0] = Keyboard.current;
+            _player2Input.SwitchCurrentControlScheme("KeyboardPlayer2", player2Devices);
+            return;
         }
-        else if (Gamepad.all.Count == 2)
+        if (_p1Device.Value == "Controller" && _p2Device.Value == "Controller")
         {
-            InputDevice[] player1Devices = { Gamepad.all[0] };
-            InputDevice[] player2Devices = { Gamepad.all[1] };
+            InputSystem.EnableDevice(Gamepad.all[0]);
+            InputSystem.EnableDevice(Gamepad.all[1]);
+            player1Devices[0] = Gamepad.all[0];
             _player1Input.SwitchCurrentControlScheme("Controller", player1Devices);
+            player2Devices[0] = Gamepad.all[1];
             _player2Input.SwitchCurrentControlScheme("Controller", player2Devices);
         }
         else
         {
-            InputDevice[] player1Devices = { Keyboard.current };
-            InputDevice[] player2Devices = { Keyboard.current };
-            _player1Input.SwitchCurrentControlScheme("KeyboardPlayer1", player1Devices);
-            _player2Input.SwitchCurrentControlScheme("KeyboardPlayer2", player2Devices);
+            if(_p1Device.Value == "Keyboard")
+            {
+                player1Devices[0] = Keyboard.current;
+                _player1Input.SwitchCurrentControlScheme("KeyboardPlayer1", player1Devices);
+            }
+            else
+            {
+                InputSystem.EnableDevice(Gamepad.all[0]);
+                player1Devices[0] = Gamepad.all[0];
+                _player1Input.SwitchCurrentControlScheme("Controller", player1Devices);
+            }
+            if (_p2Device.Value == "Keyboard")
+            {
+                player2Devices[0] = Keyboard.current;
+                _player2Input.SwitchCurrentControlScheme("KeyboardPlayer2", player2Devices);
+            }
+            else
+            {
+                InputSystem.EnableDevice(Gamepad.all[0]);
+                player2Devices[0] = Gamepad.all[0];
+                _player2Input.SwitchCurrentControlScheme("Controller", player2Devices);
+            }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

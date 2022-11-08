@@ -3,6 +3,7 @@
 /// Reference: https://forum.unity.com/threads/draw-a-field-only-if-a-condition-is-met.448855/
 ///
 
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 
@@ -44,3 +45,4 @@ public class BoolPropertyDrawer : PropertyDrawer
         }
     }
 }
+#endif

@@ -15,13 +15,13 @@ public class ControlsMenu : MonoBehaviour
     [SerializeField]
     private GameObject _rightArrowP1;
     [SerializeField]
-    private GameObject _controlsTextP1;
+    private TMP_Text _controlsTextP1;
     [SerializeField]
     private GameObject _leftArrowP2;
     [SerializeField]
     private GameObject _rightArrowP2;
     [SerializeField]
-    private GameObject _controlsTextP2;
+    private TMP_Text _controlsTextP2;
     [SerializeField]
     private StringVariable _controlsP1;
     [SerializeField]
@@ -34,8 +34,25 @@ public class ControlsMenu : MonoBehaviour
         _numGamepads = Gamepad.all.Count;
         if(_numGamepads == 0)
         {
+            _leftArrowP1.SetActive(false);
+            _leftArrowP2.SetActive(false);
             _rightArrowP1.SetActive(false);
             _rightArrowP2.SetActive(false);
+        }
+        else if(_numGamepads == 1)
+        {
+            _rightArrowP1.SetActive(true);
+            _leftArrowP2.SetActive(true);
+            _controlsTextP2.text = "Controller";
+        }
+        else
+        {
+            _leftArrowP1.SetActive(false);
+            _leftArrowP2.SetActive(false);
+            _rightArrowP1.SetActive(false);
+            _rightArrowP2.SetActive(false);
+            _controlsTextP1.text = "Controller";
+            _controlsTextP2.text = "Controller";
         }
     }
 
@@ -43,7 +60,7 @@ public class ControlsMenu : MonoBehaviour
     {
         _leftArrowP1.SetActive(false);
         _rightArrowP1.SetActive(true);
-        _controlsTextP1.GetComponent<TMP_Text>().text = "Keyboard";
+        _controlsTextP1.text = "Keyboard";
         _numGamepads++;
         if(_numGamepads == 1)
         {
@@ -55,7 +72,7 @@ public class ControlsMenu : MonoBehaviour
     {
         _leftArrowP1.SetActive(true);
         _rightArrowP1.SetActive(false);
-        _controlsTextP1.GetComponent<TMP_Text>().text = "Controller";
+        _controlsTextP1.text = "Controller";
         _numGamepads--;
         if (_numGamepads == 0)
         {
@@ -67,7 +84,7 @@ public class ControlsMenu : MonoBehaviour
     {
         _leftArrowP2.SetActive(false);
         _rightArrowP2.SetActive(true);
-        _controlsTextP2.GetComponent<TMP_Text>().text = "Keyboard";
+        _controlsTextP2.text = "Keyboard";
         _numGamepads++;
         if (_numGamepads == 1)
         {
@@ -79,7 +96,7 @@ public class ControlsMenu : MonoBehaviour
     {
         _leftArrowP2.SetActive(true);
         _rightArrowP2.SetActive(false);
-        _controlsTextP2.GetComponent<TMP_Text>().text = "Controller";
+        _controlsTextP2.text = "Controller";
         _numGamepads--;
         if (_numGamepads == 0)
         {
@@ -89,8 +106,8 @@ public class ControlsMenu : MonoBehaviour
 
     public void StartGame()
     {
-        _controlsP1.Value = _controlsTextP1.GetComponent<TMP_Text>().text;
-        _controlsP2.Value = _controlsTextP2.GetComponent<TMP_Text>().text;
+        _controlsP1.Value = _controlsTextP1.text;
+        _controlsP2.Value = _controlsTextP2.text;
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

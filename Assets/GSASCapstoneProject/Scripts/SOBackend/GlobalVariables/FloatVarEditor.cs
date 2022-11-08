@@ -2,6 +2,8 @@
 /// Created by Dennis Chen
 /// Reference: Ryan's code talked about in https://www.youtube.com/watch?v=raQ3iHhE_Kk
 ///
+
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 
@@ -23,3 +25,4 @@ namespace Core.GlobalVariables
         }
     }
 }
+#endif
