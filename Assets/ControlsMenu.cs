@@ -34,25 +34,8 @@ public class ControlsMenu : MonoBehaviour
         _numGamepads = Gamepad.all.Count;
         if(_numGamepads == 0)
         {
-            _leftArrowP1.SetActive(false);
-            _leftArrowP2.SetActive(false);
             _rightArrowP1.SetActive(false);
             _rightArrowP2.SetActive(false);
-        }
-        else if(_numGamepads == 1)
-        {
-            _rightArrowP1.SetActive(true);
-            _leftArrowP2.SetActive(true);
-            _controlsTextP2.text = "Controller";
-        }
-        else
-        {
-            _leftArrowP1.SetActive(false);
-            _leftArrowP2.SetActive(false);
-            _rightArrowP1.SetActive(false);
-            _rightArrowP2.SetActive(false);
-            _controlsTextP1.text = "Controller";
-            _controlsTextP2.text = "Controller";
         }
     }
 
@@ -62,7 +45,7 @@ public class ControlsMenu : MonoBehaviour
         _rightArrowP1.SetActive(true);
         _controlsTextP1.text = "Keyboard";
         _numGamepads++;
-        if(_numGamepads == 1)
+        if(_numGamepads == 1 && _controlsTextP2.text != "Controller")
         {
             _rightArrowP2.SetActive(true);
         }
@@ -86,7 +69,7 @@ public class ControlsMenu : MonoBehaviour
         _rightArrowP2.SetActive(true);
         _controlsTextP2.text = "Keyboard";
         _numGamepads++;
-        if (_numGamepads == 1)
+        if (_numGamepads == 1 && _controlsTextP1.text != "Controller")
         {
             _rightArrowP1.SetActive(true);
         }
@@ -109,5 +92,68 @@ public class ControlsMenu : MonoBehaviour
         _controlsP1.Value = _controlsTextP1.text;
         _controlsP2.Value = _controlsTextP2.text;
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    private void HandleDeviceChange(InputDevice device, InputDeviceChange change)
+    {
+        switch (change)
+        {
+            case InputDeviceChange.Added:
+                _numGamepads++;
+                Debug.Log("New device added: " + _numGamepads);
+                if (_controlsTextP1.text != "Controller")
+                {
+                    _rightArrowP1.SetActive(true);
+                }
+                if (_controlsTextP2.text != "Controller")
+                {
+                    _rightArrowP2.SetActive(true);
+                }
+                break;
+
+            case InputDeviceChange.Removed:
+                Debug.Log("Device removed: " + Gamepad.all.Count);
+                _rightArrowP1.SetActive(false);
+                _rightArrowP2.SetActive(false);
+                _leftArrowP1.SetActive(false);
+                _leftArrowP2.SetActive(false);
+                if(Gamepad.all.Count == 1)
+                {
+                    if(_controlsTextP1.text == "Controller" && _controlsTextP2.text == "Controller")
+                    {
+                        _leftArrowP2.SetActive(true);
+                        _controlsTextP1.text = "Keyboard";
+                    }
+                    else if(_controlsTextP1.text == "Controller")
+                    {
+                        _leftArrowP1.SetActive(true);
+                    }
+                    else if(_controlsTextP2.text == "Controller")
+                    {
+                        _leftArrowP2.SetActive(true);
+                    }
+                    else
+                    {
+                        _numGamepads--;
+                    }
+                }
+                else if (Gamepad.all.Count == 0)
+                {
+                    _controlsTextP1.text = "Keyboard";
+                    _controlsTextP2.text = "Keyboard";
+                }
+                break;
+        }
+    }
+
+
+    private void OnEnable()
+    {
+        InputSystem.onDeviceChange += HandleDeviceChange;
+    }
+
+    private void OnDisable()
+    {
+        InputSystem.onDeviceChange -= HandleDeviceChange;
     }
 }
