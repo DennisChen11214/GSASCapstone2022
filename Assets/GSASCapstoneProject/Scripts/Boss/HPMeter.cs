@@ -8,6 +8,7 @@ public class HPMeter : MonoBehaviour
 {
     public FloatVariable hp;
     [SerializeField] Scrollbar HpBar;
+    [SerializeField] float fullHp; 
 
     private void Start()
     {
@@ -20,6 +21,6 @@ public class HPMeter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HpBar.size = hp.Value / 100;
+        HpBar.size = hp.Value / fullHp;
     }
 }

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BossHealth
   m_EditorClassIdentifier: 
   DeveloperDescription: 
-  DefaultValue: 100
-  _value: 100
+  DefaultValue: 150
+  _value: 66

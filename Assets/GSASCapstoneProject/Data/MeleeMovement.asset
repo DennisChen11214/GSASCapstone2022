@@ -49,9 +49,10 @@ MonoBehaviour:
   KnockbackLength: 0.2
   KnockbackFactor: 0.33
   Knockback: 10
-  MeleeDamageAttack1: 3
-  MeleeDamageAttack2: 5
-  MeleeDamageAttack3: 8
+  InvincibleTime: 1
+  MeleeDamageAttack1: 2
+  MeleeDamageAttack2: 4
+  MeleeDamageAttack3: 7
   MeleeDamageVerticalAttack: 5
   DownAttackBounceSpeed: 50
   NumProjectilesAttack1: 7
