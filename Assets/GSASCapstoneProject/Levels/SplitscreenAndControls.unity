@@ -3395,6 +3395,10 @@ PrefabInstance:
       value: 1.7737
       objectReference: {fileID: 0}
     - target: {fileID: 4727951426251212571, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
+      propertyPath: _chargeBeam
+      value: 
+      objectReference: {fileID: 1621770809}
+    - target: {fileID: 4727951426251212571, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
       propertyPath: _chargeParticles
       value: 
       objectReference: {fileID: 659456183}
@@ -3476,6 +3480,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
+--- !u!1 &1621770809 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 858466688895654272, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
+  m_PrefabInstance: {fileID: 1621770808}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1735400933
 GameObject:
   m_ObjectHideFlags: 0
