@@ -31,6 +31,7 @@ public class BossStateFSM : MonoBehaviour
     public BulletAttackModule bulletAttackModule;
     public LightningAttackModule lightningAttackModule;
     public RayAttackModule rayAttackModule;
+    public WallAttackModule wallAttackModule;
 
     #endregion
     

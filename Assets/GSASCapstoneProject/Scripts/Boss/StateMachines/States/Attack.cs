@@ -32,9 +32,10 @@ public class Attack : iState
     public void OnEnter()
     {
         doneAttacking = false;
-        _manager.bulletAttackModule.SetTarget(_manager.target);
+        /*_manager.bulletAttackModule.SetTarget(_manager.target);
         _manager.bulletAttackModule.SetBossPart(_manager.bossPart);
-        _manager.bulletAttackModule.Burst();
+        _manager.bulletAttackModule.Burst();*/
+        _manager.wallAttackModule.StartAttack(false);
         if (_manager.DEBUG) Debug.Log("Attack Done OnEnter()");
     }
 
@@ -42,7 +43,7 @@ public class Attack : iState
     {
         if (_manager.bulletAttackModule.doneAttacking)
         {
-            doneAttacking = true;
+            //doneAttacking = true;
         }
 
         if (doneAttacking)
