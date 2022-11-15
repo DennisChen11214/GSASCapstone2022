@@ -22,12 +22,12 @@ MonoBehaviour:
   SwipeWeight: 0
   CrushWeight: 0
   MeteorWeight: 0
-  ShotgunDelay: 3
-  RifleDelay: 3
-  ThinWallDelay: 3
-  ThickWallDelay: 3
-  LaserDelay: 3
-  FeatherDelay: 3
+  ShotgunDelay: 2
+  RifleDelay: 2
+  ThinWallDelay: 2
+  ThickWallDelay: 2
+  LaserDelay: 2
+  FeatherDelay: 2
   SwipeDelay: 0
   CrushDelay: 0
   MeteorDelay: 0
