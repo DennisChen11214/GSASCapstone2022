@@ -2759,9 +2759,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1309577626288514917, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2366402521676096658, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2387333288051285763, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2574757401112748377, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: m_Layer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4625478613661375701, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5117702759630248789, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: DEBUG
@@ -2771,6 +2787,14 @@ PrefabInstance:
       propertyPath: _stats
       value: 
       objectReference: {fileID: 11400000, guid: f161536e1ad3ef744b1b6b94227bbbf4, type: 2}
+    - target: {fileID: 5550518524304844437, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6353422368857563304, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7392342149005715172, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: m_Name
       value: Player1Area
