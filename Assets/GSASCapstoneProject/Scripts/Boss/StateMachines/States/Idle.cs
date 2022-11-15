@@ -28,7 +28,7 @@ public class Idle : iState
         if (_manager.DEBUG) Debug.Log("Idle Done OnEnter()");
     }
 
-    public void OnUpdate()
+    public void OnUpdate(float dt)
     {
         // check for conditions of early exit, such as a player is approaching (not yet implemented)
         if (_canAct)

@@ -18,7 +18,7 @@ public class OutOfBoundsCheck : MonoBehaviour
         if(player != null)
         {
             player.TakeDamageNoKnockback();
+            player.gameObject.transform.position = _respawnPoint.position;
         }
-        player.gameObject.transform.position = _respawnPoint.position;
     }
 }

@@ -1,6 +1,6 @@
 public interface iState
 {
-    public void OnEnter();
-    public void OnUpdate();
-    public void OnExit();
+    public abstract void OnEnter();
+    public abstract void OnUpdate(float dt);
+    public abstract void OnExit();
 }

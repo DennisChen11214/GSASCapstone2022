@@ -19,7 +19,10 @@ public class RangedPlayerCombat : PlayerCombat
     private Transform _spawnPosition;
     [SerializeField]
     private ParticleSystem _chargeParticles;
+    [SerializeField]
+    private GameObject _chargeBeam;
 
+    private PlayerController _controller;
     private Projectile[] _bulletPool;
     private float _attackEndTime;
     private float _curCharge;
@@ -32,6 +35,7 @@ public class RangedPlayerCombat : PlayerCombat
         base.Awake();
         InitializeBulletPool();
         _isCharging.Value = false;
+        _controller = GetComponent<PlayerController>();
     }
 
     protected override void Update()
@@ -161,7 +165,6 @@ public class RangedPlayerCombat : PlayerCombat
         }
         _isCharging.Value = false;
         _curCharge = 0;
-        GetComponent<SpriteRenderer>().color = Color.white;
     }
 
     private void CancelIfKnockedBack(bool isKnockedBack)
@@ -207,5 +210,8 @@ public class RangedPlayerCombat : PlayerCombat
     {
         _isKnockedBack.Unsubscribe(CancelIfKnockedBack);
         _isCharging.Unsubscribe(StartOrStopCharging);
+        _chargeBeam.SetActive(false);
+        _isCharging.Value = false;
+        _controller.IsShootingLaser = false;
     }
 }
