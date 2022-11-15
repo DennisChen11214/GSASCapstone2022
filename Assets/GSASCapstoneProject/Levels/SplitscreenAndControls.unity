@@ -2763,6 +2763,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 5117702759630248789, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: DEBUG
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5117702759630248789, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: _stats
+      value: 
+      objectReference: {fileID: 11400000, guid: f161536e1ad3ef744b1b6b94227bbbf4, type: 2}
     - target: {fileID: 7392342149005715172, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: m_Name
       value: Player1Area
@@ -3406,6 +3414,14 @@ PrefabInstance:
       propertyPath: _chargeParticles
       value: 
       objectReference: {fileID: 659456183}
+    - target: {fileID: 5117702759951034818, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
+      propertyPath: DEBUG
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5117702759951034818, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
+      propertyPath: _stats
+      value: 
+      objectReference: {fileID: 11400000, guid: ba57acd9b2bbc454e863b4a303fcaa31, type: 2}
     - target: {fileID: 6500384695758733439, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
       propertyPath: m_Enabled
       value: 1
