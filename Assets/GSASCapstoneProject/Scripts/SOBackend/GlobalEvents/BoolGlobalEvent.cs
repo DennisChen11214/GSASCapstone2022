@@ -32,7 +32,16 @@ namespace Core.GlobalEvents
 
         public string GetSubscribers()
         {
-            return OnBoolEventCalled.GetInvocationList().Length + "";
+            string subscribers = "Subscribers: \n";
+            if (OnBoolEventCalled != null)
+            {
+                for (int i = 0; i < OnBoolEventCalled.GetInvocationList().Length; i++)
+                {
+                    subscribers += OnBoolEventCalled.GetInvocationList()[i].Target.ToString() + ": " +
+                                   OnBoolEventCalled.GetInvocationList()[i].Method.ToString() + "\n";
+                }
+            }
+            return subscribers;
         }
 
         public void Subscribe(BoolEvent boolEvent)

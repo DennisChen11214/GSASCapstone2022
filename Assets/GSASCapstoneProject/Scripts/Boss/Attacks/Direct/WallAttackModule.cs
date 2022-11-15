@@ -1,12 +1,12 @@
 using UnityEngine;
-using Core.GlobalVariables;
+using System.Collections.Generic;
 
 public class WallAttackModule : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _thinWalls;
+    private List<GameObject> _thinWallsPool;
     [SerializeField]
-    private GameObject _thickWall;
+    private List<GameObject> _thickWallPool;
 
     private Vector3 _thinWallOriginalPos;
     private Vector3 _thickWallOriginalPos;
@@ -14,8 +14,8 @@ public class WallAttackModule : MonoBehaviour
 
     private void Start()
     {
-        _thinWallOriginalPos = _thinWalls.transform.position;
-        _thickWallOriginalPos = _thickWall.transform.position;
+        _thinWallOriginalPos = _thinWallsPool[0].transform.position;
+        _thickWallOriginalPos = _thickWallPool[0].transform.position;
     }
 
     public void StartAttack()
@@ -35,13 +35,27 @@ public class WallAttackModule : MonoBehaviour
     {
         if (thin)
         {
-            _thinWalls.transform.position = _thinWallOriginalPos;
-            _thinWalls.SetActive(true);
+            for(int i = 0; i < _thinWallsPool.Count; i++)
+            {
+                if (!_thinWallsPool[i].activeSelf)
+                {
+                    _thinWallsPool[i].transform.position = _thinWallOriginalPos;
+                    _thinWallsPool[i].SetActive(true);
+                    return;
+                }
+            }
         }
         else
         {
-            _thickWall.transform.position = _thickWallOriginalPos;
-            _thickWall.SetActive(true);
+            for (int i = 0; i < _thickWallPool.Count; i++)
+            {
+                if (!_thickWallPool[i].activeSelf)
+                {
+                    _thickWallPool[i].transform.position = _thickWallOriginalPos;
+                    _thickWallPool[i].SetActive(true);
+                    return;
+                }
+            }
         }
     }
 }

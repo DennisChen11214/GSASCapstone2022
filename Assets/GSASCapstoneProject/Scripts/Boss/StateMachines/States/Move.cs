@@ -29,7 +29,7 @@ public class Move : iState
         if (_manager.DEBUG) Debug.Log("Move Done OnEnter()");
     }
 
-    public void OnUpdate()
+    public void OnUpdate(float dt)
     {
         
     }

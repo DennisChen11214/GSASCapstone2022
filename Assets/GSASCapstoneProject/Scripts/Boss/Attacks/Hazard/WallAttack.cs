@@ -11,10 +11,9 @@ public class WallAttack : MonoBehaviour
     private FloatVariable _thinWallSpeed;
 
     private Rigidbody2D _rb;
-    private void Start()
+    private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _rb.velocity = Vector2.right * _thinWallSpeed.Value;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -27,5 +26,10 @@ public class WallAttack : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
+    }
+
+    private void OnEnable()
+    {
+        _rb.velocity = Vector2.right * _thinWallSpeed.Value;
     }
 }
