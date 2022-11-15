@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 005ec7cced4761c4f85dc79427103033, type: 3}
-  m_Name: Test
+  m_Name: Test 1
   m_EditorClassIdentifier: 
-  AttackCombo: 000000000200000003000000
-  HealthThreshold: 0.8
-  done: 0
+  AttackCombo: 
+  HealthThreshold: 0.9
+  done: 1

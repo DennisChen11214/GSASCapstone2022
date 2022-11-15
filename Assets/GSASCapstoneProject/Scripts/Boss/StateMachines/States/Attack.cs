@@ -9,16 +9,28 @@ public class Attack : iState
 {   
     private BossStateFSM _manager;
     private float delay;
+    private List<BossAttacks.BossAttack> _attackQueue;
 
     public Attack(BossStateFSM manager)
     {
         this._manager = manager;
+        _attackQueue = new List<BossAttacks.BossAttack>();
     }
     
     
     public void OnEnter()
     {
-        ChooseRandomAttack();
+        if(_attackQueue.Count > 0)
+        {
+            Debug.Log("Enter");
+            DoAttack(_attackQueue[0]);
+            Debug.Log(_attackQueue[0].ToString());
+            _attackQueue.RemoveAt(0);
+        }
+        else
+        {
+            ChooseRandomAttack();
+        }
         if (_manager.DEBUG) Debug.Log("Attack Done OnEnter()");
     }
 
@@ -29,16 +41,15 @@ public class Attack : iState
         {
             if(rand <= attackWeight.Value)
             {
-                DoRandomAttack(attackWeight.Key);
+                DoAttack(attackWeight.Key);
                 return;
             }
             rand -= attackWeight.Value;
         }
     }
 
-    private void DoRandomAttack(BossAttacks.BossAttack attack)
+    private void DoAttack(BossAttacks.BossAttack attack)
     {
-        if (_manager.DEBUG) Debug.Log(attack.ToString());
         delay = _manager._attackDelayDict[attack];
         switch (attack)
         {
@@ -69,12 +80,30 @@ public class Attack : iState
         }
     }
 
+    public void RegisterAttacks(List<BossAttacks.BossAttack> attacks)
+    {
+        _attackQueue.Clear();
+        for(int i = 0; i < attacks.Count; i++)
+        {
+            _attackQueue.Add(attacks[i]);
+        }
+    }
+
     public void OnUpdate(float dt)
     {
         delay -= dt;
         if(delay <= 0)
         {
-            _manager.TransitionToState(BossStateType.Idle, "Attack");
+            if(_attackQueue.Count == 0)
+            {
+                _manager.TransitionToState(BossStateType.Idle, "Attack");
+            }
+            else
+            {
+                DoAttack(_attackQueue[0]);
+                Debug.Log(_attackQueue[0].ToString());
+                _attackQueue.RemoveAt(0);
+            }
         }
     }
 

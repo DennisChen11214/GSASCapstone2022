@@ -25,7 +25,9 @@ public class BossStateFSM : MonoBehaviour
     [SerializeField] BossStats _stats;
     
     [SerializeField] TransformVariable[] _targets;
+    [SerializeField] FloatVariable _health;
     [SerializeField] GlobalEvent _swap;
+    [SerializeField] List<BossAttacks> _bossAttackCombos;
 
     private int _targetIdx = 0;
 
@@ -56,6 +58,7 @@ public class BossStateFSM : MonoBehaviour
 
     [SerializeField] private iState currentState;
     private Dictionary<BossStateType, iState> _states;
+    private float _maxHealth;
 
     private void Start()
     {
@@ -63,6 +66,13 @@ public class BossStateFSM : MonoBehaviour
         _swap.Subscribe(SwapTarget);
         InitializeWeightDict();
         InitializeDelayDict();
+        _bossAttackCombos.Sort((a, b) => b.HealthThreshold.CompareTo(a.HealthThreshold));
+        for (int i = 0; i < _bossAttackCombos.Count; i++)
+        {
+            _bossAttackCombos[i].done = false;
+        }
+        _health.Subscribe(CheckForHealthThreshold);
+        _maxHealth = _health.Value;
         if (_states == null)
         {
             _states = new Dictionary<BossStateType, iState>();
@@ -73,6 +83,28 @@ public class BossStateFSM : MonoBehaviour
 
         StartCoroutine(InitialMoveCoolDown());
         TransitionToState(BossStateType.Idle, "Initialization");
+    }
+
+    private void CheckForHealthThreshold(float health)
+    {
+        for (int i = 0; i < _bossAttackCombos.Count; i++)
+        {
+            if(!_bossAttackCombos[i].done && health <= _bossAttackCombos[i].HealthThreshold * _maxHealth)
+            {
+                HealthThresholdAttack(_bossAttackCombos[i].AttackCombo);
+                _bossAttackCombos[i].done = true;
+            }
+        }
+    }
+
+    private void HealthThresholdAttack(List<BossAttacks.BossAttack> attackCombo)
+    {
+        Debug.Log("Health Threshold Reached");
+        ((Attack)_states[BossStateType.Attack]).RegisterAttacks(attackCombo);
+        if(currentState != _states[BossStateType.Attack])
+        {
+            TransitionToState(BossStateType.Attack, "Health Threshold");
+        }
     }
 
     private void Update()
@@ -139,5 +171,6 @@ public class BossStateFSM : MonoBehaviour
     private void OnDestroy()
     {
         _swap.Unsubscribe(SwapTarget);
+        _health.Unsubscribe(CheckForHealthThreshold);
     }
 }

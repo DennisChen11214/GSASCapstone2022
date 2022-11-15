@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Core.GlobalVariables;
 
 [CreateAssetMenu]
 public class BossAttacks : ScriptableObject
@@ -18,4 +19,6 @@ public class BossAttacks : ScriptableObject
     }
 
     public List<BossAttack> AttackCombo;
+    public float HealthThreshold;
+    public bool done;
 }
