@@ -36,6 +36,7 @@ public abstract class PlayerCombat : MonoBehaviour
     protected Rigidbody2D _rb;
     protected Animator _anim;
     protected float _knockbackTime;
+    protected bool _hitFromLeft;
 
     public abstract void Attack();
     public virtual void VerticalAttack(bool up) { }
@@ -70,7 +71,7 @@ public abstract class PlayerCombat : MonoBehaviour
         HandleKnockBack();
     }
 
-    public void TakeDamage()
+    public void TakeDamage(bool left)
     {
         if (_isInvincible.Value) return;
         _playerHealth.Value -= 1;
@@ -84,6 +85,7 @@ public abstract class PlayerCombat : MonoBehaviour
         {
             _knockbackTime = _stats.KnockbackLength;
             _isInvincible.Value = true;
+            _hitFromLeft = left;
         }
         _isKnockedBack.Value = true;
     }
@@ -124,7 +126,7 @@ public abstract class PlayerCombat : MonoBehaviour
     {
         if (_knockbackTime > 0)
         {
-            float direction = transform.localScale.x > 0 ? 1 : -1;
+            float direction = _hitFromLeft ? -1 : 1;
             Vector2 startVel = new Vector2(-_stats.Knockback * direction, _stats.Knockback);
             Vector2 endVel = new Vector2(-_stats.Knockback * direction * _stats.KnockbackFactor, 0);
             float time = 1 - _knockbackTime / _stats.KnockbackLength;

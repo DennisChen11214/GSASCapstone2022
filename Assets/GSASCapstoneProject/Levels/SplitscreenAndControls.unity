@@ -2759,34 +2759,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2574757401112748377, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5117702759630248789, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
-      propertyPath: DEBUG
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5117702759630248789, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
-      propertyPath: _stats
-      value: 
-      objectReference: {fileID: 11400000, guid: f161536e1ad3ef744b1b6b94227bbbf4, type: 2}
-    - target: {fileID: 5117702759630248789, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
-      propertyPath: _health
-      value: 
-      objectReference: {fileID: 11400000, guid: 86b7757fc8dfc444dbf97a0488e90cdf, type: 2}
-    - target: {fileID: 5117702759630248789, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
-      propertyPath: _bossAttackCombos.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5117702759630248789, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
-      propertyPath: _bossAttackCombos.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: aae8ec7727938ba4999375db3379f4eb, type: 2}
-    - target: {fileID: 5117702759630248789, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
-      propertyPath: _bossAttackCombos.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 335895c3b0389ca409bdd1e041708970, type: 2}
     - target: {fileID: 7392342149005715172, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: m_Name
       value: Player1Area
@@ -3421,6 +3393,10 @@ PrefabInstance:
     - target: {fileID: 793051713475376883, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
       propertyPath: m_LocalPosition.y
       value: 1.7737
+      objectReference: {fileID: 0}
+    - target: {fileID: 1152337751081297030, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4727951426251212571, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
       propertyPath: _chargeBeam

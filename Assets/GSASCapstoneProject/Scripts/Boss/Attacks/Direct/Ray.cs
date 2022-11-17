@@ -46,7 +46,7 @@ public class Ray : MonoBehaviour
             StopCoroutine(_Shoot());
             sprite.enabled = false;
             rayCollider.enabled = false;
-            playerCombat.TakeDamage();
+            playerCombat.TakeDamage(transform.position.x <= collision.gameObject.transform.position.x);
             StartCoroutine(Fade());
         }
     }

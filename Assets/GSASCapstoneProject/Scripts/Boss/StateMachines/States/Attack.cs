@@ -22,9 +22,7 @@ public class Attack : iState
     {
         if(_attackQueue.Count > 0)
         {
-            Debug.Log("Enter");
             DoAttack(_attackQueue[0]);
-            Debug.Log(_attackQueue[0].ToString());
             _attackQueue.RemoveAt(0);
         }
         else
@@ -101,7 +99,6 @@ public class Attack : iState
             else
             {
                 DoAttack(_attackQueue[0]);
-                Debug.Log(_attackQueue[0].ToString());
                 _attackQueue.RemoveAt(0);
             }
         }

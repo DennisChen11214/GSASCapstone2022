@@ -24,8 +24,8 @@ MonoBehaviour:
   MeteorWeight: 0
   ShotgunDelay: 2
   RifleDelay: 2
-  ThinWallDelay: 2
-  ThickWallDelay: 2
+  ThinWallDelay: 4
+  ThickWallDelay: 3
   LaserDelay: 0
   FeatherDelay: 0
   SwipeDelay: 2

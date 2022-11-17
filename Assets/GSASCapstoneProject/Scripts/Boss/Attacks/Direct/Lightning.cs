@@ -31,7 +31,7 @@ public class Lightning : MonoBehaviour
             StopCoroutine(_Strike());
             sprite.enabled = false;
             lightningCollider.enabled = false;
-            playerCombat.TakeDamage();
+            playerCombat.TakeDamage(transform.position.x <= collision.gameObject.transform.position.x);
             StartCoroutine(Fade());
         }
     }

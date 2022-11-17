@@ -56,9 +56,11 @@ public class BossStateFSM : MonoBehaviour
     
     #endregion
 
-    [SerializeField] private iState currentState;
+    [SerializeField] private iState _currentState;
     private Dictionary<BossStateType, iState> _states;
     private float _maxHealth;
+
+    public BossStateType DebugState { get; private set; }
 
     private void Start()
     {
@@ -101,7 +103,7 @@ public class BossStateFSM : MonoBehaviour
     {
         Debug.Log("Health Threshold Reached");
         ((Attack)_states[BossStateType.Attack]).RegisterAttacks(attackCombo);
-        if(currentState != _states[BossStateType.Attack])
+        if(_currentState != _states[BossStateType.Attack])
         {
             TransitionToState(BossStateType.Attack, "Health Threshold");
         }
@@ -109,7 +111,7 @@ public class BossStateFSM : MonoBehaviour
 
     private void Update()
     {
-        currentState.OnUpdate(Time.deltaTime);
+        _currentState.OnUpdate(Time.deltaTime);
     }
 
     private void InitializeWeightDict()
@@ -147,11 +149,12 @@ public class BossStateFSM : MonoBehaviour
             string boss = _stats.Heaven ? "Heaven: " : "Hell: ";
             Debug.Log(boss + caller + " Requests Transition -> " + state + "VVVVVVVVVVVVVVVVVVVV");
         }
-        currentState?.OnExit();
+        _currentState?.OnExit();
         iState newState = _states[state];
         newState.OnEnter();
-        if (DEBUG) Debug.Log("Done Transition from " + currentState + " to " + newState + "(" + caller + ")" + "^^^^^^^^^^^^^^^^^^^^");
-        currentState = newState;
+        if (DEBUG) Debug.Log("Done Transition from " + _currentState + " to " + newState + "(" + caller + ")" + "^^^^^^^^^^^^^^^^^^^^");
+        _currentState = newState;
+        DebugState = state;
     }
     
     

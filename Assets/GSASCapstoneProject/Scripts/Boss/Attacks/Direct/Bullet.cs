@@ -30,7 +30,7 @@ public class Bullet : MonoBehaviour
         PlayerCombat playerCombat = collision.GetComponent<PlayerCombat>();
         if (playerCombat)
         {
-            playerCombat.TakeDamage();
+            playerCombat.TakeDamage(transform.position.x <= collision.gameObject.transform.position.x);
         }
         gameObject.SetActive(false);
     }

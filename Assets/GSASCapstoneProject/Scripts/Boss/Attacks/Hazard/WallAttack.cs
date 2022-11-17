@@ -20,7 +20,7 @@ public class WallAttack : MonoBehaviour
     {
         if (_playerLayer == (_playerLayer | (1 << collision.gameObject.layer)))
         {
-            collision.GetComponent<PlayerCombat>().TakeDamage();
+            collision.GetComponent<PlayerCombat>().TakeDamage(true);
         }
         else if (_stopLayer == (_stopLayer | (1 << collision.gameObject.layer)))
         {
