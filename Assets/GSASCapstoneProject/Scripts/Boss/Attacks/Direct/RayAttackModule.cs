@@ -5,39 +5,54 @@ using UnityEngine;
 public class RayAttackModule : MonoBehaviour
 {
     [SerializeField] private Ray _ray;
-    private Ray[] _pool;
     [SerializeField] private int _poolSize;
     [SerializeField] private Transform _poolParent;
+    [SerializeField] private List<Transform> _initialTransforms;
+
+    private Ray[] _pool;
+    private List<Transform> _usedTransforms;
 
     private void Start()
     {
         // Instantiate attacks (projectiles) in the pool
         _pool = new Ray[_poolSize];
-        if (_poolParent == null)
-        {
-            _poolParent = transform;
-        }
         for(int i = 0; i < _poolSize; i++)
         {
             _pool[i] = Instantiate<Ray>(_ray, transform.position, Quaternion.identity, _poolParent);
             _pool[i].gameObject.SetActive(false);
         }
-        
+        _usedTransforms = new List<Transform>();
     }
     
     
-    public void Attack(Vector2 targetPosition, Transform bossPart)
+    public void Attack(Transform target, int numRays)
     {
         for (int i = 0; i < _poolSize; i++)
         {
             if (!_pool[i].gameObject.activeSelf)
             {
-                _pool[i].Attach(bossPart);
-                _pool[i].SetDirection(targetPosition - (Vector2)bossPart.position);
-                _pool[i].Shoot();
+                Transform randTransform = GetRandomTransform();
+                while (_usedTransforms.Contains(randTransform))
+                {
+                    randTransform = GetRandomTransform();
+                }
+                _usedTransforms.Add(randTransform);
+                _pool[i].transform.position = randTransform.position;
                 _pool[i].gameObject.SetActive(true);
-                break;
+                _pool[i].StartShooting(target);
+                numRays--;
+            }
+            if (numRays == 0)
+            {
+                _usedTransforms.Clear();   
+                return;
             }
         }
+    }
+
+    private Transform GetRandomTransform()
+    {
+        int rand = Random.Range(0, _initialTransforms.Count);
+        return _initialTransforms[rand];
     }
 }

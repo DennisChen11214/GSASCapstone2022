@@ -16,6 +16,9 @@ public class BoolPropertyDrawer : PropertyDrawer
     // Field that is being compared.
     SerializedProperty comparedField;
 
+    // The object that the comparedField comes from
+    SerializedObject parent;
+
     // Height of the property.
     private float propertyHeight;
 
@@ -27,8 +30,18 @@ public class BoolPropertyDrawer : PropertyDrawer
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         boolAttribute = attribute as BoolAttribute;
-        comparedField = property.serializedObject.FindProperty(boolAttribute.BoolVarName);
 
+        if(boolAttribute.VarParent != "")
+        {
+            Object objectRef = property.serializedObject.FindProperty(boolAttribute.VarParent).objectReferenceValue;
+            if (!objectRef) return;
+            parent = new SerializedObject(property.serializedObject.FindProperty(boolAttribute.VarParent).objectReferenceValue);
+            comparedField = parent.FindProperty(boolAttribute.BoolVarName);
+        }
+        else
+        {
+            comparedField = property.serializedObject.FindProperty(boolAttribute.VarParent + boolAttribute.BoolVarName);
+        }
         bool comparedFieldValue = comparedField.boolValue == boolAttribute.ComparedBoolValue;
 
         // The height of the property should be defaulted to the default height.

@@ -9,15 +9,17 @@ using System;
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
 public class BoolAttribute : PropertyAttribute
 {
+    public string VarParent;
     public string BoolVarName;
     public bool ComparedBoolValue;
 
     /// <summary>
     /// Only draws the field only if a condition is met.
     /// </summary>
-    public BoolAttribute(string name, bool boolValue) 
+    public BoolAttribute(string name, bool boolValue, string varParent = "") 
     {
         BoolVarName = name;
         ComparedBoolValue = boolValue;
+        VarParent = varParent;
     } 
 }

@@ -16,13 +16,13 @@ public enum BossStateType
 
 public class BossStateFSM : MonoBehaviour
 {
-    public Transform bossPart; // The Actual boss that takes damage and attacks
+    public Transform BossPart; // The Actual boss that takes damage and attacks
     public bool DEBUG = true;
 
-    [NonSerialized] public Transform target; // The true target
+    [NonSerialized] public Transform Target; // The true target
     [NonSerialized] public Dictionary<BossAttacks.BossAttack, float> _attackWeightDict;
     [NonSerialized] public Dictionary<BossAttacks.BossAttack, float> _attackDelayDict;
-    [SerializeField] BossStats _stats;
+    [SerializeField] public BossStats _stats;
     
     [SerializeField] TransformVariable[] _targets;
     [SerializeField] FloatVariable _health;
@@ -33,10 +33,10 @@ public class BossStateFSM : MonoBehaviour
 
     #region Attack State
     // modules attack module
-    public BulletAttackModule bulletAttackModule;
-    public LightningAttackModule lightningAttackModule;
-    public RayAttackModule rayAttackModule;
-    public WallAttackModule wallAttackModule;
+    public BulletAttackModule BulletAttackModule;
+    public WallAttackModule WallAttackModule;
+    [BoolAttribute("Heaven", true, "_stats")]
+    public RayAttackModule RayAttackModule;
 
     #endregion
     
@@ -64,7 +64,7 @@ public class BossStateFSM : MonoBehaviour
 
     private void Start()
     {
-        target = _targets[_targetIdx].Value;
+        Target = _targets[_targetIdx].Value;
         _swap.Subscribe(SwapTarget);
         InitializeWeightDict();
         InitializeDelayDict();
@@ -161,7 +161,7 @@ public class BossStateFSM : MonoBehaviour
     private void SwapTarget()
     {
         _targetIdx = (_targetIdx + 1) % 2;
-        target = _targets[_targetIdx].Value;
+        Target = _targets[_targetIdx].Value;
     }
     
     IEnumerator InitialMoveCoolDown()

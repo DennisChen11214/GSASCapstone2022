@@ -55,4 +55,11 @@ public class BossStats : ScriptableObject
     public float MeteorDelay;
 
     #endregion
+
+    #region Other
+
+    public int MinRays;
+
+    public int MaxRays;
+    #endregion
 }

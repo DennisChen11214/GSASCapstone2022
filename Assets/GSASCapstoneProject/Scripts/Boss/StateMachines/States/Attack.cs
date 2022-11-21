@@ -52,19 +52,21 @@ public class Attack : iState
         switch (attack)
         {
             case BossAttacks.BossAttack.Shotgun:
-                _manager.bulletAttackModule.SetTarget(_manager.target);
-                _manager.bulletAttackModule.SetBossPart(_manager.bossPart);
-                _manager.bulletAttackModule.Burst();
+                _manager.BulletAttackModule.SetTarget(_manager.Target);
+                _manager.BulletAttackModule.SetBossPart(_manager.BossPart);
+                _manager.BulletAttackModule.Burst();
                 break;
             case BossAttacks.BossAttack.Rifle:
                 break;
             case BossAttacks.BossAttack.ThinWall:
-                _manager.wallAttackModule.StartAttack(true);
+                _manager.WallAttackModule.StartAttack(true);
                 break;
             case BossAttacks.BossAttack.ThickWall:
-                _manager.wallAttackModule.StartAttack(false);
+                _manager.WallAttackModule.StartAttack(false);
                 break;
             case BossAttacks.BossAttack.Lasers:
+                int numRays = UnityEngine.Random.Range(_manager._stats.MinRays, _manager._stats.MaxRays);
+                _manager.RayAttackModule.Attack(_manager.Target, numRays);
                 break;
             case BossAttacks.BossAttack.Feathers:
                 break;

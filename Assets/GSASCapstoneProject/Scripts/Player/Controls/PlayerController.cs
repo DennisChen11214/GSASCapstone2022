@@ -30,13 +30,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private ScriptableStats _stats;
     [SerializeField] private PhysicsMaterial2D _movingMaterial;
     [SerializeField] private PhysicsMaterial2D _stationaryMaterial;
+    [BoolAttribute("Melee", true, "_stats")]
     [SerializeField] private MeleeDashType _meleeDashType;
+    [BoolAttribute("Melee", false, "_stats")]
     [SerializeField] private RangedDashType _rangedDashType;
     [SerializeField] private LayerMask _bossLayer;
     [SerializeField] private LayerMask _platformLayer;
     [SerializeField] private LayerMask _respawnLayer;
     [SerializeField] private GlobalEvent _swapCompleted;
     [SerializeField] private GlobalEvent _swapCanceled;
+    [BoolAttribute("Melee", true, "_stats")]
     [SerializeField] private GlobalEvent _onDownAttackInAir;
     [SerializeField] private GlobalEvent _onOtherPlayerRevived;
     [SerializeField] private TransformGlobalEvent _requestSwap;
@@ -44,11 +47,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TransformVariable _playerTransform;
     [SerializeField] private BoolVariable _isKnockedBack;
     [SerializeField] private BoolVariable _isInvincible;
+    [BoolAttribute("Melee", false, "_stats")]
     [SerializeField] private BoolVariable _isCharging;
     [SerializeField] private BoolVariable _isOtherPlayerDead;
     [SerializeField] private BoolVariable _isAttacking;
     [SerializeField] private FloatVariable _swapDelay;
     [SerializeField] private FloatVariable _movementCooldown;
+    [BoolAttribute("Melee", true, "_stats")]
     [SerializeField] private FloatVariable _floatTime;
     [SerializeField] private IntVariable _numDashes;
 

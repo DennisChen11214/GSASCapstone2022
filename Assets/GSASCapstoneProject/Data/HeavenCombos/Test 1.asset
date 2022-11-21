@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Test 1
   m_EditorClassIdentifier: 
   AttackCombo: 0200000003000000
-  HealthThreshold: 1
-  done: 1
+  HealthThreshold: 0.5
+  done: 0

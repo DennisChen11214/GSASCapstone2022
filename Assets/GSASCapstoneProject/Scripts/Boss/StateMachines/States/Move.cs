@@ -18,7 +18,7 @@ public class Move : iState
         // choose a random different predefined location 
         int idx = Random.Range(0, _manager.locations.Length);
         _location = _manager.locations[idx].position;
-        float diff = (_location - _manager.bossPart.position).magnitude;
+        float diff = (_location - _manager.BossPart.position).magnitude;
         if (diff < 0.1f)
         {
             idx = (idx + 1) % _manager.locations.Length;
@@ -47,7 +47,7 @@ public class Move : iState
         // play start animation 
         yield return new WaitForSeconds(0.5f);
             
-        _manager.bossPart.position = _location;
+        _manager.BossPart.position = _location;
         
         // play end animation
         

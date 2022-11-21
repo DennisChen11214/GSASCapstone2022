@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: HeavenStats
   m_EditorClassIdentifier: 
   Heaven: 1
-  ShotgunWeight: 0.5
+  ShotgunWeight: 0
   RifleWeight: 0
-  ThinWallWeight: 0.25
-  ThickWallWeight: 0.25
-  LaserWeight: 0
+  ThinWallWeight: 0
+  ThickWallWeight: 0
+  LaserWeight: 1
   FeatherWeight: 0
   SwipeWeight: 0
   CrushWeight: 0
@@ -31,3 +31,5 @@ MonoBehaviour:
   SwipeDelay: 0
   CrushDelay: 0
   MeteorDelay: 0
+  MinRays: 1
+  MaxRays: 4
