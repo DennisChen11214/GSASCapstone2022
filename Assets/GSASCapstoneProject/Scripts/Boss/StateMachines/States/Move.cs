@@ -57,7 +57,7 @@ public class Move : iState
 
     private IEnumerator MoveCoolDown()
     {
-        yield return new WaitForSeconds(_manager.moveCoolDown);
+        yield return new WaitForSeconds(_manager.MoveCoolDown);
         _manager.canMove = true;
     }
 }

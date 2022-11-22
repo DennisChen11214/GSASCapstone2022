@@ -54,7 +54,7 @@ public class Attack : iState
             case BossAttacks.BossAttack.Shotgun:
                 _manager.BulletAttackModule.SetTarget(_manager.Target);
                 _manager.BulletAttackModule.SetBossPart(_manager.BossPart);
-                _manager.BulletAttackModule.Burst();
+                _manager.BulletAttackModule.Burst(_manager.Stats.BurstBullets);
                 break;
             case BossAttacks.BossAttack.Rifle:
                 break;
@@ -65,7 +65,7 @@ public class Attack : iState
                 _manager.WallAttackModule.StartAttack(false);
                 break;
             case BossAttacks.BossAttack.Lasers:
-                int numRays = UnityEngine.Random.Range(_manager._stats.MinRays, _manager._stats.MaxRays);
+                int numRays = UnityEngine.Random.Range(_manager.Stats.MinRays, _manager.Stats.MaxRays);
                 _manager.RayAttackModule.Attack(_manager.Target, numRays);
                 break;
             case BossAttacks.BossAttack.Feathers:

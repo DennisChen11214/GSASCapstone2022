@@ -14,11 +14,6 @@ public class Bullet : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
     }
 
-    private void Start()
-    {
-        gameObject.SetActive(false);
-    }
-
     public void Launch(Vector2 dir)
     {
         _dir = dir;

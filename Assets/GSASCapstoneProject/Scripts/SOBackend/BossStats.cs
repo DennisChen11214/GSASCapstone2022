@@ -58,8 +58,12 @@ public class BossStats : ScriptableObject
 
     #region Other
 
+    [Header("Other")]
+
     public int MinRays;
 
     public int MaxRays;
+
+    public int BurstBullets;
     #endregion
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HellStats
   m_EditorClassIdentifier: 
   Heaven: 0
-  ShotgunWeight: 0.5
+  ShotgunWeight: 0
   RifleWeight: 0
   ThinWallWeight: 0.25
   ThickWallWeight: 0.25
@@ -31,3 +31,6 @@ MonoBehaviour:
   SwipeDelay: 2
   CrushDelay: 2
   MeteorDelay: 2
+  MinRays: 1
+  MaxRays: 4
+  BurstBullets: 3

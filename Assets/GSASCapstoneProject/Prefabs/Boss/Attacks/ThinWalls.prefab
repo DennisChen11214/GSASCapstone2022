@@ -187,6 +187,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   _thinWallSpeed: {fileID: 11400000, guid: 77596cd4a63b42745afe13916862f25c, type: 2}
+  _enragedSpeedMultiplier: {fileID: 11400000, guid: 381030196e1fed147b61d8a57ff1b404, type: 2}
+  _isBossEnraged: {fileID: 11400000, guid: 7c377c922ac3e7b4ebaa7681aeea5787, type: 2}
 --- !u!1 &2353940600679825392
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,6 +342,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   _thinWallSpeed: {fileID: 11400000, guid: 77596cd4a63b42745afe13916862f25c, type: 2}
+  _enragedSpeedMultiplier: {fileID: 11400000, guid: 381030196e1fed147b61d8a57ff1b404, type: 2}
+  _isBossEnraged: {fileID: 11400000, guid: 7c377c922ac3e7b4ebaa7681aeea5787, type: 2}
 --- !u!1 &7338119383401509596
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,3 +497,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   _thinWallSpeed: {fileID: 11400000, guid: 77596cd4a63b42745afe13916862f25c, type: 2}
+  _enragedSpeedMultiplier: {fileID: 11400000, guid: 381030196e1fed147b61d8a57ff1b404, type: 2}
+  _isBossEnraged: {fileID: 11400000, guid: 7c377c922ac3e7b4ebaa7681aeea5787, type: 2}

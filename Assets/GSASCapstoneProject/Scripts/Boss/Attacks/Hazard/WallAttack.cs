@@ -9,6 +9,10 @@ public class WallAttack : MonoBehaviour
     private LayerMask _stopLayer;
     [SerializeField]
     private FloatVariable _thinWallSpeed;
+    [SerializeField]
+    private FloatVariable _enragedSpeedMultiplier;
+    [SerializeField]
+    private BoolVariable _isBossEnraged;
 
     private Rigidbody2D _rb;
     private void Awake()
@@ -31,5 +35,9 @@ public class WallAttack : MonoBehaviour
     private void OnEnable()
     {
         _rb.velocity = Vector2.right * _thinWallSpeed.Value;
+        if (_isBossEnraged.Value)
+        {
+            _rb.velocity *= _enragedSpeedMultiplier.Value;
+        }
     }
 }

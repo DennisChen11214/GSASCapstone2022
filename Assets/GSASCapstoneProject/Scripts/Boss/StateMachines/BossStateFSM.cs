@@ -17,17 +17,20 @@ public enum BossStateType
 public class BossStateFSM : MonoBehaviour
 {
     public Transform BossPart; // The Actual boss that takes damage and attacks
+    public BossStats Stats;
     public bool DEBUG = true;
 
     [NonSerialized] public Transform Target; // The true target
     [NonSerialized] public Dictionary<BossAttacks.BossAttack, float> _attackWeightDict;
     [NonSerialized] public Dictionary<BossAttacks.BossAttack, float> _attackDelayDict;
-    [SerializeField] public BossStats _stats;
+    [NonSerialized ]public float MaxHealth;
     
-    [SerializeField] TransformVariable[] _targets;
-    [SerializeField] FloatVariable _health;
-    [SerializeField] GlobalEvent _swap;
-    [SerializeField] List<BossAttacks> _bossAttackCombos;
+    [SerializeField] private FloatVariable _health;
+    [SerializeField] private FloatVariable _enrageHealthThreshold;
+    [SerializeField] private BoolVariable _isBossEnraged;
+    [SerializeField] private TransformVariable[] _targets;
+    [SerializeField] private GlobalEvent _swap;
+    [SerializeField] private List<BossAttacks> _bossAttackCombos;
 
     private int _targetIdx = 0;
 
@@ -35,11 +38,10 @@ public class BossStateFSM : MonoBehaviour
     // modules attack module
     public BulletAttackModule BulletAttackModule;
     public WallAttackModule WallAttackModule;
-    [BoolAttribute("Heaven", true, "_stats")]
+    [BoolAttribute("Heaven", true, "Stats")]
     public RayAttackModule RayAttackModule;
 
     #endregion
-    
     
     #region Idle State
     // floating cooldown between attacks (Idle State)
@@ -51,14 +53,13 @@ public class BossStateFSM : MonoBehaviour
 
     #region Move State
     public Transform[] locations;
-    public float moveCoolDown;
+    public float MoveCoolDown;
     public bool canMove;
     
     #endregion
 
     [SerializeField] private iState _currentState;
     private Dictionary<BossStateType, iState> _states;
-    private float _maxHealth;
 
     public BossStateType DebugState { get; private set; }
 
@@ -74,7 +75,7 @@ public class BossStateFSM : MonoBehaviour
             _bossAttackCombos[i].done = false;
         }
         _health.Subscribe(CheckForHealthThreshold);
-        _maxHealth = _health.Value;
+        MaxHealth = _health.Value;
         if (_states == null)
         {
             _states = new Dictionary<BossStateType, iState>();
@@ -89,9 +90,13 @@ public class BossStateFSM : MonoBehaviour
 
     private void CheckForHealthThreshold(float health)
     {
+        if(!_isBossEnraged.Value && health < MaxHealth * _enrageHealthThreshold.Value)
+        {
+            _isBossEnraged.Value = true;
+        }
         for (int i = 0; i < _bossAttackCombos.Count; i++)
         {
-            if(!_bossAttackCombos[i].done && health <= _bossAttackCombos[i].HealthThreshold * _maxHealth)
+            if(!_bossAttackCombos[i].done && health <= _bossAttackCombos[i].HealthThreshold * MaxHealth)
             {
                 HealthThresholdAttack(_bossAttackCombos[i].AttackCombo);
                 _bossAttackCombos[i].done = true;
@@ -117,36 +122,36 @@ public class BossStateFSM : MonoBehaviour
     private void InitializeWeightDict()
     {
         _attackWeightDict = new Dictionary<BossAttacks.BossAttack, float>();
-        _attackWeightDict.Add(BossAttacks.BossAttack.Shotgun, _stats.ShotgunWeight);
-        _attackWeightDict.Add(BossAttacks.BossAttack.Rifle, _stats.RifleWeight);
-        _attackWeightDict.Add(BossAttacks.BossAttack.ThinWall, _stats.ThinWallWeight);
-        _attackWeightDict.Add(BossAttacks.BossAttack.ThickWall, _stats.ThickWallWeight);
-        _attackWeightDict.Add(BossAttacks.BossAttack.Lasers, _stats.LaserWeight);
-        _attackWeightDict.Add(BossAttacks.BossAttack.Feathers, _stats.FeatherWeight);
-        _attackWeightDict.Add(BossAttacks.BossAttack.Swipe, _stats.SwipeWeight);
-        _attackWeightDict.Add(BossAttacks.BossAttack.Crush, _stats.CrushWeight);
-        _attackWeightDict.Add(BossAttacks.BossAttack.Meteors, _stats.MeteorWeight);
+        _attackWeightDict.Add(BossAttacks.BossAttack.Shotgun, Stats.ShotgunWeight);
+        _attackWeightDict.Add(BossAttacks.BossAttack.Rifle, Stats.RifleWeight);
+        _attackWeightDict.Add(BossAttacks.BossAttack.ThinWall, Stats.ThinWallWeight);
+        _attackWeightDict.Add(BossAttacks.BossAttack.ThickWall, Stats.ThickWallWeight);
+        _attackWeightDict.Add(BossAttacks.BossAttack.Lasers, Stats.LaserWeight);
+        _attackWeightDict.Add(BossAttacks.BossAttack.Feathers, Stats.FeatherWeight);
+        _attackWeightDict.Add(BossAttacks.BossAttack.Swipe, Stats.SwipeWeight);
+        _attackWeightDict.Add(BossAttacks.BossAttack.Crush, Stats.CrushWeight);
+        _attackWeightDict.Add(BossAttacks.BossAttack.Meteors, Stats.MeteorWeight);
     }
 
     private void InitializeDelayDict()
     {
         _attackDelayDict = new Dictionary<BossAttacks.BossAttack, float>();
-        _attackDelayDict.Add(BossAttacks.BossAttack.Shotgun, _stats.ShotgunDelay);
-        _attackDelayDict.Add(BossAttacks.BossAttack.Rifle, _stats.RifleDelay);
-        _attackDelayDict.Add(BossAttacks.BossAttack.ThinWall, _stats.ThinWallDelay);
-        _attackDelayDict.Add(BossAttacks.BossAttack.ThickWall, _stats.ThickWallDelay);
-        _attackDelayDict.Add(BossAttacks.BossAttack.Lasers, _stats.LaserDelay);
-        _attackDelayDict.Add(BossAttacks.BossAttack.Feathers, _stats.FeatherDelay);
-        _attackDelayDict.Add(BossAttacks.BossAttack.Swipe, _stats.SwipeDelay);
-        _attackDelayDict.Add(BossAttacks.BossAttack.Crush, _stats.CrushDelay);
-        _attackDelayDict.Add(BossAttacks.BossAttack.Meteors, _stats.MeteorDelay);
+        _attackDelayDict.Add(BossAttacks.BossAttack.Shotgun, Stats.ShotgunDelay);
+        _attackDelayDict.Add(BossAttacks.BossAttack.Rifle, Stats.RifleDelay);
+        _attackDelayDict.Add(BossAttacks.BossAttack.ThinWall, Stats.ThinWallDelay);
+        _attackDelayDict.Add(BossAttacks.BossAttack.ThickWall, Stats.ThickWallDelay);
+        _attackDelayDict.Add(BossAttacks.BossAttack.Lasers, Stats.LaserDelay);
+        _attackDelayDict.Add(BossAttacks.BossAttack.Feathers, Stats.FeatherDelay);
+        _attackDelayDict.Add(BossAttacks.BossAttack.Swipe, Stats.SwipeDelay);
+        _attackDelayDict.Add(BossAttacks.BossAttack.Crush, Stats.CrushDelay);
+        _attackDelayDict.Add(BossAttacks.BossAttack.Meteors, Stats.MeteorDelay);
     }
 
     public void TransitionToState(BossStateType state, string caller = "")
     {
         if (DEBUG)
         {
-            string boss = _stats.Heaven ? "Heaven: " : "Hell: ";
+            string boss = Stats.Heaven ? "Heaven: " : "Hell: ";
             Debug.Log(boss + caller + " Requests Transition -> " + state + "VVVVVVVVVVVVVVVVVVVV");
         }
         _currentState?.OnExit();
@@ -167,7 +172,7 @@ public class BossStateFSM : MonoBehaviour
     IEnumerator InitialMoveCoolDown()
     {
         canMove = false;
-        yield return new WaitForSeconds(moveCoolDown);
+        yield return new WaitForSeconds(MoveCoolDown);
         canMove = true;
     }
 

@@ -18,20 +18,7 @@ public class WallAttackModule : MonoBehaviour
         _thickWallOriginalPos = _thickWallPool[0].transform.position;
     }
 
-    public void StartAttack()
-    {
-        float rand = Random.Range(0, 1);
-        if(rand <= 0.5f)
-        {
-            StartAttack(true);
-        }
-        else
-        {
-            StartAttack(false);
-        }
-    }
-
-    public void StartAttack(bool thin)
+    public void StartAttack(bool thin, bool enraged = false)
     {
         if (thin)
         {

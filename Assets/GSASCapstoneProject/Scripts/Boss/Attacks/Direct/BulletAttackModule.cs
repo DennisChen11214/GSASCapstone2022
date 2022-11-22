@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
+using Core.GlobalVariables;
 
 public class BulletAttackModule : MonoBehaviour
 {
@@ -12,7 +12,9 @@ public class BulletAttackModule : MonoBehaviour
     [SerializeField] private Transform _poolParent;
 
     [SerializeField] private Transform target;
-    [SerializeField] private Transform bossPart; 
+    [SerializeField] private Transform bossPart;
+    [SerializeField] private BoolVariable _isBossEnraged;
+    [SerializeField] private FloatVariable _enragedBulletMultiplier;
     
     public bool doneAttacking;
     
@@ -59,30 +61,31 @@ public class BulletAttackModule : MonoBehaviour
         }
     }
 
-    public void Burst()
+    public void Burst(int numBullets)
     {
+        if (_isBossEnraged.Value)
+        {
+            numBullets = Mathf.CeilToInt(numBullets * _enragedBulletMultiplier.Value);
+        }
         if (doneAttacking)
         {
-            StartCoroutine(_Burst());
+            StartCoroutine(_Burst(numBullets));
         }
     }
     
-    private IEnumerator _Burst()
+    private IEnumerator _Burst(int numBullets)
     {
         doneAttacking = false;
         var position = bossPart.position;
-        Vector2 dir = (target.position - position);
-        Vector2 dir2 = dir + Vector2.up;
-        Vector2 dir3 = dir + Vector2.down;
+        Vector2 originalDir = (target.position - position);
+        Vector2 dir = originalDir;
         
-        Attack(position, dir.normalized);
-        yield return new WaitForSeconds(0.1f);
-        
-        Attack(position, dir2.normalized);
-        yield return new WaitForSeconds(0.1f);
-        
-        Attack(position, dir3.normalized);
-        yield return new WaitForSeconds(0.1f);
+        for(int i = 0; i < numBullets; i++)
+        {
+            Attack(position, dir.normalized);
+            dir = originalDir + new Vector2(0, UnityEngine.Random.Range(-1.0f, 1.0f));
+            yield return new WaitForSeconds(0.1f);
+        }
         
         doneAttacking = true;
     }

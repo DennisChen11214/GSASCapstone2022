@@ -2835,6 +2835,14 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3448243575640016447, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: _isBossEnraged
+      value: 
+      objectReference: {fileID: 11400000, guid: 7c377c922ac3e7b4ebaa7681aeea5787, type: 2}
+    - target: {fileID: 3448243575640016447, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: _enragedRayMultiplier
+      value: 
+      objectReference: {fileID: 11400000, guid: 54e693b2af07f4247999b173198182b7, type: 2}
+    - target: {fileID: 3448243575640016447, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: _initialTransforms.Array.size
       value: 10
       objectReference: {fileID: 0}
@@ -2919,9 +2927,25 @@ PrefabInstance:
       value: 9.24
       objectReference: {fileID: 0}
     - target: {fileID: 5117702759630248789, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: Stats
+      value: 
+      objectReference: {fileID: 11400000, guid: f161536e1ad3ef744b1b6b94227bbbf4, type: 2}
+    - target: {fileID: 5117702759630248789, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: Health
+      value: 
+      objectReference: {fileID: 11400000, guid: 86b7757fc8dfc444dbf97a0488e90cdf, type: 2}
+    - target: {fileID: 5117702759630248789, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: BossPart
       value: 
       objectReference: {fileID: 803433032}
+    - target: {fileID: 5117702759630248789, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: MoveCoolDown
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5117702759630248789, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: _isBossEnraged
+      value: 
+      objectReference: {fileID: 11400000, guid: 7c377c922ac3e7b4ebaa7681aeea5787, type: 2}
     - target: {fileID: 5117702759630248789, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: RayAttackModule
       value: 
@@ -2934,10 +2958,22 @@ PrefabInstance:
       propertyPath: BulletAttackModule
       value: 
       objectReference: {fileID: 81468945}
+    - target: {fileID: 5117702759630248789, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: _enrageHealthThreshold
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cce3b033a3d1704f860c69ca4ec0c23, type: 2}
     - target: {fileID: 5469111499771743195, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: bossPart
       value: 
       objectReference: {fileID: 803433032}
+    - target: {fileID: 5469111499771743195, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: _isBossEnraged
+      value: 
+      objectReference: {fileID: 11400000, guid: 7c377c922ac3e7b4ebaa7681aeea5787, type: 2}
+    - target: {fileID: 5469111499771743195, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: _enragedBulletMultiplier
+      value: 
+      objectReference: {fileID: 11400000, guid: fc06839a0520ccb4f961dd7904ee8937, type: 2}
     - target: {fileID: 5827668132451669561, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -3669,6 +3705,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3448243575289885864, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
+      propertyPath: _isBossEnraged
+      value: 
+      objectReference: {fileID: 11400000, guid: 7c377c922ac3e7b4ebaa7681aeea5787, type: 2}
+    - target: {fileID: 3448243575289885864, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
+      propertyPath: _enragedRayMultiplier
+      value: 
+      objectReference: {fileID: 11400000, guid: 54e693b2af07f4247999b173198182b7, type: 2}
     - target: {fileID: 4727951426251212571, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
       propertyPath: _chargeBeam
       value: 
@@ -3682,6 +3726,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5117702759951034818, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
+      propertyPath: Stats
+      value: 
+      objectReference: {fileID: 11400000, guid: ba57acd9b2bbc454e863b4a303fcaa31, type: 2}
+    - target: {fileID: 5117702759951034818, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
       propertyPath: _stats
       value: 
       objectReference: {fileID: 11400000, guid: ba57acd9b2bbc454e863b4a303fcaa31, type: 2}
@@ -3694,6 +3742,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2021443422}
     - target: {fileID: 5117702759951034818, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
+      propertyPath: MoveCoolDown
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5117702759951034818, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
+      propertyPath: _isBossEnraged
+      value: 
+      objectReference: {fileID: 11400000, guid: 7c377c922ac3e7b4ebaa7681aeea5787, type: 2}
+    - target: {fileID: 5117702759951034818, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
       propertyPath: WallAttackModule
       value: 
       objectReference: {fileID: 333073258}
@@ -3701,6 +3757,10 @@ PrefabInstance:
       propertyPath: BulletAttackModule
       value: 
       objectReference: {fileID: 1089858643}
+    - target: {fileID: 5117702759951034818, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
+      propertyPath: _enrageHealthThreshold
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cce3b033a3d1704f860c69ca4ec0c23, type: 2}
     - target: {fileID: 5117702759951034818, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
       propertyPath: _bossAttackCombos.Array.size
       value: 0
@@ -3717,6 +3777,14 @@ PrefabInstance:
       propertyPath: bossPart
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5469111499316328780, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
+      propertyPath: _isBossEnraged
+      value: 
+      objectReference: {fileID: 11400000, guid: 7c377c922ac3e7b4ebaa7681aeea5787, type: 2}
+    - target: {fileID: 5469111499316328780, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
+      propertyPath: _enragedBulletMultiplier
+      value: 
+      objectReference: {fileID: 11400000, guid: fc06839a0520ccb4f961dd7904ee8937, type: 2}
     - target: {fileID: 6500384695758733439, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
       propertyPath: m_Enabled
       value: 1

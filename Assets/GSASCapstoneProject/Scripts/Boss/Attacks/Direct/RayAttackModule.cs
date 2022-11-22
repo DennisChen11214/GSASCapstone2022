@@ -1,4 +1,4 @@
-using System.Collections;
+using Core.GlobalVariables;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +8,8 @@ public class RayAttackModule : MonoBehaviour
     [SerializeField] private int _poolSize;
     [SerializeField] private Transform _poolParent;
     [SerializeField] private List<Transform> _initialTransforms;
+    [SerializeField] private BoolVariable _isBossEnraged;
+    [SerializeField] private FloatVariable _enragedRayMultiplier;
 
     private Ray[] _pool;
     private List<Transform> _usedTransforms;
@@ -27,6 +29,10 @@ public class RayAttackModule : MonoBehaviour
     
     public void Attack(Transform target, int numRays)
     {
+        if (_isBossEnraged.Value)
+        {
+            numRays = Mathf.CeilToInt(numRays * _enragedRayMultiplier.Value);
+        }
         for (int i = 0; i < _poolSize; i++)
         {
             if (!_pool[i].gameObject.activeSelf)

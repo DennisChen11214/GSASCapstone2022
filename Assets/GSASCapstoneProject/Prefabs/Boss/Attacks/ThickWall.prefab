@@ -153,3 +153,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   _thinWallSpeed: {fileID: 11400000, guid: 9ad7c6554630350449e8154a47dd3903, type: 2}
+  _enragedSpeedMultiplier: {fileID: 11400000, guid: 381030196e1fed147b61d8a57ff1b404, type: 2}
+  _isBossEnraged: {fileID: 11400000, guid: 7c377c922ac3e7b4ebaa7681aeea5787, type: 2}
