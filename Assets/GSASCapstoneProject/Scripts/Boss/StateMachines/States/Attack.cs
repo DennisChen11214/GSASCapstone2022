@@ -53,7 +53,7 @@ public class Attack : iState
         {
             case BossAttacks.BossAttack.Shotgun:
                 _manager.BulletAttackModule.SetTarget(_manager.Target);
-                _manager.BulletAttackModule.SetBossPart(_manager.BossPart);
+                _manager.BulletAttackModule.SetBossPart(_manager.bossAttackPart);
                 _manager.BulletAttackModule.Burst(_manager.Stats.BurstBullets);
                 break;
             case BossAttacks.BossAttack.Rifle:

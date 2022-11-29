@@ -16,7 +16,9 @@ public enum BossStateType
 
 public class BossStateFSM : MonoBehaviour
 {
-    public Transform BossPart; // The Actual boss that takes damage and attacks
+    public Transform BossTransform;
+    public Transform bossAttackPart; // The Actual boss that takes damage and attacks
+    public Animator animator;
     public BossStats Stats;
     public bool DEBUG = true;
 

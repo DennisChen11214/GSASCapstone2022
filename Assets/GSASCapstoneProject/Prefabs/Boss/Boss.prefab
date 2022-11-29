@@ -275,7 +275,7 @@ Transform:
   m_LocalScale: {x: 1.800415, y: 1.800415, z: 1.800415}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8746311280188705143}
+  - {fileID: 4028770076634493012}
   - {fileID: 3947261522463953755}
   - {fileID: 5439172293561156881}
   m_Father: {fileID: 0}
@@ -294,12 +294,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BossPart: {fileID: 0}
+  animator: {fileID: 0}
+  Stats: {fileID: 0}
   DEBUG: 0
-  _stats: {fileID: 0}
+  _health: {fileID: 0}
+  _enrageHealthThreshold: {fileID: 0}
+  _isBossEnraged: {fileID: 0}
   _targets:
   - {fileID: 0}
   - {fileID: 0}
-  _health: {fileID: 0}
   _swap: {fileID: 11400000, guid: c2c137196e36f9440aaaa8923095d01a, type: 2}
   _bossAttackCombos: []
   BulletAttackModule: {fileID: 0}
@@ -311,8 +314,61 @@ MonoBehaviour:
   - {fileID: 5576519041683003174}
   - {fileID: 1568556179543015616}
   - {fileID: 4733737227523002700}
-  moveCoolDown: 5
+  MoveCoolDown: 0
   canMove: 0
+--- !u!1 &1278268160365231637
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4028770076634493012}
+  - component: {fileID: 645127498214700}
+  m_Layer: 0
+  m_Name: MovablePart
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4028770076634493012
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1278268160365231637}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8746311280188705143}
+  m_Father: {fileID: 1152337751128150386}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &645127498214700
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1278268160365231637}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1595813728829115902
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,6 +450,8 @@ MonoBehaviour:
   _poolSize: 4
   _poolParent: {fileID: 3072059657188204045}
   _initialTransforms: []
+  _isBossEnraged: {fileID: 0}
+  _enragedRayMultiplier: {fileID: 0}
 --- !u!1 &2253450228864551195
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,6 +569,8 @@ MonoBehaviour:
   _poolParent: {fileID: 500010549375137958}
   target: {fileID: 0}
   bossPart: {fileID: 0}
+  _isBossEnraged: {fileID: 0}
+  _enragedBulletMultiplier: {fileID: 0}
   doneAttacking: 0
 --- !u!1 &3422505893666425467
 GameObject:
@@ -592,7 +652,7 @@ GameObject:
   - component: {fileID: 5367642314399325516}
   - component: {fileID: 5292002422474863508}
   m_Layer: 6
-  m_Name: BossPart
+  m_Name: AttackPart
   m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -610,7 +670,7 @@ Transform:
   m_LocalScale: {x: 1.4383351, y: 1.4383351, z: 1.4383351}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1152337751128150386}
+  m_Father: {fileID: 4028770076634493012}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2551819839586318109
