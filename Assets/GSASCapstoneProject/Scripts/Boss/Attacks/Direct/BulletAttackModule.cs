@@ -21,7 +21,7 @@ public class BulletAttackModule : MonoBehaviour
     
 
     private void Start()
-    {
+    { 
         // Instantiate attacks (projectiles) in the pool
         _pool = new Bullet[_poolSize];
         if (_poolParent == null)
@@ -60,7 +60,8 @@ public class BulletAttackModule : MonoBehaviour
             }
         }
     }
-
+    
+    
     public void Burst(int numBullets)
     {
         if (_isBossEnraged.Value)
@@ -84,6 +85,35 @@ public class BulletAttackModule : MonoBehaviour
         {
             Attack(position, dir.normalized);
             dir = originalDir + new Vector2(0, UnityEngine.Random.Range(-1.0f, 1.0f));
+            yield return new WaitForSeconds(0.1f);
+        }
+        
+        doneAttacking = true;
+    }
+
+    // Rifle
+    public void RifleBurst(int numBullets)
+    {
+        if (_isBossEnraged.Value)
+        {
+            numBullets = Mathf.CeilToInt(numBullets * _enragedBulletMultiplier.Value);
+        }
+        if (doneAttacking)
+        {
+            StartCoroutine(_RifleBurst(numBullets));
+        }
+    }
+    
+    private IEnumerator _RifleBurst(int numBullets)
+    {
+        doneAttacking = false;
+        var position = bossPart.position;
+        Vector2 originalDir = (target.position - position);
+        Vector2 dir = originalDir.normalized;
+        
+        for(int i = 0; i < numBullets; i++)
+        {
+            Attack(position, dir);
             yield return new WaitForSeconds(0.1f);
         }
         

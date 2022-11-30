@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Core.GlobalVariables;
 using Core.GlobalEvents;
 using Unity.VisualScripting;
@@ -124,6 +125,7 @@ public class BossStateFSM : MonoBehaviour
     private void InitializeWeightDict()
     {
         _attackWeightDict = new Dictionary<BossAttacks.BossAttack, float>();
+
         _attackWeightDict.Add(BossAttacks.BossAttack.Shotgun, Stats.ShotgunWeight);
         _attackWeightDict.Add(BossAttacks.BossAttack.Rifle, Stats.RifleWeight);
         _attackWeightDict.Add(BossAttacks.BossAttack.ThinWall, Stats.ThinWallWeight);
@@ -133,6 +135,18 @@ public class BossStateFSM : MonoBehaviour
         _attackWeightDict.Add(BossAttacks.BossAttack.Swipe, Stats.SwipeWeight);
         _attackWeightDict.Add(BossAttacks.BossAttack.Crush, Stats.CrushWeight);
         _attackWeightDict.Add(BossAttacks.BossAttack.Meteors, Stats.MeteorWeight);
+        
+        float weightSum = 0;
+        foreach ( var p in _attackWeightDict)
+        {
+            weightSum += p.Value;
+        }
+        foreach ( var p in _attackWeightDict.ToArray())
+        {
+            _attackWeightDict[p.Key] /= weightSum;
+            Debug.Log(_attackWeightDict[p.Key]);
+        }
+            
     }
 
     private void InitializeDelayDict()

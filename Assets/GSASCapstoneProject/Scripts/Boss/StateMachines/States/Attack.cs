@@ -57,6 +57,9 @@ public class Attack : iState
                 _manager.BulletAttackModule.Burst(_manager.Stats.BurstBullets);
                 break;
             case BossAttacks.BossAttack.Rifle:
+                _manager.BulletAttackModule.SetTarget(_manager.Target);
+                _manager.BulletAttackModule.SetBossPart(_manager.bossAttackPart);
+                _manager.BulletAttackModule.RifleBurst(_manager.Stats.BurstBullets);
                 break;
             case BossAttacks.BossAttack.ThinWall:
                 _manager.WallAttackModule.StartAttack(true);

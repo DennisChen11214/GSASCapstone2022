@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: HeavenStats
   m_EditorClassIdentifier: 
   Heaven: 1
-  ShotgunWeight: 0.25
-  RifleWeight: 0
+  ShotgunWeight: 0.125
+  RifleWeight: 0.125
   ThinWallWeight: 0.25
   ThickWallWeight: 0.25
   LaserWeight: 0.25
