@@ -88,6 +88,7 @@ public class RangedPlayerCombat : PlayerCombat
             _currentAttack = 0;
         }
         _isAttacking.Value = true;
+        _audio.PlayOneShot(_attackSound);
         switch (_currentAttack)
         {
             case 0:
@@ -189,9 +190,11 @@ public class RangedPlayerCombat : PlayerCombat
                     _isAttacking.Value = false;
                     break;
                 case 1:
+                    _audio.PlayOneShot(_attackSound);
                     _anim.SetTrigger("Attack2");
                     break;
                 case 2:
+                    _audio.PlayOneShot(_attackSound);
                     _anim.SetTrigger("Attack3");
                     break;
             }

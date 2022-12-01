@@ -32,7 +32,12 @@ public abstract class PlayerCombat : MonoBehaviour
     protected GlobalEvent _onOtherPlayerRevived;
     [SerializeField]
     protected ScriptableStats _stats;
+    [SerializeField]
+    protected AudioClip _attackSound;
+    [SerializeField]
+    protected AudioClip _onHitSound;
 
+    protected AudioSource _audio;
     protected Rigidbody2D _rb;
     protected Animator _anim;
     protected float _knockbackTime;
@@ -47,6 +52,7 @@ public abstract class PlayerCombat : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();        
         _anim = GetComponent<Animator>();
+        _audio = transform.parent.GetComponent<AudioSource>();
         _onPlayerRevived.Subscribe(Revive);
         _onOtherPlayerRevived.Subscribe(ReviveOtherPlayer);
         ResetValues();
@@ -76,6 +82,7 @@ public abstract class PlayerCombat : MonoBehaviour
         if (_isInvincible.Value) return;
         _playerHealth.Value -= 1;
         _damageTaken.Value++;
+        _audio.PlayOneShot(_onHitSound);
         if (_playerHealth.Value == 0)
         {
             Die();
@@ -115,6 +122,7 @@ public abstract class PlayerCombat : MonoBehaviour
     {
         _playerHealth.Value -= 1;
         _damageTaken.Value++;
+        _audio.PlayOneShot(_onHitSound);
         if (_playerHealth.Value == 0)
         {
             Die();

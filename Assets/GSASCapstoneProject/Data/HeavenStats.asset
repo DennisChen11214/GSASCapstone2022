@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HeavenStats
   m_EditorClassIdentifier: 
   Heaven: 1
-  ShotgunWeight: 0
+  ShotgunWeight: 1
   RifleWeight: 0
   ThinWallWeight: 0
   ThickWallWeight: 0

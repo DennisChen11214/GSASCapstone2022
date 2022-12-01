@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask _bossLayer;
     [SerializeField] private LayerMask _platformLayer;
     [SerializeField] private LayerMask _respawnLayer;
+    [SerializeField] private AudioClip _swapSound;
     [SerializeField] private GlobalEvent _swapCompleted;
     [SerializeField] private GlobalEvent _swapCanceled;
     [BoolAttribute("Melee", true, "_stats")]
@@ -64,8 +65,8 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D _rb;
     private PlayerCombat _playerCombat;
-    private BoxCollider2D _col; // Current collider
-    private bool _cachedTriggerSetting;
+    private BoxCollider2D _col;
+    private AudioSource _audio;
 
     private Vector2 _moveDirection;
     private Vector2 _speed;
@@ -96,10 +97,10 @@ public class PlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _col = GetComponent<BoxCollider2D>();
         _playerCombat = GetComponent<PlayerCombat>();
+        _audio = transform.parent.GetComponent<AudioSource>();
         _actions = GetComponentInParent<PlayerInput>().actions;
 
         _playerTransform.Value = transform;
-        _cachedTriggerSetting = Physics2D.queriesHitTriggers;
 
         _move = _actions.FindActionMap("Player").FindAction("Movement");
         _jump = _actions.FindActionMap("Player").FindAction("Jump");
@@ -184,8 +185,6 @@ public class PlayerController : MonoBehaviour
         Vector2 _absScale = new Vector2(Mathf.Abs(transform.localScale.x), Mathf.Abs(transform.localScale.y));
         _groundHitCount = Physics2D.BoxCastNonAlloc(origin, _col.size * _absScale, 0, Vector2.down, _groundHits, _stats.GrounderDistance, ~_stats.PlayerLayer);
 
-        Physics2D.queriesHitTriggers = _cachedTriggerSetting;
-
         if (_downJumpCollider != null)
         {
             List<Collider2D> results = new List<Collider2D>();
@@ -251,6 +250,7 @@ public class PlayerController : MonoBehaviour
         {
             _otherPlayer = otherPlayer;
 
+            _audio.PlayOneShot(_swapSound);
             gameObject.SetActive(false);
             otherPlayer.gameObject.SetActive(false);
             Invoke("Swap", _swapDelay.Value);

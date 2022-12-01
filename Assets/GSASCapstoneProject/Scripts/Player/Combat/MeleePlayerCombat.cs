@@ -60,6 +60,7 @@ public class MeleePlayerCombat : PlayerCombat
             _currentAttack = 0;
         }
         _isAttacking.Value = true;
+        _audio.PlayOneShot(_attackSound);
         switch (_currentAttack)
         {
             case 0:
@@ -96,10 +97,12 @@ public class MeleePlayerCombat : PlayerCombat
         _isDownAttacking = !up;
         if (up)
         {
+            _audio.PlayOneShot(_attackSound);
             _anim.SetTrigger("UpAttack");
         }
         else
         {
+            _audio.PlayOneShot(_attackSound);
             _anim.SetTrigger("DownAttack");
         }
     }
@@ -137,9 +140,11 @@ public class MeleePlayerCombat : PlayerCombat
                     _isAttacking.Value = false;
                     break;
                 case 1:
+                    _audio.PlayOneShot(_attackSound);
                     _anim.SetTrigger("Attack2");
                     break;
                 case 2:
+                    _audio.PlayOneShot(_attackSound);
                     _anim.SetTrigger("Attack3");
                     break;
             }
@@ -159,6 +164,7 @@ public class MeleePlayerCombat : PlayerCombat
             if (_currentAttack != 0)
             {
                 _isDownAttacking = true;
+                _audio.PlayOneShot(_attackSound);
                 _anim.SetTrigger("DownAttack");
             }
         }

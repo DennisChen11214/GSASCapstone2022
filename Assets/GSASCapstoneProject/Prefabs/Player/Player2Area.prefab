@@ -2526,7 +2526,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5326737642037646108}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 45.846546, y: 51.14, z: 0}
+  m_LocalPosition: {x: 45.846546, y: -2.66, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4532,6 +4532,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7392342149005715175}
     m_Modifications:
+    - target: {fileID: 645127498214700, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 6352f4800179c074b8ada97a96c6131f, type: 2}
     - target: {fileID: 1152337751128150351, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
       propertyPath: m_Name
       value: Boss2
@@ -4640,6 +4644,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.73
       objectReference: {fileID: 0}
+    - target: {fileID: 3448243575271194977, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
+      propertyPath: _isBossEnraged
+      value: 
+      objectReference: {fileID: 11400000, guid: 7c377c922ac3e7b4ebaa7681aeea5787, type: 2}
+    - target: {fileID: 3448243575271194977, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
+      propertyPath: _enragedRayMultiplier
+      value: 
+      objectReference: {fileID: 11400000, guid: 54e693b2af07f4247999b173198182b7, type: 2}
     - target: {fileID: 4733737227523002700, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.58
@@ -4649,6 +4661,46 @@ PrefabInstance:
       value: 1.21
       objectReference: {fileID: 0}
     - target: {fileID: 5117702760067226635, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
+      propertyPath: Stats
+      value: 
+      objectReference: {fileID: 11400000, guid: ba57acd9b2bbc454e863b4a303fcaa31, type: 2}
+    - target: {fileID: 5117702760067226635, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
+      propertyPath: _health
+      value: 
+      objectReference: {fileID: 11400000, guid: 86b7757fc8dfc444dbf97a0488e90cdf, type: 2}
+    - target: {fileID: 5117702760067226635, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 2021443428}
+    - target: {fileID: 5117702760067226635, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
+      propertyPath: MoveCoolDown
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5117702760067226635, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
+      propertyPath: BossTransform
+      value: 
+      objectReference: {fileID: 4028770076654601629}
+    - target: {fileID: 5117702760067226635, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
+      propertyPath: _isBossEnraged
+      value: 
+      objectReference: {fileID: 11400000, guid: 7c377c922ac3e7b4ebaa7681aeea5787, type: 2}
+    - target: {fileID: 5117702760067226635, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
+      propertyPath: bossAttackPart
+      value: 
+      objectReference: {fileID: 8746311280104504510}
+    - target: {fileID: 5117702760067226635, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
+      propertyPath: WallAttackModule
+      value: 
+      objectReference: {fileID: 8233675781213959455}
+    - target: {fileID: 5117702760067226635, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
+      propertyPath: BulletAttackModule
+      value: 
+      objectReference: {fileID: 5469111499316328780}
+    - target: {fileID: 5117702760067226635, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
+      propertyPath: _enrageHealthThreshold
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cce3b033a3d1704f860c69ca4ec0c23, type: 2}
+    - target: {fileID: 5117702760067226635, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
       propertyPath: _targets.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 7a64d60e0103fc048a7f4e32c9e297a4, type: 2}
@@ -4656,6 +4708,14 @@ PrefabInstance:
       propertyPath: _targets.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: b85b4d804d1c1f74fb789011bf31489f, type: 2}
+    - target: {fileID: 5469111499404201093, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
+      propertyPath: _isBossEnraged
+      value: 
+      objectReference: {fileID: 11400000, guid: 7c377c922ac3e7b4ebaa7681aeea5787, type: 2}
+    - target: {fileID: 5469111499404201093, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
+      propertyPath: _enragedBulletMultiplier
+      value: 
+      objectReference: {fileID: 11400000, guid: fc06839a0520ccb4f961dd7904ee8937, type: 2}
     - target: {fileID: 5576519041683003174, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.14
@@ -4669,6 +4729,63 @@ PrefabInstance:
 --- !u!4 &1152337751081297083 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1152337751128150386, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
+  m_PrefabInstance: {fileID: 121451977}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3662055438181517025 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3662055438165603112, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
+  m_PrefabInstance: {fileID: 121451977}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &2021443428
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3662055438181517025}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6352f4800179c074b8ada97a96c6131f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!4 &4028770076654601629 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4028770076634493012, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
+  m_PrefabInstance: {fileID: 121451977}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5469111499316328780 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5469111499404201093, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
+  m_PrefabInstance: {fileID: 121451977}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 676a9c711bd4ebd439cd076cebeab3d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8233675781213959455 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8233675781126193366, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
+  m_PrefabInstance: {fileID: 121451977}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3371297ddea64034aa3dec0475a56946, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &8746311280104504510 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8746311280188705143, guid: 3b623e0a348bce1449d53d3e2665ad1f, type: 3}
   m_PrefabInstance: {fileID: 121451977}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5030469031798057791
@@ -4724,14 +4841,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7374121810704253088, guid: 0e96d0082611734468809c4fe6f1c45a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8015908997304881561, guid: 0e96d0082611734468809c4fe6f1c45a, type: 3}
-      propertyPath: _meleeDashType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8015908997304881561, guid: 0e96d0082611734468809c4fe6f1c45a, type: 3}
-      propertyPath: _rangedDashType
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
