@@ -15,8 +15,8 @@ MonoBehaviour:
   Heaven: 0
   ShotgunWeight: 0
   RifleWeight: 0
-  ThinWallWeight: 0.25
-  ThickWallWeight: 0.25
+  ThinWallWeight: 0
+  ThickWallWeight: 0
   LaserWeight: 0
   FeatherWeight: 0
   SwipeWeight: 0

@@ -44,14 +44,14 @@ namespace Core.GlobalEvents
             return subscribers;
         }
 
-        public void Subscribe(GEvent floatEvent)
+        public void Subscribe(GEvent globalEvent)
         {
-            OnGlobalEventCalled += floatEvent;
+            OnGlobalEventCalled += globalEvent;
         }
 
-        public void Unsubscribe(GEvent floatEvent)
+        public void Unsubscribe(GEvent globalEvent)
         {
-            OnGlobalEventCalled -= floatEvent;
+            OnGlobalEventCalled -= globalEvent;
         }
 
         public void RegisterListener(GlobalEventListener listener)

@@ -4,8 +4,6 @@ using UnityEngine;
 public class WallAttack : MonoBehaviour
 {
     [SerializeField]
-    private LayerMask _playerLayer;
-    [SerializeField]
     private LayerMask _stopLayer;
     [SerializeField]
     private FloatVariable _thinWallSpeed;
@@ -22,9 +20,10 @@ public class WallAttack : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (_playerLayer == (_playerLayer | (1 << collision.gameObject.layer)))
+        PlayerCombat player = collision.GetComponent<PlayerCombat>();
+        if (player)
         {
-            collision.GetComponent<PlayerCombat>().TakeDamage(true);
+            player.TakeDamage(true);
         }
         else if (_stopLayer == (_stopLayer | (1 << collision.gameObject.layer)))
         {

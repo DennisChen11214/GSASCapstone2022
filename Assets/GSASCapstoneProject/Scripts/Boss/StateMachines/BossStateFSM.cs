@@ -144,7 +144,6 @@ public class BossStateFSM : MonoBehaviour
         foreach ( var p in _attackWeightDict.ToArray())
         {
             _attackWeightDict[p.Key] /= weightSum;
-            Debug.Log(_attackWeightDict[p.Key]);
         }
             
     }

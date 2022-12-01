@@ -42,6 +42,8 @@ public class PlayerController : MonoBehaviour
     [BoolAttribute("Melee", true, "_stats")]
     [SerializeField] private GlobalEvent _onDownAttackInAir;
     [SerializeField] private GlobalEvent _onOtherPlayerRevived;
+    [SerializeField] private GlobalEvent _onGamePaused;
+    [SerializeField] private GlobalEvent _onGameUnpaused;
     [SerializeField] private TransformGlobalEvent _requestSwap;
     [SerializeField] private TransformGlobalEvent _receiveSwapRequest;
     [SerializeField] private TransformVariable _playerTransform;
@@ -71,9 +73,10 @@ public class PlayerController : MonoBehaviour
     private Transform _otherPlayer;
     private int _fixedFrame;
     private bool _grounded;
+    private bool _swapPressedBeforePause;
 
     private InputActionAsset _actions;
-    private InputAction _move, _jump, _dash, _attack, _swap;
+    private InputAction _move, _jump, _dash, _attack, _swap, _pause;
 
     #endregion
 
@@ -103,6 +106,10 @@ public class PlayerController : MonoBehaviour
         _dash = _actions.FindActionMap("Player").FindAction("Movement Ability");
         _attack = _actions.FindActionMap("Player").FindAction("Attack");
         _swap = _actions.FindActionMap("Player").FindAction("Swap");
+        _pause = _actions.FindActionMap("Player").FindAction("Pause");
+
+        _onGamePaused.Subscribe(Pause);
+        _onGameUnpaused.Subscribe(Unpause);
 
         _attack.started += HandleAttacking;
         _attack.canceled += CancelCharging;
@@ -112,6 +119,7 @@ public class PlayerController : MonoBehaviour
         _dash.performed += StartDash;
         _swap.started += RequestSwap;
         _swap.canceled += CancelSwap;
+        _pause.performed += Pause;
 
         _numDashes.Value = _stats.MaxDashes;
         _movementCooldown.Value = _stats.MovementCooldown;
@@ -693,6 +701,10 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
+    protected virtual void Pause(InputAction.CallbackContext ctx)
+    {
+        _onGamePaused.Raise();
+    }
     protected virtual void ApplyVelocity()
     {
         if (!_isKnockedBack.Value)
@@ -735,6 +747,46 @@ public class PlayerController : MonoBehaviour
             _onDownAttackInAir.Unsubscribe(DownAttackAirBounce);
         }
         _actions.Disable();
+        _pause.Enable();
+    }
+
+    private void Pause()
+    {
+        _attack.started -= HandleAttacking;
+        _attack.canceled -= CancelCharging;
+        _attack.performed -= TryRevive;
+        _jump.started -= HandleJump;
+        _jump.canceled -= CancelJump;
+        _dash.performed -= StartDash;
+        _swap.started -= RequestSwap;
+        _swap.canceled -= CancelSwap;
+        _pause.performed -= Pause;
+
+        _swapPressedBeforePause = _swap.IsPressed();
+    }
+
+    private void Unpause()
+    {
+        _attack.started += HandleAttacking;
+        _attack.canceled += CancelCharging;
+        _attack.performed += TryRevive;
+        _jump.started += HandleJump;
+        _jump.canceled += CancelJump;
+        _dash.performed += StartDash;
+        _swap.started += RequestSwap;
+        _swap.canceled += CancelSwap;
+        _pause.performed += Pause;
+
+        if (!_attack.IsPressed())
+        {
+            _playerCombat.CancelAttack();
+        }
+        if (!_swap.IsPressed() && _swapPressedBeforePause)
+        {
+            _swapHeld = false;
+            _swapCanceled.Raise();
+        }
+        _swapPressedBeforePause = false;
     }
 
     private void OnDestroy()
@@ -747,5 +799,9 @@ public class PlayerController : MonoBehaviour
         _dash.performed -= StartDash;
         _swap.started -= RequestSwap;
         _swap.canceled -= CancelSwap;
+        _pause.performed -= Pause;
+
+        _onGamePaused.Unsubscribe(Pause);
+        _onGameUnpaused.Unsubscribe(Unpause);
     }
 }
