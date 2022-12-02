@@ -18,7 +18,7 @@ public class BossStats : ScriptableObject
 
     #region Weights
 
-    [Header("Attack Weights(Should Add Up To 1)")]
+    [Header("Attack Weights")]
     public float ShotgunWeight;
     public float RifleWeight;
     public float ThinWallWeight;

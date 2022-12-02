@@ -17,6 +17,7 @@ public class Bullet : MonoBehaviour
     public void Launch(Vector2 dir)
     {
         _dir = dir;
+        transform.right = dir.normalized;
         _rb.velocity = dir * _speed;
     }
 

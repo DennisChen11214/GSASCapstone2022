@@ -293,7 +293,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01f51be4f779e87479519d4c5797206b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BossPart: {fileID: 0}
+  BossTransform: {fileID: 0}
+  bossAttackPart: {fileID: 0}
   animator: {fileID: 0}
   Stats: {fileID: 0}
   DEBUG: 0
@@ -314,8 +315,9 @@ MonoBehaviour:
   - {fileID: 5576519041683003174}
   - {fileID: 1568556179543015616}
   - {fileID: 4733737227523002700}
-  MoveCoolDown: 0
+  MoveCooldown: 4
   canMove: 0
+  moveSpeed: 10
 --- !u!1 &1278268160365231637
 GameObject:
   m_ObjectHideFlags: 0

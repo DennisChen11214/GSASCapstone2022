@@ -29,6 +29,7 @@ public class BossStateFSM : MonoBehaviour
     [NonSerialized ]public float MaxHealth;
     
     [SerializeField] private FloatVariable _health;
+    
     [SerializeField] private FloatVariable _enrageHealthThreshold;
     [SerializeField] private BoolVariable _isBossEnraged;
     [SerializeField] private TransformVariable[] _targets;
@@ -56,8 +57,9 @@ public class BossStateFSM : MonoBehaviour
 
     #region Move State
     public Transform[] locations;
-    public float MoveCoolDown;
+    public float MoveCooldown;
     public bool canMove;
+    public float moveSpeed;
     
     #endregion
 
@@ -87,7 +89,7 @@ public class BossStateFSM : MonoBehaviour
             _states.Add(BossStateType.Move, new Move(this));
         }
 
-        StartCoroutine(InitialMoveCoolDown());
+        StartCoroutine(StartMoveCooldown());
         TransitionToState(BossStateType.Idle, "Initialization");
     }
 
@@ -184,10 +186,10 @@ public class BossStateFSM : MonoBehaviour
         Target = _targets[_targetIdx].Value;
     }
     
-    IEnumerator InitialMoveCoolDown()
+    public IEnumerator StartMoveCooldown()
     {
         canMove = false;
-        yield return new WaitForSeconds(MoveCoolDown);
+        yield return new WaitForSeconds(MoveCooldown);
         canMove = true;
     }
 

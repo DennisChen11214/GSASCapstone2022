@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Heaven: 0
   ShotgunWeight: 0
-  RifleWeight: 0
+  RifleWeight: 1
   ThinWallWeight: 0
   ThickWallWeight: 0
   LaserWeight: 0

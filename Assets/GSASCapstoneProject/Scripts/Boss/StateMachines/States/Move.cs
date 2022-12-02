@@ -25,43 +25,32 @@ public class Move : iState
             idx = (idx + 1) % _manager.locations.Length;
             _location = _manager.locations[idx].position;
         }
-
-        // move the boss to that location
-        _moveCouroutine = _manager.StartCoroutine(_Move());
+        
         
         if (_manager.DEBUG) Debug.Log("Move Done OnEnter()");
     }
 
     public void OnUpdate(float dt)
     {
-        
+        // move the boss to the selected location
+        if ((_location - _manager.BossTransform.position).magnitude < 1.0f)
+          {
+              _manager.TransitionToState(BossStateType.Idle, "Move");
+          }
+          _manager.BossTransform.position += _manager.moveSpeed * Time.deltaTime * (_location - _manager.BossTransform.position).normalized;
     }
 
     public void OnExit()
     {
-        _manager.StopCoroutine(_moveCouroutine);
         _manager.canMove = false;
-        _manager.StartCoroutine(MoveCoolDown());
+        _manager.StartCoroutine(MoveCooldown());
         if (_manager.DEBUG) Debug.Log("Move Done OnExit()");
     }
+    
 
-    private IEnumerator _Move()
+    private IEnumerator MoveCooldown()
     {
-        float reactionTime = 0.07f;
-        // stop playing Idle animation before moving
-        _manager.animator.enabled = false;
-        yield return new WaitForSeconds(reactionTime);
-        _manager.BossTransform.position = _location;
-        yield return new WaitForSeconds(reactionTime);
-        _manager.animator.enabled = true;
-
-        _manager.TransitionToState(BossStateType.Idle, "Move");
-        yield return null;
-    }
-
-    private IEnumerator MoveCoolDown()
-    {
-        yield return new WaitForSeconds(_manager.MoveCoolDown);
+        yield return new WaitForSeconds(_manager.MoveCooldown);
         _manager.canMove = true;
     }
 }
