@@ -74,6 +74,7 @@ public class Attack : iState
             case BossAttacks.BossAttack.Feathers:
                 break;
             case BossAttacks.BossAttack.Swipe:
+                _manager.ScratchAttackModule.ScratchAttack(_manager.Target.position);
                 break;
             case BossAttacks.BossAttack.Crush:
                 break;

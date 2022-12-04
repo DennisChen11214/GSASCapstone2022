@@ -42,6 +42,7 @@ public class BossStateFSM : MonoBehaviour
     // modules attack module
     public BulletAttackModule BulletAttackModule;
     public WallAttackModule WallAttackModule;
+    public ScratchAttackModule ScratchAttackModule;
     [BoolAttribute("Heaven", true, "Stats")]
     public RayAttackModule RayAttackModule;
 

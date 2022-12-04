@@ -16,10 +16,10 @@ MonoBehaviour:
   ShotgunWeight: 0
   RifleWeight: 0
   ThinWallWeight: 0
-  ThickWallWeight: 1
+  ThickWallWeight: 0
   LaserWeight: 0
   FeatherWeight: 0
-  SwipeWeight: 0
+  SwipeWeight: 1
   CrushWeight: 0
   MeteorWeight: 0
   ShotgunDelay: 2

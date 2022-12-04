@@ -7,7 +7,6 @@ public class Move : iState
 {
     private BossStateFSM _manager;
     private Vector3 _location;
-    private Coroutine _moveCouroutine = null;
     public Move(BossStateFSM manager)
     {
         this._manager = manager;

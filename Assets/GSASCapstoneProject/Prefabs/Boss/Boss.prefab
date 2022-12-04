@@ -308,6 +308,7 @@ MonoBehaviour:
   _bossAttackCombos: []
   BulletAttackModule: {fileID: 0}
   WallAttackModule: {fileID: 0}
+  ScratchAttackModule: {fileID: 5746638134209663821}
   RayAttackModule: {fileID: 0}
   idleMin: 2
   idleMax: 5
@@ -402,6 +403,55 @@ Transform:
   m_Father: {fileID: 2058052695199086123}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1702644512182048108
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6112541586289088989}
+  - component: {fileID: 5746638134209663821}
+  m_Layer: 0
+  m_Name: ScratchAttackModule
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6112541586289088989
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702644512182048108}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6468519641114143247}
+  m_Father: {fileID: 3947261522463953755}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5746638134209663821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702644512182048108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 862002e60e4a61649be0d191d062b54a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scratch: {fileID: 8230808115414634096, guid: 2d34d751e3b48b548add20006fda5ff0, type: 3}
+  _poolSize: 4
+  _poolParent: {fileID: 6468519641114143247}
+  _isBossEnraged: {fileID: 0}
 --- !u!1 &2158821716200026338
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,6 +533,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4348257347971091955}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2265732348438711455
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6468519641114143247}
+  m_Layer: 0
+  m_Name: ScratchPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6468519641114143247
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2265732348438711455}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6112541586289088989}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3312527786195846608
@@ -1067,6 +1148,7 @@ Transform:
   - {fileID: 1948458930388747761}
   - {fileID: 2428980909169320262}
   - {fileID: 4348257347971091955}
+  - {fileID: 6112541586289088989}
   m_Father: {fileID: 1152337751128150386}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
