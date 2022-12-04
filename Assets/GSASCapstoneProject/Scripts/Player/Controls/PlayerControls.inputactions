@@ -240,7 +240,7 @@
                 {
                     "name": "",
                     "id": "e59df534-fa0a-4b04-905b-9955139d326e",
-                    "path": "<Keyboard>/slash",
+                    "path": "<Keyboard>/comma",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardPlayer2",
@@ -273,7 +273,7 @@
                 {
                     "name": "",
                     "id": "ea5109fe-d65e-4e8a-ac16-cad6fe181cf1",
-                    "path": "<Keyboard>/comma",
+                    "path": "<Keyboard>/slash",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardPlayer2",
@@ -295,7 +295,7 @@
                 {
                     "name": "",
                     "id": "0b5c8087-a946-4627-9087-a7d7ae55b8a9",
-                    "path": "<Keyboard>/shift",
+                    "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardPlayer1",
@@ -306,7 +306,7 @@
                 {
                     "name": "",
                     "id": "ec8634fa-c9f2-4f80-9e2e-d4de6a0e36ae",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/rightShift",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardPlayer2",
