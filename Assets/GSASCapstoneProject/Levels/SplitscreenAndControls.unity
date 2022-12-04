@@ -3388,6 +3388,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: -4
       objectReference: {fileID: 0}
+    - target: {fileID: 4028770077273650954, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -10
+      objectReference: {fileID: 0}
     - target: {fileID: 5746638133774783507, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: _isBossEnraged
       value: 
@@ -3814,6 +3818,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1369776478}
   m_CullTransparentMesh: 1
+--- !u!95 &1433569441 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 645127515183333, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
+  m_PrefabInstance: {fileID: 1621770808}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1469680363
 GameObject:
   m_ObjectHideFlags: 0
@@ -4376,6 +4385,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: -4
       objectReference: {fileID: 0}
+    - target: {fileID: 5117702759951034818, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 1433569441}
     - target: {fileID: 5292002422391293533, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -4480,7 +4493,8 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: -4
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2021443428, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
 --- !u!1 &1735400933
 GameObject:

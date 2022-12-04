@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 [Serializable]
@@ -77,6 +78,7 @@ public class Attack : iState
                 _manager.ScratchAttackModule.ScratchAttack(_manager.Target.position);
                 break;
             case BossAttacks.BossAttack.Crush:
+                _manager.StartCoroutine(_crushAttack());
                 break;
             case BossAttacks.BossAttack.Meteors:
                 break;
@@ -113,6 +115,37 @@ public class Attack : iState
     public void OnExit()
     {
         if (_manager.DEBUG) Debug.Log("Attack Done OnExit()");
+    }
+
+
+    IEnumerator _crushAttack()
+    {
+        float speed = 2.5f;
+        float time_left = _manager.Stats.CrushDelay;
+        Vector3 targetPos = _manager.Target.position;
+        Vector3 displacement = targetPos - _manager.bossAttackPart.position;
+        displacement += displacement.normalized * 3; // make it move a little bit further than to the player's position
+        Vector3 displacementPerFrame = displacement / time_left * speed;
+        
+        // charging, and stop moving for 1s
+        _manager.animator.enabled = false;
+        yield return new WaitForSeconds(1.0f);
+        
+        // move towards the player
+        while (time_left >= 0)
+        {
+            time_left -= Time.deltaTime * speed;
+            _manager.BossTransform.position += displacementPerFrame * Time.deltaTime;
+            float hard_coded_colission_dist = 1.5f;
+            if ((_manager.bossAttackPart.position - _manager.Target.position).magnitude < hard_coded_colission_dist)
+            {
+                _manager.Target.GetComponent<PlayerCombat>().TakeDamage(
+                    _manager.bossAttackPart.position.x <= _manager.Target.position.x);
+            }
+            yield return null;
+        }
+        _manager.animator.enabled = true;
+        _manager.TransitionToState(BossStateType.Idle, "Attack");
     }
     
 }
