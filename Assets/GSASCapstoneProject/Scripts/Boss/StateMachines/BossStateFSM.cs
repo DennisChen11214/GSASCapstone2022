@@ -35,8 +35,11 @@ public class BossStateFSM : MonoBehaviour
     [SerializeField] private TransformVariable[] _targets;
     [SerializeField] private GlobalEvent _swap;
     [SerializeField] private List<BossAttacks> _bossAttackCombos;
+    [SerializeField] private SpriteRenderer _sprite;
+    [SerializeField] private Sprite _enragedSprite;
 
     private int _targetIdx = 0;
+    private bool _enraged = false;
 
     #region Attack State
     // modules attack module
@@ -96,9 +99,11 @@ public class BossStateFSM : MonoBehaviour
 
     private void CheckForHealthThreshold(float health)
     {
-        if(!_isBossEnraged.Value && health < MaxHealth * _enrageHealthThreshold.Value)
+        if(!_enraged && health < MaxHealth * _enrageHealthThreshold.Value)
         {
             _isBossEnraged.Value = true;
+            _enraged = true;
+            _sprite.sprite = _enragedSprite;
         }
         for (int i = 0; i < _bossAttackCombos.Count; i++)
         {

@@ -1069,6 +1069,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!212 &507821051 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5292002421768533194, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+  m_PrefabInstance: {fileID: 1249413543}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &521269253
 GameObject:
   m_ObjectHideFlags: 0
@@ -3328,6 +3333,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 557835897016539847, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -27.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 557835897016539847, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -7.5
+      objectReference: {fileID: 0}
     - target: {fileID: 691887132395250119, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: m_SortingOrder
       value: -4
@@ -3376,6 +3389,14 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: -4
       objectReference: {fileID: 0}
+    - target: {fileID: 3080447119368675106, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -26.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080447119368675106, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -8.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3284802087446424629, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: m_SortingOrder
       value: -4
@@ -3391,6 +3412,18 @@ PrefabInstance:
     - target: {fileID: 4028770077273650954, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5117702759630248789, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: _sprite
+      value: 
+      objectReference: {fileID: 507821051}
+    - target: {fileID: 5117702759630248789, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: _enragedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6f975d0e53f3c1f46b10d8910d58d42a, type: 3}
+    - target: {fileID: 5367642313964870162, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5746638133774783507, guid: 2e7d61562acc0c244b66d44425119159, type: 3}
       propertyPath: _isBossEnraged
@@ -4386,9 +4419,17 @@ PrefabInstance:
       value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 5117702759951034818, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
+      propertyPath: _sprite
+      value: 
+      objectReference: {fileID: 1096112261}
+    - target: {fileID: 5117702759951034818, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 1433569441}
+    - target: {fileID: 5117702759951034818, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
+      propertyPath: _enragedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b3ff7566d35f23e46a67c8d46669ede4, type: 3}
     - target: {fileID: 5292002422391293533, guid: 857ffdbf48c5c074b9da973861ba33cd, type: 3}
       propertyPath: m_Sprite
       value: 

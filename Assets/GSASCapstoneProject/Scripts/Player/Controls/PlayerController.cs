@@ -197,6 +197,7 @@ public class PlayerController : MonoBehaviour
                 _downJumpCollider = null;
             }
         }
+        Physics2D.queriesHitTriggers = true;
     }
 
     protected virtual void HandleCollisions()
