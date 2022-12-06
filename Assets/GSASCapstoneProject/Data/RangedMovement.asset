@@ -33,7 +33,7 @@ MonoBehaviour:
   DashEndHorizontalMultiplier: 0.25
   DashEndVerticalMultiplier: 0.25
   DashDamage: 10
-  TeleportDistance: 7
+  TeleportDistance: 8
   TeleportLayers:
     serializedVersion: 2
     m_Bits: 8
