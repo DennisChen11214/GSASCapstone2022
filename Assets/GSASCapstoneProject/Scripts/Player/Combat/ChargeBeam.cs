@@ -14,6 +14,7 @@ public class ChargeBeam : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        //If this hits a boss, deal damage to it
         DamageModule damageModule = other.gameObject.GetComponent<DamageModule>();
         if (damageModule != null)
         {

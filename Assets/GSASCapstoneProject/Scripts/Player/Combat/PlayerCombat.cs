@@ -58,6 +58,7 @@ public abstract class PlayerCombat : MonoBehaviour
         ResetValues();
     }
 
+    //Reset player values each time the scene is reloaded
     protected virtual void ResetValues()
     {
         _playerHealth.Value = _playerHealth.DefaultValue;
@@ -77,6 +78,7 @@ public abstract class PlayerCombat : MonoBehaviour
         HandleKnockBack();
     }
 
+    //The player takes damage and gets knocked back
     public void TakeDamage(bool left)
     {
         if (_isInvincible.Value) return;
@@ -97,6 +99,7 @@ public abstract class PlayerCombat : MonoBehaviour
         _isKnockedBack.Value = true;
     }
 
+
     private void Die()
     {
         _isPlayerDead.Value = true;
@@ -105,11 +108,13 @@ public abstract class PlayerCombat : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    //A player revives with one health;
     private void Revive()
     {
         _playerHealth.Value = 1;
     }
 
+    //Reviving the other player takes one health from this player
     private void ReviveOtherPlayer()
     {
         if(_playerHealth.Value != 1)
@@ -118,6 +123,7 @@ public abstract class PlayerCombat : MonoBehaviour
         }
     }
 
+    //The player takes damage without getting knocked back
     public void TakeDamageNoKnockback()
     {
         _playerHealth.Value -= 1;
@@ -130,11 +136,13 @@ public abstract class PlayerCombat : MonoBehaviour
         }
     }
 
+    //Applies a knockback to the player by changing its velocity
     protected virtual void HandleKnockBack()
     {
         if (_knockbackTime > 0)
         {
             float direction = _hitFromLeft ? -1 : 1;
+            //The velocity is lerped from a start and end velocity to feel smoother
             Vector2 startVel = new Vector2(-_stats.Knockback * direction, _stats.Knockback);
             Vector2 endVel = new Vector2(-_stats.Knockback * direction * _stats.KnockbackFactor, 0);
             float time = 1 - _knockbackTime / _stats.KnockbackLength;

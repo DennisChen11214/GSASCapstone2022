@@ -6,6 +6,8 @@
 using UnityEngine;
 using System;
 
+//An attribute where given the name of a boolean variable and the optional parent object it belongs to, if the value
+//of that boolean is equal to a given boolean, then display that field in the inspector. Otherwise, don't display it.
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
 public class BoolAttribute : PropertyAttribute
 {

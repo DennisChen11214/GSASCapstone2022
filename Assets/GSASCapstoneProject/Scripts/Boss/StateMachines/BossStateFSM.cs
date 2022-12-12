@@ -1,3 +1,7 @@
+///
+/// Created by Dennis Chen + Zhanbo Lin
+///
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -74,17 +78,21 @@ public class BossStateFSM : MonoBehaviour
 
     private void Start()
     {
+        //Choose the player to target
         Target = _targets[_targetIdx].Value;
         _swap.Subscribe(SwapTarget);
         InitializeWeightDict();
         InitializeDelayDict();
+        //Sort the predefined boss combos by the health threshold they occur at
         _bossAttackCombos.Sort((a, b) => b.HealthThreshold.CompareTo(a.HealthThreshold));
         for (int i = 0; i < _bossAttackCombos.Count; i++)
         {
             _bossAttackCombos[i].done = false;
         }
-        _health.Subscribe(CheckForHealthThreshold);
+        _health.Value = _health.DefaultValue;
         MaxHealth = _health.Value;
+        _health.Subscribe(CheckForHealthThreshold);
+        //Initialize the list of possible boss states
         if (_states == null)
         {
             _states = new Dictionary<BossStateType, iState>();
@@ -97,6 +105,8 @@ public class BossStateFSM : MonoBehaviour
         TransitionToState(BossStateType.Idle, "Initialization");
     }
 
+    //Each time the boss loses health, check if any of the health thresholds for the combos have been reached
+    //Also checks if the enrage threshold has been reached
     private void CheckForHealthThreshold(float health)
     {
         if(!_enraged && health < MaxHealth * _enrageHealthThreshold.Value)
@@ -115,6 +125,7 @@ public class BossStateFSM : MonoBehaviour
         }
     }
 
+    //When a health threshold is reached for an attack combo, register it with the attack state
     private void HealthThresholdAttack(List<BossAttacks.BossAttack> attackCombo)
     {
         Debug.Log("Health Threshold Reached");
@@ -130,6 +141,7 @@ public class BossStateFSM : MonoBehaviour
         _currentState.OnUpdate(Time.deltaTime);
     }
 
+    //Initialize a dictionary of the bosses attacks with the chance of each attack occuring
     private void InitializeWeightDict()
     {
         _attackWeightDict = new Dictionary<BossAttacks.BossAttack, float>();
@@ -156,6 +168,7 @@ public class BossStateFSM : MonoBehaviour
             
     }
 
+    //Initialize a dictionary of the bosses attacks with the delay of each attack
     private void InitializeDelayDict()
     {
         _attackDelayDict = new Dictionary<BossAttacks.BossAttack, float>();
@@ -170,6 +183,7 @@ public class BossStateFSM : MonoBehaviour
         _attackDelayDict.Add(BossAttacks.BossAttack.Meteors, Stats.MeteorDelay);
     }
 
+    //Transition from one state to another and potentially print out debug information
     public void TransitionToState(BossStateType state, string caller = "")
     {
         if (DEBUG)
@@ -185,7 +199,7 @@ public class BossStateFSM : MonoBehaviour
         DebugState = state;
     }
     
-    
+    //Swap targets to the other player if the two players swap positions
     private void SwapTarget()
     {
         _targetIdx = (_targetIdx + 1) % 2;

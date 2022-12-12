@@ -41,12 +41,15 @@ public class MeleePlayerCombat : PlayerCombat
         base.FixedUpdate();
     }
 
+    //Handles the normal attacks that the player makes
     public override void Attack()
     {
+        //If the player just finished a combo and not enough time has passed
         if (_isComboFinished && Time.time - _attackEndTime < _stats.TimeBeforeNextCombo)
         {
             return;
         }
+        //Buffer the attack if one is already going on
         if (_isAttacking.Value)
         {
             _hasAttackBuffered = true;
@@ -55,6 +58,7 @@ public class MeleePlayerCombat : PlayerCombat
             return;
         }
         _isComboFinished = false;
+        //If enough time has passed since the previous attack, the attack combo resets back to the first attack
         if (Time.time - _attackEndTime > _stats.TimeBeforeAttackResets)
         {
             _currentAttack = 0;
@@ -75,6 +79,7 @@ public class MeleePlayerCombat : PlayerCombat
         }
     }
 
+    //Handles the up and down attacks that the player makes
     public override void VerticalAttack(bool up)
     {
         if (_isComboFinished && Time.time - _attackEndTime < _stats.TimeBeforeNextCombo)
@@ -128,6 +133,7 @@ public class MeleePlayerCombat : PlayerCombat
         _isComboFinished = true;
     }
 
+    //Checks if there's any attacks buffered at the end of an attack
     private void CheckForBufferedAttack()
     {
         if (_hasAttackBuffered)
@@ -170,6 +176,7 @@ public class MeleePlayerCombat : PlayerCombat
         }
     }
 
+    //Called during the middle of an attack animation to check if the boss in the hit collider
     public void CheckHit()
     {
         float damage = 0;
@@ -193,6 +200,7 @@ public class MeleePlayerCombat : PlayerCombat
             damage = _stats.MeleeDamageVerticalAttack;
         }
         Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(_attackPos.position, _attackRadius, _enemyLayer);
+        //Deal damage to the boss if its in the hit collider
         foreach (Collider2D enemy in enemiesHit)
         {
             DamageModule damageModule = enemy.GetComponent<DamageModule>();
@@ -200,10 +208,12 @@ public class MeleePlayerCombat : PlayerCombat
             {
                 damageModule.TakeDamage(damage);
                 _damageDealt.Value += damage;
+                //Have the player bounce up a bit if they hit the boss while down attacking in mid-air
                 if (_isDownAttacking && _rb.velocity.y != 0)
                 {
                     _onDownAttackInAir.Raise();
                 }
+                //If the player hits a boss, they float for a bit
                 else
                 {
                     _floatTime.Value = _animClips[_currentAttack].length;
@@ -225,10 +235,5 @@ public class MeleePlayerCombat : PlayerCombat
         _isAttacking.Value = false;
         _isUpAttacking = false;
         _isDownAttacking = false;
-    }
-
-    private void OnDisable()
-    {
-        
     }
 }

@@ -1,3 +1,7 @@
+///
+/// Created by Dennis Chen
+///
+
 using Core.GlobalVariables;
 using Core.GlobalEvents;
 using UnityEngine;
@@ -17,6 +21,7 @@ public class GameManager : MonoBehaviour
         _player2Dead.Subscribe(CheckForLoss);
     }
 
+    //If both players are dead, the end screen UI is shown
     private void CheckForLoss(bool temp)
     {
         if(_player1Dead.Value && _player2Dead.Value)

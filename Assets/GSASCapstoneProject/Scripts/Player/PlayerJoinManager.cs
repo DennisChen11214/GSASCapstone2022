@@ -17,7 +17,7 @@ public class PlayerJoinManager : MonoBehaviour
     [SerializeField]
     StringVariable _p2Device;
 
-    // Start is called before the first frame update
+    //Depending on the controls chosen in the controls scene, update what controls schema each player uses
     void Start()
     {
         InputDevice[] player1Devices = new InputDevice[1];
@@ -64,45 +64,4 @@ public class PlayerJoinManager : MonoBehaviour
         }
     }
 
-    private void P1DeviceLost(PlayerInput input)
-    {
-        Debug.Log("Player 1 Device lost");
-        InputDevice[] player1Devices = { Keyboard.current };
-        _player1Input.SwitchCurrentControlScheme("KeyboardPlayer1", player1Devices);
-    }
-
-    private void HandleDeviceChange(InputDevice device, InputDeviceChange change)
-    {
-        /*PlayerInput playerInput;
-        if(device == _player1Input.GetDevice<Gamepad>())
-        {
-            playerInput = _player1Input;
-            Debug.Log("P1");
-        }
-        else
-        {
-            playerInput = _player2Input;
-            Debug.Log("P2");
-        }
-        switch (change)
-        {
-            case InputDeviceChange.Added:
-                Debug.Log("Device added: " + device);
-                
-                break;
-
-            case InputDeviceChange.Removed:
-                Debug.Log("Device removed: " + device);
-                break;
-        }*/
-    }
-    private void OnEnable()
-    {
-        InputSystem.onDeviceChange += HandleDeviceChange;
-    }
-
-    private void OnDisable()
-    {
-        InputSystem.onDeviceChange -= HandleDeviceChange;
-    }
 }

@@ -1,7 +1,12 @@
+///
+/// Created by Dennis Chen
+///
+
 using Core.GlobalVariables;
 using UnityEngine;
 using TMPro;
 
+//Used at the end of a game to display how much damage each player dealt, took, and how many times they died
 public class PlayerStats : MonoBehaviour
 {
     [SerializeField]

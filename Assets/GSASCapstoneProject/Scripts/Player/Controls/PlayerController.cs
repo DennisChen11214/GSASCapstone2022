@@ -12,6 +12,7 @@ using System.Collections.Generic;
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
 public class PlayerController : MonoBehaviour
 {
+    //Different possible dash types used during prototyping
     public enum MeleeDashType
     {
         DodgeDash,
@@ -92,7 +93,7 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    protected virtual void Awake()
+    private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _col = GetComponent<BoxCollider2D>();
@@ -112,6 +113,7 @@ public class PlayerController : MonoBehaviour
         _onGamePaused.Subscribe(Pause);
         _onGameUnpaused.Subscribe(Unpause);
 
+        //Map the input actions
         _attack.started += HandleAttacking;
         _attack.canceled += CancelCharging;
         _attack.performed += TryRevive;
@@ -126,10 +128,11 @@ public class PlayerController : MonoBehaviour
         _movementCooldown.Value = _stats.MovementCooldown;
     }
 
-    protected virtual void FixedUpdate()
+    private void FixedUpdate()
     {
         _fixedFrame++;
         _currentExternalVelocity = Vector2.MoveTowards(_currentExternalVelocity, Vector2.zero, _stats.ExternalVelocityDecay * Time.fixedDeltaTime);
+        //Depending on the movement input, change the movement direction vector
         if (_move.ReadValue<Vector2>().magnitude > 0.1f)
         {
             _moveDirection = _move.ReadValue<Vector2>().normalized;
@@ -149,6 +152,7 @@ public class PlayerController : MonoBehaviour
         ApplyVelocity();
     }
 
+    //Used to convert the joystick numbers to a raw axis vector
     private static Vector2 AngleToDirection(float angle, bool up, bool right)
     {
         int vertFactor = up ? 1 : -1;
@@ -177,14 +181,15 @@ public class PlayerController : MonoBehaviour
     private int _groundHitCount;
     private int _frameLeftGrounded = int.MinValue;
 
-    protected virtual void CheckCollisions()
+    //Checks if the player is on the floor
+    private void CheckCollisions()
     {
         Physics2D.queriesHitTriggers = false;
-        // Ground
         Vector2 origin = (Vector2)transform.position + _col.offset * transform.localScale;
         Vector2 _absScale = new Vector2(Mathf.Abs(transform.localScale.x), Mathf.Abs(transform.localScale.y));
         _groundHitCount = Physics2D.BoxCastNonAlloc(origin, _col.size * _absScale, 0, Vector2.down, _groundHits, _stats.GrounderDistance, ~_stats.PlayerLayer);
 
+        //If the player downjumped through a platform and is no longer colliding with it, set the platform collider back to normal
         if (_downJumpCollider != null)
         {
             List<Collider2D> results = new List<Collider2D>();
@@ -200,7 +205,8 @@ public class PlayerController : MonoBehaviour
         Physics2D.queriesHitTriggers = true;
     }
 
-    protected virtual void HandleCollisions()
+    //Handles the player jumping off the ground and landing back on the ground
+    private void HandleCollisions()
     {
         // Landed on the Ground
         if (!_grounded && _groundHitCount > 0)
@@ -219,6 +225,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //The invincibility after getting knocked back is turned off after a certain amount of time from hitting the ground
     private void TurnOffInvincibility()
     {
         if (!_dashing)
@@ -232,32 +239,38 @@ public class PlayerController : MonoBehaviour
     #region Swapping
     private bool _swapHeld;
 
-    protected virtual void RequestSwap(InputAction.CallbackContext ctx)
+    //Occurs if one of the players initiates a swap
+    private void RequestSwap(InputAction.CallbackContext ctx)
     {
         if (_isOtherPlayerDead.Value) return;
         _swapHeld = true;
         _requestSwap.Raise(transform);
     }
 
-    protected virtual void CancelSwap(InputAction.CallbackContext ctx)
+    //Cancels a swap request
+    private void CancelSwap(InputAction.CallbackContext ctx)
     {
         _swapHeld = false;
         _swapCanceled.Raise();
     }
 
-    protected virtual void ReceiveSwapRequest(Transform otherPlayer)
+    //If the other player requests a swap, check if this player also wants to swap
+    private void ReceiveSwapRequest(Transform otherPlayer)
     {
+        //Swap both players if they are both holding the swap button
         if (_swapHeld)
         {
             _otherPlayer = otherPlayer;
 
             _audio.PlayOneShot(_swapSound);
+            //Sets the 2 players inactive for a certain amount of time before swapping them
             gameObject.SetActive(false);
             otherPlayer.gameObject.SetActive(false);
             Invoke("Swap", _swapDelay.Value);
         }
     }
 
+    //Swap the positions of both players
     private void Swap()
     {
         Vector3 tempPos = transform.position;
@@ -268,7 +281,7 @@ public class PlayerController : MonoBehaviour
         _swapCompleted.Raise();
     }
 
-    protected virtual void SwapCompleted()
+    private void SwapCompleted()
     {
         _swapHeld = false;
     }
@@ -277,8 +290,8 @@ public class PlayerController : MonoBehaviour
 
     #region Attacking
 
-
-    protected virtual void HandleAttacking(InputAction.CallbackContext ctx)
+    //Handles vertical and normal attacks
+    private void HandleAttacking(InputAction.CallbackContext ctx)
     {
         if (!_isKnockedBack.Value)
         {
@@ -293,7 +306,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    protected virtual void TryRevive(InputAction.CallbackContext ctx)
+    //When interacting with a tombstone, revive the other player
+    private void TryRevive(InputAction.CallbackContext ctx)
     {
         if (_isOtherPlayerDead.Value)
         {
@@ -310,12 +324,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    protected virtual void CancelCharging(InputAction.CallbackContext ctx)
+    private void CancelCharging(InputAction.CallbackContext ctx)
     {
         _playerCombat.CancelAttack();
     }
 
-    protected virtual void DownAttackAirBounce()
+    //Adds an upwards bounce to a player in midair
+    private void DownAttackAirBounce()
     {
         _speed.y = _stats.DownAttackBounceSpeed;
     }
@@ -324,7 +339,8 @@ public class PlayerController : MonoBehaviour
 
     #region Horizontal
 
-    protected virtual void HandleHorizontal()
+    //Handles the horizontal movement input from the player
+    private void HandleHorizontal()
     {
         if (_isKnockedBack.Value) return;
         if (_moveDirection.x != 0 && !IsShootingLaser)
@@ -345,6 +361,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //Checks for the player turning around
     public void CheckForFlip()
     {
         if (_isKnockedBack.Value) return;
@@ -374,7 +391,9 @@ public class PlayerController : MonoBehaviour
     private bool HasBufferedJump => _grounded && _bufferedJumpUsable && _fixedFrame < _frameJumpWasPressed + _stats.JumpBufferFrames;
     private bool CanDoubleJump => _stats.AllowDoubleJump && _doubleJumpUsable && !_coyoteUsable;
 
-    protected virtual void HandleJump(InputAction.CallbackContext ctx)
+    //Handles all the jumps a player can do, including buffered and down jumps.
+    //Jumps have a coyote effect, where players who just left a platform can still jump
+    private void HandleJump(InputAction.CallbackContext ctx)
     {
         if (_isKnockedBack.Value || _dashing || IsShootingLaser) return;
 
@@ -402,7 +421,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    protected virtual void DownJump()
+    //Changes the collider of the platform to allow the player to jump down it
+    private void DownJump()
     {
         Vector2 origin = (Vector2)transform.position + _col.offset * transform.localScale;
         RaycastHit2D hit2D = Physics2D.Raycast(origin, Vector2.down, 5, _platformLayer);
@@ -415,14 +435,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    protected virtual void CancelJump(InputAction.CallbackContext ctx)
+    private void CancelJump(InputAction.CallbackContext ctx)
     {
         // Early end detection
         if (!_endedJumpEarly && !_grounded && !_dashing && _rb.velocity.y > 0) _endedJumpEarly = true;
     }
 
 
-    protected virtual void ResetJump()
+    private void ResetJump()
     {
         _coyoteUsable = true;
         _doubleJumpUsable = true;
@@ -439,7 +459,8 @@ public class PlayerController : MonoBehaviour
     private int _startedDashing;
     private Vector2 _dashVel;
 
-    protected virtual void StartDash(InputAction.CallbackContext ctx)
+    //Initializes variables for the player to start dashing if they aren't already doing so
+    private void StartDash(InputAction.CallbackContext ctx)
     {
         if (_canDash && _numDashes.Value > 0 && !_isKnockedBack.Value && !IsShootingLaser)
         {
@@ -456,8 +477,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    protected virtual void HandleDash()
+    //Dashes if one is available according to the set dash-type
+    private void HandleDash()
     {
+        //Increases the amount of dashes the player can use if the cooldown has passed and we don't have the maximum amount of dashes
         if(_numDashes.Value < _stats.MaxDashes)
         {
             if (_movementCooldown.Value > 0)
@@ -505,6 +528,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //Horizontal dash with i-frames throughout the whole dash
     private void MeleeDodgeDash()
     {
         _stats.DashDurationFrames = 9;
@@ -526,6 +550,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //Omni-directional dash with partial i-frames
     private void MeleeOmniDash()
     {
         _stats.DashDurationFrames = 7;
@@ -556,6 +581,8 @@ public class PlayerController : MonoBehaviour
     }
 
     private bool _dealtDamageThisDash;
+
+    //Dashes horizontally, dealing damage to any enemies in the path
     private void MeleeAttackDash()
     {
         _stats.DashDurationFrames = 9;
@@ -577,6 +604,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //Deals damage to a boss touched during the attack dash
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (_dashing && _stats.Melee && _meleeDashType == MeleeDashType.AttackDash 
@@ -587,6 +615,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //Omni-directional teleport
     private void RangedOmniTeleport()
     {
         if (_dashing)
@@ -606,6 +635,8 @@ public class PlayerController : MonoBehaviour
             HandleCollisions();
         }
     }
+
+    //Teleports in a horizontal direction while also increasing the charge of the charge beam
     private void RangedChargeDash(float percent)
     {
         _stats.DashDurationFrames = 9;
@@ -628,6 +659,7 @@ public class PlayerController : MonoBehaviour
         }
     }
     
+    //If a platform above or below the player exists, then teleport on top of that platform
     private void RangedVerticalTeleport()
     {
         if (_dashing)
@@ -659,7 +691,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 _groundNormal;
     private bool _isFallingAfterKnockback;
 
-    protected virtual void HandleFall()
+    //Handles how movement on slopes are done and how velocity changes when falling through the air
+    private void HandleFall()
     {
         if (_dashing) return;
 
@@ -668,7 +701,7 @@ public class PlayerController : MonoBehaviour
         {
             _speed.y = _stats.GroundingForce;
 
-            // We use a raycast here as the groundHits from capsule cast act a bit weird.
+            // Raycast downwards to check if we hit the ground
             var hit = Physics2D.Raycast(transform.position, Vector2.down, _col.size.y * transform.localScale.y / 2 + _stats.GrounderDistance * 2, ~_stats.PlayerLayer);
             if (hit.collider != null)
             {
@@ -702,16 +735,19 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    protected virtual void Pause(InputAction.CallbackContext ctx)
+    private void Pause(InputAction.CallbackContext ctx)
     {
         _onGamePaused.Raise();
     }
-    protected virtual void ApplyVelocity()
+
+    //Set the velocity of the rigidbody according to the calculated speed and other factors
+    private void ApplyVelocity()
     {
         if (!_isKnockedBack.Value)
         {
             _isFallingAfterKnockback = false;
             _rb.velocity = _speed + _currentExternalVelocity;
+            //Move slower if charging a beam attack
             if (!_stats.Melee && _isCharging.Value)
             {
                 _rb.velocity *= _stats.ChargeSlow;

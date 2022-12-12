@@ -28,18 +28,21 @@ public class RespawnPointManager : MonoBehaviour
         _myRespawnPoints = _respawnPointsList[_playerNum];
     }
 
+    //Update the player and respawn point references to account for player swaps
     private void PlayersSwapped()
     {
         _playerNum = (_playerNum + 1) % 2;
         _myRespawnPoints = _respawnPointsList[_playerNum];
     }
 
+    //When the player on this scene dies, set a random tombstone on the other scene to be active
     private void PlayerDied()
     {
         int rand = Random.Range(0, _myRespawnPoints.Count);
         _myRespawnPoints[rand].gameObject.SetActive(true);
     }
 
+    //Choose a random revival point and respawn there
     private void PlayerRevived()
     {
         int rand = Random.Range(0, _myRespawnPoints.Count);
@@ -47,6 +50,7 @@ public class RespawnPointManager : MonoBehaviour
         _player.SetActive(true);
     }
 
+    //When we revive the other player, disable the gravestone sprite
     private void OtherPlayerRevived()
     {
         for (int i = 0; i < _myRespawnPoints.Count; i++)

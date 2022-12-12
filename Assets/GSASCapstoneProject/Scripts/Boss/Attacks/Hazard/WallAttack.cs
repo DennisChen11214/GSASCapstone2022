@@ -20,11 +20,13 @@ public class WallAttack : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //If this wall hits a player, deal damage to them
         PlayerCombat player = collision.GetComponent<PlayerCombat>();
         if (player)
         {
             player.TakeDamage(true);
         }
+        //If this wall hits a stop wall, deactivate this wall
         else if (_stopLayer == (_stopLayer | (1 << collision.gameObject.layer)))
         {
             gameObject.SetActive(false);

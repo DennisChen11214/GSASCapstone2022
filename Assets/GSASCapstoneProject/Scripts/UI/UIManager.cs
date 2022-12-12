@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GlobalEvent _gameOver;
 
+    //Swap the 2 player's UI when they swap positions
     private void SwapUI()
     {
         Vector2 tempMin = _player1UI.anchorMin;

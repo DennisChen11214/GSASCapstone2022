@@ -1,7 +1,11 @@
+///
+/// Created by Dennis Chen
+///
+
 using System.Collections.Generic;
 using UnityEngine;
-using Core.GlobalVariables;
 
+//Used if the designer wants to have the boss do a certain attack combo at a certain health threshold
 [CreateAssetMenu]
 public class BossAttacks : ScriptableObject
 {

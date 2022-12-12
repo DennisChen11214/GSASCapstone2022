@@ -1,19 +1,19 @@
-using System;
+///
+/// Created by Dennis Chen
+///
+
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Ray : MonoBehaviour
 {
-    // the time delay time for charging the ray attack (will be replaced with animation time)
+    // the time delay time for charging the ray attack 
     [SerializeField] private float _chargeDelay;
 
-    // the time delay time between charging and shooting the ray attack (will be replaced with animation time)
+    // the time delay time between charging and shooting the ray attack 
     [SerializeField] private float _shootDelay;
 
-    // the duration (in seconds) of the laser staying after firing(will be replaced with animation time)
+    // the duration (in seconds) of the laser staying after firing
     [SerializeField] private float _duration;
     
     [SerializeField] private Collider2D _rayCollider;
@@ -31,10 +31,12 @@ public class Ray : MonoBehaviour
 
     private void Update()
     {
+        //Follow the target if this is currently charging
         if (_charging)
         {
             transform.right = _target.position - transform.position;
             _delay -= Time.deltaTime;
+            //Start the shoot process once we're done charging
             if(_delay < 0)
             {
                 _charging = false;
@@ -45,6 +47,7 @@ public class Ray : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {  
+        //Deal damage to the player if it hit
         PlayerCombat playerCombat = collision.GetComponent<PlayerCombat>();
         if (playerCombat)
         {
@@ -52,10 +55,12 @@ public class Ray : MonoBehaviour
         }
     }
     
+    //Sets up the variables to start shooting at a given target
     public void StartShooting(Transform target)
     {
         _target = target;
         transform.right = _target.position - transform.position;
+        //Have the sprite be more transparent to indicate that it's in the first stage
         _sprite.color = new Color(_sprite.color.r, _sprite.color.g, _sprite.color.b, 0.33f);
         _charging = true;
         _delay = _chargeDelay;
@@ -66,25 +71,19 @@ public class Ray : MonoBehaviour
         StartCoroutine(_Shoot());
     }
     
+    //After the ray is locked on, wait a bit and then fire
     private IEnumerator _Shoot()
     {
+        //Have the sprite be a bit transparent to indicate that it's in the second stage
         _sprite.color = new Color(_sprite.color.r, _sprite.color.g, _sprite.color.b, 0.66f);
-        yield return new WaitForSeconds(_shootDelay);    // replace this with wait until charging animation finished
+        yield return new WaitForSeconds(_shootDelay);  
         _rayCollider.enabled = true;
+        //Have the sprite be a opaque to indicate that it has fired
         _sprite.color = new Color(_sprite.color.r, _sprite.color.g, _sprite.color.b, 1f);
         yield return new WaitForSeconds(_duration);
         _rayCollider.enabled = false;
-        StartCoroutine(Fade());
-        yield return null;
-    }
-
-    private IEnumerator Fade()
-    {
-        // TODO: play the animation of fading
-        // yield return new WaitUntil(fading animation finished)
         gameObject.SetActive(false);
         yield return null;
     }
-    
     
 }

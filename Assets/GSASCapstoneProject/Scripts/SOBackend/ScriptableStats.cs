@@ -5,6 +5,7 @@
 
 using UnityEngine;
 
+//List of stats that are applicable to either the ranged character, melee character, or both
 [CreateAssetMenu]
 public class ScriptableStats : ScriptableObject {
     [Tooltip("True if the character is melee")]

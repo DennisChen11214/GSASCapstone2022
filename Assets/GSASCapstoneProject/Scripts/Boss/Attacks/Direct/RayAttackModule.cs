@@ -1,3 +1,7 @@
+///
+/// Created by Dennis Chen
+///
+
 using Core.GlobalVariables;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +20,7 @@ public class RayAttackModule : MonoBehaviour
 
     private void Start()
     {
-        // Instantiate attacks (projectiles) in the pool
+        // Instantiate attacks (rays) in the pool
         _pool = new Ray[_poolSize];
         for(int i = 0; i < _poolSize; i++)
         {
@@ -29,6 +33,7 @@ public class RayAttackModule : MonoBehaviour
     
     public void Attack(Transform target, int numRays)
     {
+        //Increase the amount of rays fired if the boss is enraged
         if (_isBossEnraged.Value)
         {
             numRays = Mathf.CeilToInt(numRays * _enragedRayMultiplier.Value);
@@ -38,6 +43,7 @@ public class RayAttackModule : MonoBehaviour
             if (!_pool[i].gameObject.activeSelf)
             {
                 Transform randTransform = GetRandomTransform();
+                //Make sure 2 rays dont share the same place
                 while (_usedTransforms.Contains(randTransform))
                 {
                     randTransform = GetRandomTransform();
@@ -48,6 +54,7 @@ public class RayAttackModule : MonoBehaviour
                 _pool[i].StartShooting(target);
                 numRays--;
             }
+            //Stop once numRays have been fired
             if (numRays == 0)
             {
                 _usedTransforms.Clear();   
@@ -56,6 +63,7 @@ public class RayAttackModule : MonoBehaviour
         }
     }
 
+    //Returns a random transform for the ray to start firing from
     private Transform GetRandomTransform()
     {
         int rand = Random.Range(0, _initialTransforms.Count);

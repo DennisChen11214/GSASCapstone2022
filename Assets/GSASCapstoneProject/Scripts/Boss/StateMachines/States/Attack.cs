@@ -1,7 +1,11 @@
+///
+/// Created by Dennis Chen and Zhanbo Lin
+///
+
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
@@ -21,6 +25,7 @@ public class Attack : iState
     
     public void OnEnter()
     {
+        //If the boss is doing a predefined combo of attacks
         if(_attackQueue.Count > 0)
         {
             DoAttack(_attackQueue[0]);
@@ -33,6 +38,7 @@ public class Attack : iState
         if (_manager.DEBUG) Debug.Log("Attack Done OnEnter()");
     }
 
+    //Chooses a random attack for the boss to use based on the weight of each attack
     private void ChooseRandomAttack()
     {
         float rand = UnityEngine.Random.Range(0.0f, 1.0f);
@@ -47,6 +53,7 @@ public class Attack : iState
         }
     }
 
+    //Given an attack enum, this handles which attack to use
     private void DoAttack(BossAttacks.BossAttack attack)
     {
         delay = _manager._attackDelayDict[attack];
@@ -86,6 +93,7 @@ public class Attack : iState
         }
     }
 
+    //Registers an attack combo for the boss to use
     public void RegisterAttacks(List<BossAttacks.BossAttack> attacks)
     {
         _attackQueue.Clear();
@@ -98,6 +106,7 @@ public class Attack : iState
     public void OnUpdate(float dt)
     {
         delay -= dt;
+        //If enough time has passed since the last attack
         if(delay <= 0)
         {
             if(_attackQueue.Count == 0)
@@ -117,7 +126,7 @@ public class Attack : iState
         if (_manager.DEBUG) Debug.Log("Attack Done OnExit()");
     }
 
-
+    //The crush attack for the hell boss
     IEnumerator _crushAttack()
     {
         float speed = 2.5f;

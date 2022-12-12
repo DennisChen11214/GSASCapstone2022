@@ -1,4 +1,7 @@
-using System.Collections;
+///
+/// Created by Dennis Chen
+///
+
 using System.Collections.Generic;
 using UnityEngine;
 using Core.GlobalVariables;
@@ -23,6 +26,7 @@ public class PlayerHealthUI : MonoBehaviour
         }
     }
 
+    //Update the number of hearts according to the player health
     private void UpdateHearts(int health)
     {
         if (_hearts == null || _hearts.Count == 0) return;

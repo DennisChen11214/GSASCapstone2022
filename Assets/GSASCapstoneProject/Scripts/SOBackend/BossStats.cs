@@ -4,6 +4,7 @@
 
 using UnityEngine;
 
+//List of stats that apply to either one of the bosses or both
 [CreateAssetMenu]
 public class BossStats : ScriptableObject
 {

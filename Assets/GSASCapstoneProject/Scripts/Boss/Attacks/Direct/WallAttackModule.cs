@@ -28,6 +28,7 @@ public class WallAttackModule : MonoBehaviour
         InitializePool();
     }
 
+    //Initializes a pool of thin and thick wall attacks
     private void InitializePool()
     {
         _thinWallsPool = new GameObject[_poolSize];
@@ -43,6 +44,7 @@ public class WallAttackModule : MonoBehaviour
         }
     }
 
+    //Sets active one of the wall attacks in the thin or thick wall pools
     public void StartAttack(bool thin, bool enraged = false)
     {
         if (thin)

@@ -44,6 +44,7 @@ public class RangedPlayerCombat : PlayerCombat
         if (_isCharging.Value)
         {
             _curCharge = Mathf.Min(_curCharge + Time.deltaTime, _stats.ChargeTime);
+            //Change the particle effect once we're at max charge
             if (_curCharge >= _stats.ChargeTime)
             {
                 ParticleSystem.MainModule main = _chargeParticles.main;
@@ -73,16 +74,19 @@ public class RangedPlayerCombat : PlayerCombat
     {
         _isCharging.Value = true;
         _curCharge = 0;
+        //If we're already attacking, buffer this attack to start once the current one ends
         if (_isAttacking.Value)
         {
             _hasAttackBuffered = true;
             return;
         }
+        //If we're in the downtime period between attack combos
         if(_isComboFinished && Time.time - _attackEndTime < _stats.TimeBeforeNextCombo)
         {
             return;
         }
         _isComboFinished = false;
+        //If enough time has passed since our last enough, reset the attack to the first one
         if (Time.time - _attackEndTime > _stats.TimeBeforeAttackResets)
         {
             _currentAttack = 0;
@@ -108,6 +112,7 @@ public class RangedPlayerCombat : PlayerCombat
         _curCharge = Mathf.Clamp(_curCharge + _stats.ChargeTime * percent, 0, _stats.ChargeTime);
     }
 
+    //Updates particles if we're charging or stops them if we're not
     private void StartOrStopCharging(bool _isCharging)
     {
         if (_isCharging)
@@ -125,8 +130,7 @@ public class RangedPlayerCombat : PlayerCombat
         }
     }
 
-
-
+    //Spawns the projectiles used for our attack and fires them in a random direction within a cone
     public void SpawnProjectiles()
     {
         int numSpawned = 0;
@@ -146,6 +150,7 @@ public class RangedPlayerCombat : PlayerCombat
         }
     }
 
+    //Update the attack variables at the end of an attack animation
     public void OnAttackEnd()
     {
         _attackEndTime = Time.time;
@@ -158,16 +163,20 @@ public class RangedPlayerCombat : PlayerCombat
         CheckForBufferedAttack();
     }
 
+    //Occurs when the player lets go of the attack button
+    //Checks if we've charged long enough for the beam to go off
     public override void CancelAttack()
     {
         if(_curCharge >= _stats.ChargeTime)
         {
+            _audio.PlayOneShot(_attackSound);
             _anim.SetTrigger("ChargeBeam");
         }
         _isCharging.Value = false;
         _curCharge = 0;
     }
 
+    //If the player gets hit, charging is canceled
     private void CancelIfKnockedBack(bool isKnockedBack)
     {
         if (isKnockedBack)
@@ -178,6 +187,7 @@ public class RangedPlayerCombat : PlayerCombat
         }
     }
 
+    //At the end of an attack, we check if there's currently another one buffered. If so, then initiate that attack
     private void CheckForBufferedAttack()
     {
         if (_hasAttackBuffered)
@@ -186,6 +196,7 @@ public class RangedPlayerCombat : PlayerCombat
             _hasAttackBuffered = false;
             switch (_currentAttack)
             {
+                //We don't attack again if we're at the end of the combo
                 case 0:
                     _isAttacking.Value = false;
                     break;

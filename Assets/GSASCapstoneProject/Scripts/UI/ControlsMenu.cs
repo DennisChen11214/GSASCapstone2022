@@ -39,6 +39,7 @@ public class ControlsMenu : MonoBehaviour
         }
     }
 
+    //Changes from controller to keyboard for player 1
     public void PreviousP1()
     {
         _leftArrowP1.SetActive(false);
@@ -51,6 +52,7 @@ public class ControlsMenu : MonoBehaviour
         }
     }
 
+    //Changes from keyboard to controller for player 1
     public void NextP1()
     {
         _leftArrowP1.SetActive(true);
@@ -63,6 +65,7 @@ public class ControlsMenu : MonoBehaviour
         }
     }
 
+    //Changes from controller to keyboard for player 2
     public void PreviousP2()
     {
         _leftArrowP2.SetActive(false);
@@ -75,6 +78,7 @@ public class ControlsMenu : MonoBehaviour
         }
     }
 
+    //Changes from keyboard to controller for player 2
     public void NextP2()
     {
         _leftArrowP2.SetActive(true);
@@ -87,6 +91,7 @@ public class ControlsMenu : MonoBehaviour
         }
     }
 
+    //Stores which controls each player is using and goes to the next scene
     public void StartGame()
     {
         _controlsP1.Value = _controlsTextP1.text;
@@ -94,6 +99,7 @@ public class ControlsMenu : MonoBehaviour
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
+    //Handles what happens if a controller is added or removed while in this scene
     private void HandleDeviceChange(InputDevice device, InputDeviceChange change)
     {
         switch (change)
