@@ -1,4 +1,4 @@
-# GSASCapstone2022
+# GSASCapstone2022 - Catlum and Musenna
 
 #### References
 Scriptable object-based game architecture based off [this unity talk](https://www.youtube.com/watch?v=raQ3iHhE_Kk)
