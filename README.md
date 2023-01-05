@@ -7,7 +7,7 @@ Player movement built off of Tarodev's code described [here](https://www.youtube
 
 ---
 
-Screenshots
+#### Screenshots
 
 Start Menu
 <img src="ScreenShots/MainMenu.png" width=100%></img>  
